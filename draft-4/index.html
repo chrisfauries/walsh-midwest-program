@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Walsh Honor Band — Midwest Program</title>
+<meta name="theme-color" content="#163825">
+<style>
+  :root {
+    --bg: #f2f4f1; --card: #ffffff; --text: #111a14; --muted: #67736b; --sep: rgba(60,70,62,.14);
+    --brand: #163825; --brand-2: #1d422a; --gold: #fbbf24; --gold-ink: #8a6400; --tint: #e8efe9;
+    --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, system-ui, sans-serif;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #050b07; --card: #101a14; --text: #eef2ee; --muted: #93a197; --sep: rgba(255,255,255,.1);
+      --brand: #0d2115; --brand-2: #163825; --tint: #17271d; --gold-ink: #fbbf24; color-scheme: dark;
+    }
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body { height: 100%; }
+  body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--font); font-size: 16px; line-height: 1.45; -webkit-font-smoothing: antialiased; overflow: hidden; }
+  img { display: block; }
+  button { font: inherit; color: inherit; }
+  .ph { font-size: 10px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; background: var(--gold); color: #1a1300; padding: 2px 6px; border-radius: 4px; vertical-align: middle; }
+
+  .shell { position: fixed; inset: 0; max-width: 520px; margin: 0 auto; display: flex; flex-direction: column; background: var(--bg); overflow: hidden; }
+  @media (min-width: 560px) { .shell { box-shadow: 0 0 0 1px var(--sep); } }
+
+  /* Header */
+  .top { background: var(--brand); color: #fff; padding: calc(10px + env(safe-area-inset-top)) 16px 12px; flex: none; position: relative; z-index: 2; }
+  .top .row { display: flex; align-items: center; gap: 10px; }
+  .top .mark { width: 34px; height: 34px; border-radius: 9px; background: #0d1f16; display: grid; place-items: center; flex: none; }
+  .top small { display: block; font-size: 11px; color: var(--gold); font-weight: 600; letter-spacing: .06em; text-transform: uppercase; }
+  .top b { font-size: 16px; font-weight: 700; }
+  .top .share { margin-left: auto; background: rgba(255,255,255,.12); border: 0; color: #fff; border-radius: 999px; padding: 7px 12px; font-size: 13px; font-weight: 600; cursor: pointer; }
+
+  /* Tab content */
+  .pages { flex: 1; position: relative; overflow: hidden; }
+  .page { position: absolute; inset: 0; overflow-y: auto; -webkit-overflow-scrolling: touch; padding: 16px 16px calc(96px + env(safe-area-inset-bottom)); display: none; }
+  .page.on { display: block; animation: fade .2s ease; }
+  @keyframes fade { from { opacity: 0; } }
+  h1.large { font-size: 32px; font-weight: 800; letter-spacing: -.02em; margin: 4px 0 14px; }
+  .label { font-size: 12.5px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; margin: 22px 4px 8px; }
+
+  .card { background: var(--card); border-radius: 16px; overflow: hidden; }
+  .hero-card { background: linear-gradient(135deg, var(--brand-2), #0a1a10); color: #fff; padding: 18px; border-radius: 20px; position: relative; overflow: hidden; }
+  .hero-card::after { content: ""; position: absolute; right: -40px; top: -40px; width: 180px; height: 180px; border-radius: 50%; border: 22px solid rgba(251,191,36,.12); }
+  .hero-card .ev { font-size: 12px; color: var(--gold); font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+  .hero-card h2 { font-size: 26px; line-height: 1.1; margin: 6px 0 12px; letter-spacing: -.01em; }
+  .hero-card .chips { display: flex; flex-wrap: wrap; gap: 6px; position: relative; z-index: 1; }
+  .hero-card .chips span { background: rgba(255,255,255,.12); border-radius: 999px; padding: 5px 10px; font-size: 13px; }
+
+  /* Lists */
+  .list { background: var(--card); border-radius: 16px; overflow: hidden; }
+  .row { display: flex; align-items: center; gap: 12px; padding: 12px 14px; width: 100%; text-align: left; background: none; border: 0; cursor: pointer; position: relative; }
+  .row + .row::before { content: ""; position: absolute; top: 0; right: 0; left: 62px; height: 1px; background: var(--sep); }
+  .row:active { background: var(--tint); }
+  .row .badge { width: 36px; height: 36px; border-radius: 10px; background: var(--tint); color: var(--brand-2); display: grid; place-items: center; font-weight: 800; font-size: 15px; flex: none; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .row .badge { color: var(--gold); } }
+  .row .av { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; object-position: 50% 20%; flex: none; }
+  .row .tx { flex: 1; min-width: 0; }
+  .row .tx b { display: block; font-weight: 600; font-size: 16px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .row .tx small { color: var(--muted); font-size: 13.5px; }
+  .row .chev { color: var(--muted); opacity: .6; font-size: 20px; }
+
+  /* Search + segmented */
+  .search { display: flex; align-items: center; gap: 8px; background: var(--card); border-radius: 12px; padding: 10px 12px; }
+  .search input { border: 0; outline: 0; background: none; font: inherit; color: var(--text); flex: 1; min-width: 0; }
+  .seg { display: flex; gap: 6px; overflow-x: auto; margin: 12px -16px 0; padding: 0 16px; scrollbar-width: none; }
+  .seg::-webkit-scrollbar { display: none; }
+  .seg button { flex: none; border: 0; background: var(--card); border-radius: 999px; padding: 7px 12px; font-size: 13.5px; font-weight: 600; cursor: pointer; }
+  .seg button.on { background: var(--brand-2); color: #fff; }
+  .photo-card img { width: 100%; aspect-ratio: 16/10; object-fit: cover; }
+  .photo-card .cap { padding: 12px 14px; font-size: 14px; color: var(--muted); }
+  .empty { text-align: center; color: var(--muted); padding: 30px 0; }
+
+  .dirs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .dir { background: var(--card); border-radius: 16px; overflow: hidden; border: 0; padding: 0; cursor: pointer; text-align: left; }
+  .dir img { width: 100%; aspect-ratio: 3/4; object-fit: cover; object-position: 50% 15%; }
+  .dir div { padding: 8px 10px 10px; }
+  .dir b { display: block; font-size: 13.5px; line-height: 1.2; }
+  .dir small { font-size: 11.5px; color: var(--muted); }
+
+  .prose { background: var(--card); border-radius: 16px; padding: 16px; }
+  .prose p { margin: 0 0 12px; }
+  .prose p:last-child { margin: 0; }
+  .cta { display: block; text-align: center; background: var(--gold); color: #1a1300; font-weight: 700; text-decoration: none; padding: 15px; border-radius: 14px; margin-top: 16px; }
+  .kv { display: grid; grid-template-columns: auto 1fr; gap: 10px 14px; }
+  .kv dt { color: var(--muted); font-size: 14px; }
+  .kv dd { margin: 0; font-weight: 600; text-align: right; }
+  .motto { text-align: center; font-weight: 800; font-size: 20px; letter-spacing: -.01em; margin: 26px 10px 0; color: var(--gold-ink); }
+
+  /* Tab bar */
+  .tabs { position: absolute; left: 0; right: 0; bottom: 0; z-index: 5; display: grid; grid-template-columns: repeat(4, 1fr); background: color-mix(in srgb, var(--card) 88%, transparent); backdrop-filter: blur(18px) saturate(1.6); -webkit-backdrop-filter: blur(18px) saturate(1.6); border-top: 1px solid var(--sep); padding: 6px 4px calc(6px + env(safe-area-inset-bottom)); }
+  .tabs button { background: none; border: 0; display: flex; flex-direction: column; align-items: center; gap: 2px; font-size: 10.5px; font-weight: 600; color: var(--muted); cursor: pointer; padding: 4px 0; }
+  .tabs svg { width: 24px; height: 24px; }
+  .tabs button.on { color: var(--brand-2); }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .tabs button.on { color: var(--gold); } }
+
+  /* Push screen */
+  .push { position: absolute; inset: 0; z-index: 10; background: var(--bg); transform: translateX(100%); transition: transform .32s cubic-bezier(.2,.8,.2,1); display: flex; flex-direction: column; }
+  .push.on { transform: none; box-shadow: -10px 0 30px rgba(0,0,0,.15); }
+  .push .bar { display: flex; align-items: center; padding: calc(8px + env(safe-area-inset-top)) 8px 8px; background: var(--bg); border-bottom: 1px solid var(--sep); flex: none; }
+  .push .back { background: none; border: 0; color: var(--brand-2); font-size: 16px; font-weight: 600; padding: 8px; cursor: pointer; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .push .back { color: var(--gold); } }
+  .push .bar span { flex: 1; text-align: center; font-weight: 700; font-size: 15px; margin-right: 60px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .push .body { flex: 1; overflow-y: auto; padding: 16px 16px 40px; }
+  .detail-head { display: flex; gap: 14px; align-items: center; }
+  .detail-head img { width: 84px; height: 84px; border-radius: 20px; object-fit: cover; object-position: 50% 20%; flex: none; }
+  .detail-head .n { font-size: 12px; font-weight: 700; color: var(--gold-ink); letter-spacing: .06em; text-transform: uppercase; }
+  .detail-head h2 { font-size: 26px; line-height: 1.1; margin: 2px 0; letter-spacing: -.01em; }
+  .detail-head p { margin: 0; color: var(--muted); font-size: 14px; }
+  .big-photo { width: 100%; aspect-ratio: 1; object-fit: cover; object-position: 50% 18%; border-radius: 20px; }
+  .quote { background: var(--card); border-radius: 16px; padding: 16px; font-size: 18px; font-style: italic; border-left: 4px solid var(--gold); }
+  .nav2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 18px; }
+  .nav2 button { background: var(--card); border: 0; border-radius: 14px; padding: 12px; text-align: left; cursor: pointer; }
+  .nav2 button:last-child { text-align: right; }
+  .nav2 small { display: block; color: var(--muted); font-size: 12px; }
+  .nav2 b { font-size: 14px; }
+  .nav2 button:disabled { visibility: hidden; }
+</style>
+</head>
+<body>
+<div class="shell">
+  <header class="top"><div class="row">
+    <div class="mark"><svg viewBox="0 0 512 512" width="26" height="26" aria-hidden="true"><path d="M60 140 180 410 256 230 332 410 452 140H350L256 350 162 140Z" fill="#fff"/><path d="M280 180v140c-10-5-22-5-32 0-18 8-23 28-13 45 10 15 30 20 50 10 13-7 20-23 20-40V215l70 20v-40l-95-30z" fill="#fbbf24"/></svg></div>
+    <div><small>80th Midwest Clinic</small><b>Walsh Honor Band</b></div>
+    <button class="share" id="share">Share</button>
+  </div></header>
+
+  <div class="pages">
+    <section class="page on" id="p-program"></section>
+    <section class="page" id="p-band"></section>
+    <section class="page" id="p-faculty"></section>
+    <section class="page" id="p-info"></section>
+
+    <div class="push" id="push" aria-hidden="true"><div class="bar"><button class="back" id="back">‹ Back</button><span id="pushTitle"></span></div><div class="body" id="pushBody"></div></div>
+
+    <nav class="tabs" aria-label="Tabs">
+      <button data-tab="program" class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>Program</button>
+      <button data-tab="band"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="9" cy="8" r="3.2"/><path d="M3 20c.6-3.5 3-5.5 6-5.5s5.4 2 6 5.5"/><circle cx="17" cy="9" r="2.5"/><path d="M16 14.6c2.6-.3 4.5 1.5 5 4.4"/></svg>Band</button>
+      <button data-tab="faculty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 9l9-5 9 5-9 5z"/><path d="M7 11.5V16c0 1.5 2.2 3 5 3s5-1.5 5-3v-4.5"/></svg>Faculty</button>
+      <button data-tab="info"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/></svg>Info</button>
+    </nav>
+  </div>
+</div>
+
+<script src="../shared/program-data.js"></script>
+<script src="../shared/placeholders.js"></script>
+<script>
+(() => {
+  const P = window.PROGRAM, U = window.PROGRAM_UTIL, e = U.esc, c = P.concert;
+  const PAL = { bg1: "#dfe9e1", bg2: "#b7cbbb", fg: "#163825", body: "#7f998a" };
+  const ph = f => f ? ' <span class="ph">draft</span>' : "";
+  const $ = id => document.getElementById(id);
+  const students = U.allStudents();
+
+  /* Program tab */
+  $("p-program").innerHTML = `
+    <div class="hero-card">
+      <div class="ev">${e(c.event)}</div>
+      <h2>${e(c.ensemble)}</h2>
+      <div class="chips"><span>📅 ${e(c.date.replace(", 2026", ""))}</span><span>🕖 ${e(c.time)}</span><span>📍 ${e(c.venue)}</span><span>🎼 ${e(c.conductor)}</span></div>
+    </div>
+    <div class="label">Program · ${P.pieces.length} works</div>
+    <div class="list">${P.pieces.map((p, i) => `
+      <button class="row" data-piece="${i}"><span class="badge">${i + 1}</span><span class="tx"><b>${e(p.title)}</b><small>${e(p.composer)}${p.duration ? " · " + e(p.duration) : ""}</small></span><span class="chev">›</span></button>`).join("")}
+    </div>`;
+
+  /* Band tab */
+  let q = "", sec = "All";
+  $("p-band").innerHTML = `
+    <h1 class="large">The Band</h1>
+    <div class="card photo-card"><img alt="${e(P.bandPhoto.caption)}" src="${PH.band()}"><div class="cap">${e(P.bandPhoto.caption)} · ${students.length} musicians</div></div>
+    <div class="label">Performers</div>
+    <label class="search"><span aria-hidden="true">🔍</span><input id="q" type="search" placeholder="Search ${students.length} performers" autocomplete="off"></label>
+    <div class="seg" id="seg">${["All", ...P.sections.map(s => s.instrument)].map(x => `<button data-sec="${e(x)}" class="${x === "All" ? "on" : ""}">${e(x)}</button>`).join("")}</div>
+    <div id="roster"></div>`;
+  function renderRoster() {
+    const term = q.trim().toLowerCase();
+    const groups = P.sections.filter(s => sec === "All" || s.instrument === sec)
+      .map(s => ({ ...s, players: s.players.filter(n => !term || n.toLowerCase().includes(term)) }))
+      .filter(s => s.players.length);
+    $("roster").innerHTML = groups.length ? groups.map(s => `
+      <div class="label">${e(s.instrument)} · ${s.players.length}</div>
+      <div class="list">${s.players.map(n => { const st = U.student(n, s.instrument); return `<button class="row" data-student="${e(n)}" data-inst="${e(s.instrument)}"><img class="av" alt="" loading="lazy" src="${PH.photoFor(st, PAL)}"><span class="tx"><b>${e(n)}</b><small>${e(s.instrument)}</small></span><span class="chev">›</span></button>`; }).join("")}</div>`).join("")
+      : `<div class="empty">No performers match “${e(q)}”.</div>`;
+  }
+  renderRoster();
+  $("q").addEventListener("input", ev => { q = ev.target.value; renderRoster(); });
+
+  /* Faculty tab */
+  $("p-faculty").innerHTML = `
+    <h1 class="large">Faculty</h1>
+    <div class="label">Band Directors</div>
+    <div class="dirs">${P.directors.map((d, i) => `<button class="dir" data-director="${i}"><img alt="" src="${PH.photoFor(d, PAL)}"><div><b>${e(d.name)}</b><small>${e(d.role.replace("Assistant Director of Bands", "Asst. Director"))}</small></div></button>`).join("")}</div>
+    <div class="label">Private Lesson Staff</div>
+    <div class="list">${P.lessonStaff.map((t, i) => `<button class="row" data-staff="${i}"><img class="av" alt="" loading="lazy" src="${PH.photoFor(t, PAL)}"><span class="tx"><b>${e(t.name)}</b><small>${e(t.instrument)}</small></span><span class="chev">›</span></button>`).join("")}</div>
+    <div class="label">Administration</div>
+    <div class="list">${P.administration.map(a => `<div class="row" style="cursor:default"><span class="badge">${U.initials(a.name) || "•"}</span><span class="tx"><b>${e(a.name)}</b><small>${e(a.role)}</small></span></div>`).join("")}</div>`;
+
+  /* Info tab */
+  $("p-info").innerHTML = `
+    <h1 class="large">Concert Info</h1>
+    <div class="prose"><dl class="kv">
+      <dt>Event</dt><dd>${e(c.event)}</dd>
+      <dt>Date</dt><dd>${e(c.date)}</dd>
+      <dt>Time</dt><dd>${e(c.time)}</dd>
+      <dt>Venue</dt><dd>${e(c.venue)}, ${e(c.room)}</dd>
+      <dt>City</dt><dd>${e(c.city)}</dd>
+      <dt>Conductor</dt><dd>${e(c.conductor)}</dd>
+      <dt>School</dt><dd>${e(c.school)}, ${e(c.district)}</dd>
+    </dl></div>
+    <div class="label">${e(P.welcome.heading)}</div>
+    <div class="prose"><p>${e(P.welcome.body)}</p><p style="color:var(--muted)">— ${e(P.welcome.signedBy)}</p></div>
+    <div class="label">Thank you</div>
+    <div class="prose"><p>${e(P.thanks)}</p></div>
+    <p class="motto">“${e(c.motto)}”</p>
+    <a class="cta" href="${e(c.donateUrl)}">Support the Walsh Band</a>
+    <p style="text-align:center;color:var(--muted);font-size:13px;margin-top:16px"><a href="${e(c.siteUrl)}" style="color:inherit">walshband.com</a></p>`;
+
+  /* Tabs */
+  document.querySelector(".tabs").addEventListener("click", ev => {
+    const b = ev.target.closest("[data-tab]"); if (!b) return;
+    closePush();
+    const was = b.classList.contains("on");
+    document.querySelectorAll(".tabs button").forEach(x => x.classList.toggle("on", x === b));
+    document.querySelectorAll(".page").forEach(p => p.classList.toggle("on", p.id === "p-" + b.dataset.tab));
+    if (was) $("p-" + b.dataset.tab).scrollTo({ top: 0, behavior: "smooth" });
+  });
+
+  /* Push screens */
+  const push = $("push");
+  function openPush(title, html) { $("pushTitle").textContent = title; $("pushBody").innerHTML = html; $("pushBody").scrollTop = 0; push.classList.add("on"); push.setAttribute("aria-hidden", "false"); }
+  function closePush() { push.classList.remove("on"); push.setAttribute("aria-hidden", "true"); }
+  $("back").onclick = closePush;
+
+  function pieceScreen(i) {
+    const p = P.pieces[i], prev = P.pieces[i - 1], next = P.pieces[i + 1];
+    openPush(`${i + 1} of ${P.pieces.length}`, `
+      <div class="detail-head"><img alt="" src="${PH.photoFor({ name: p.composer, photo: p.composerPhoto }, PAL)}"><div><div class="n">No. ${i + 1}</div><h2>${e(p.title)}</h2><p>${e(p.composer)}${p.duration ? " · " + e(p.duration) : ""}</p></div></div>
+      <div class="label">About the music${ph(p.placeholder)}</div><div class="prose"><p>${e(p.description)}</p></div>
+      <div class="label">About the composer</div><div class="prose"><p>${e(p.composerBio)}</p></div>
+      <div class="label">Why we play it</div><div class="quote">${e(p.why)}</div>
+      <div class="nav2"><button data-piece="${i - 1}" ${prev ? "" : "disabled"}><small>‹ Previous</small><b>${prev ? e(prev.title) : ""}</b></button><button data-piece="${i + 1}" ${next ? "" : "disabled"}><small>Next ›</small><b>${next ? e(next.title) : ""}</b></button></div>`);
+  }
+  function personScreen(o) {
+    openPush(o.name, `
+      <img class="big-photo" alt="" src="${PH.photoFor(o, PAL)}">
+      <h2 style="font-size:28px;margin:16px 0 2px;letter-spacing:-.01em">${e(o.name)}</h2>
+      <div style="color:var(--gold-ink);font-weight:700;font-size:13px;text-transform:uppercase;letter-spacing:.05em">${e(o.role)}</div>
+      ${o.teaches ? `<div style="color:var(--muted);font-size:14px">${e(o.teaches)}</div>` : ""}
+      ${o.quote ? `<div class="label">In their words</div><div class="quote">${e(o.quote)}</div>` : ""}
+      ${o.bio ? `<div class="label">Biography</div><div class="prose">${U.paras(o.bio)}</div>` : ""}`);
+  }
+
+  document.addEventListener("click", ev => {
+    const p = ev.target.closest("[data-piece]"); if (p && !p.disabled) return pieceScreen(+p.dataset.piece);
+    const s = ev.target.closest("[data-student]");
+    if (s) { const st = U.student(s.dataset.student, s.dataset.inst); return personScreen({ ...st, role: st.instrument + (st.grade ? " · Grade " + st.grade : "") }); }
+    const d = ev.target.closest("[data-director]"); if (d) return personScreen(P.directors[+d.dataset.director]);
+    const t = ev.target.closest("[data-staff]"); if (t) { const x = P.lessonStaff[+t.dataset.staff]; return personScreen({ ...x, role: x.instrument + " · Private Lesson Teacher", bio: P.lessonStaffBioPlaceholder }); }
+    const sg = ev.target.closest("[data-sec]"); if (sg) { sec = sg.dataset.sec; document.querySelectorAll("#seg button").forEach(b => b.classList.toggle("on", b === sg)); renderRoster(); }
+  });
+
+  // swipe from left edge to go back
+  let x0 = null;
+  push.addEventListener("touchstart", ev => { const x = ev.touches[0].clientX - push.getBoundingClientRect().left; x0 = x < 30 ? ev.touches[0].clientX : null; }, { passive: true });
+  push.addEventListener("touchend", ev => { if (x0 !== null && ev.changedTouches[0].clientX - x0 > 80) closePush(); x0 = null; });
+  document.addEventListener("keydown", ev => { if (ev.key === "Escape") closePush(); });
+
+  $("share").onclick = async () => {
+    const data = { title: c.ensemble + " — Midwest Program", url: location.href };
+    try { if (navigator.share) await navigator.share(data); else { await navigator.clipboard.writeText(location.href); $("share").textContent = "Copied!"; setTimeout(() => $("share").textContent = "Share", 1500); } } catch (_) {}
+  };
+})();
+</script>
+</body>
+</html>

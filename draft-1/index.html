@@ -122,9 +122,11 @@
 
   /* Lesson staff */
   .leaders { list-style: none; padding: 0; margin: 18px 0 0; }
-  .leaders li { display: flex; align-items: baseline; gap: 8px; padding: 5px 0; font-size: 15px; }
+  .leaders li { display: flex; align-items: center; gap: 10px; padding: 6px 0; font-size: 15px; }
+  .leaders li img { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; object-position: 50% 20%; box-shadow: 0 0 0 1px var(--gold); flex: none; }
+  .director img, .card img { object-position: 50% 18%; }
   .leaders li .n { font-family: var(--serif); font-size: 19px; }
-  .leaders li .dots { flex: 1; border-bottom: 1px dotted var(--gold); transform: translateY(-4px); }
+  .leaders li .dots { flex: 1; border-bottom: 1px dotted var(--gold); transform: translateY(4px); }
   .leaders li .i { font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-soft); }
 
   .admin { text-align: center; font-size: 14px; color: var(--ink-soft); }
@@ -242,7 +244,7 @@
     <div class="kicker">With Gratitude To</div>
     <h2>Private Lesson Staff</h2>${orn}
     <p class="thanks" style="font-size:17px">${e(P.lessonStaffIntro)}</p>
-    <ul class="leaders">${P.lessonStaff.map(t => `<li><span class="n">${e(t.name)}</span><span class="dots"></span><span class="i">${e(t.instrument)}</span></li>`).join("")}</ul>
+    <ul class="leaders">${P.lessonStaff.map(t => `<li><img alt="" loading="lazy" src="${PH.photoFor(t, PAL)}"><span class="n">${e(t.name)}</span><span class="dots"></span><span class="i">${e(t.instrument)}</span></li>`).join("")}</ul>
     <div class="admin" style="margin-top:40px">
       <div class="kicker">Administration</div>
       ${P.administration.map(a => `<div><b>${e(a.name)}</b>${e(a.role)}</div>`).join("")}

@@ -61,7 +61,7 @@
   body.open { overflow: hidden; }
   .grab { width: 40px; height: 5px; border-radius: 3px; background: rgba(255,255,255,.25); margin: 10px auto 0; flex: none; }
   .sheet-head { display: flex; gap: 14px; align-items: center; padding: 16px 18px 12px; flex: none; }
-  .sheet-head img { width: 64px; height: 64px; border-radius: 14px; object-fit: cover; flex: none; }
+  .sheet-head img { width: 64px; height: 64px; border-radius: 14px; object-fit: cover; object-position: 50% 20%; flex: none; }
   .sheet-head .n { font-family: var(--display); color: var(--gold); font-weight: 800; font-size: 14px; letter-spacing: .14em; }
   .sheet-head h3 { font-family: var(--display); font-size: 30px; font-weight: 900; text-transform: uppercase; line-height: .95; margin: 2px 0; }
   .sheet-head p { margin: 0; color: var(--muted); font-size: 13px; }
@@ -107,7 +107,7 @@
 
   /* DIRECTORS */
   .dir { margin-top: 22px; border-radius: 22px; overflow: hidden; background: var(--surface); border: 1px solid var(--line); }
-  .dir img { width: 100%; aspect-ratio: 1/1; object-fit: cover; max-height: 360px; }
+  .dir img { width: 100%; aspect-ratio: 1/1; object-fit: cover; object-position: 50% 15%; max-height: 380px; }
   .dir .body { padding: 18px; }
   .dir h3 { font-family: var(--display); font-size: 34px; text-transform: uppercase; margin: 0; line-height: .95; font-weight: 900; }
   .dir .role { color: var(--gold); font-weight: 700; font-size: 12px; letter-spacing: .14em; text-transform: uppercase; margin-top: 6px; }
@@ -118,7 +118,7 @@
   /* STAFF */
   .staff { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 18px; }
   .staff div { display: flex; gap: 10px; align-items: center; background: var(--surface); border-radius: 12px; padding: 8px; }
-  .staff img { width: 38px; height: 38px; border-radius: 10px; flex: none; }
+  .staff img { width: 44px; height: 44px; border-radius: 10px; flex: none; object-fit: cover; object-position: 50% 20%; }
   .staff b { display: block; font-size: 13px; line-height: 1.2; }
   .staff small { color: var(--gold); font-size: 11px; }
   .intro { color: var(--muted); font-size: 15px; margin-top: 12px; }
@@ -233,7 +233,7 @@
       <div class="eyebrow">Private Lesson Faculty</div>
       <h2>Lesson Staff</h2>
       <p class="intro">${e(P.lessonStaffIntro)}</p>
-      <div class="staff">${P.lessonStaff.map(t => `<div><img alt="" src="${PH.portrait(t.name, PAL, { fontSize: 44, initialsY: 104 })}"><span><b>${e(t.name)}</b><small>${e(t.instrument)}</small></span></div>`).join("")}</div>
+      <div class="staff">${P.lessonStaff.map(t => `<div><img alt="" loading="lazy" src="${PH.photoFor(t, PAL, { fontSize: 44, initialsY: 104 })}"><span><b>${e(t.name)}</b><small>${e(t.instrument)}</small></span></div>`).join("")}</div>
       <div class="admin"><div class="eyebrow">Administration</div>${P.administration.map(a => `<div><b>${e(a.name)}</b> — ${e(a.role)}</div>`).join("")}</div>
     </section>
   </main>
