@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Walsh Honor Band — Midwest Program</title>
+<meta name="theme-color" content="#07130c">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #07130c; --bg-2: #0d2115; --surface: #132c1e; --line: rgba(251,191,36,.18);
+    --gold: #fbbf24; --gold-2: #fcd34d; --text: #f4efe2; --muted: #a9b8ad;
+    --display: "Big Shoulders Display", Impact, sans-serif; --sans: "Inter", system-ui, sans-serif;
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--sans); line-height: 1.5; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+  img { display: block; max-width: 100%; }
+  .wrap { max-width: 600px; margin: 0 auto; padding: 0 16px; }
+  h2 { font-family: var(--display); font-weight: 900; text-transform: uppercase; font-size: 46px; line-height: .9; margin: 0; letter-spacing: .01em; }
+  .eyebrow { font-size: 11px; font-weight: 700; letter-spacing: .24em; text-transform: uppercase; color: var(--gold); margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+  .eyebrow::before { content: ""; width: 18px; height: 2px; background: var(--gold); }
+  section { padding: 72px 0 0; }
+  .ph { font-size: 9.5px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: #1a1300; background: var(--gold); padding: 2px 6px; border-radius: 3px; vertical-align: middle; }
+
+  /* HERO */
+  .hero { position: relative; min-height: 100svh; display: flex; flex-direction: column; justify-content: flex-end; overflow: hidden; }
+  .hero img.bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: saturate(.8); transform: scale(1.15); }
+  .hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(7,19,12,.3) 0%, rgba(7,19,12,.1) 30%, rgba(7,19,12,.85) 62%, var(--bg) 100%); }
+  .hero .wrap { position: relative; z-index: 1; padding-bottom: 36px; width: 100%; }
+  .badge { display: inline-flex; align-items: center; gap: 8px; border: 1px solid var(--gold); color: var(--gold); border-radius: 999px; padding: 6px 12px 6px 6px; font-size: 12px; font-weight: 600; letter-spacing: .04em; background: rgba(7,19,12,.6); backdrop-filter: blur(6px); }
+  .badge b { background: var(--gold); color: #1a1300; border-radius: 999px; padding: 2px 8px; font-weight: 800; }
+  .hero h1 { font-family: var(--display); font-weight: 900; text-transform: uppercase; font-size: clamp(58px, 19vw, 104px); line-height: .82; margin: 18px 0 10px; letter-spacing: -.005em; }
+  .hero h1 span { color: var(--gold); display: block; }
+  .hero .sub { color: var(--muted); font-size: 15px; }
+  .hero .sub strong { color: var(--text); font-weight: 600; }
+  .facts { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; margin-top: 22px; }
+  .facts div { background: rgba(13,33,21,.85); padding: 12px 14px; backdrop-filter: blur(6px); }
+  .facts div.full { grid-column: 1 / -1; }
+  .facts small { display: block; font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: var(--gold); font-weight: 700; }
+  .facts span { font-size: 15px; font-weight: 600; }
+
+  /* PROGRAM */
+  .pieces { margin-top: 26px; display: grid; gap: 10px; }
+  .pcard { position: relative; text-align: left; width: 100%; font: inherit; color: inherit; cursor: pointer; background: linear-gradient(135deg, var(--surface), var(--bg-2)); border: 1px solid var(--line); border-radius: 18px; padding: 18px 18px 18px 84px; min-height: 92px; overflow: hidden; transition: transform .15s, border-color .15s; }
+  .pcard:active { transform: scale(.985); }
+  .pcard:hover { border-color: rgba(251,191,36,.5); }
+  .pcard .n { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); font-family: var(--display); font-weight: 900; font-size: 64px; line-height: 1; color: transparent; -webkit-text-stroke: 1.5px var(--gold); opacity: .9; }
+  .pcard h3 { font-family: var(--display); font-weight: 800; font-size: 26px; text-transform: uppercase; line-height: 1; margin: 0; letter-spacing: .01em; }
+  .pcard p { margin: 6px 0 0; font-size: 13.5px; color: var(--muted); }
+  .pcard .go { position: absolute; right: 14px; top: 14px; font-size: 11px; color: var(--gold); font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+
+  /* SHEET */
+  .scrim { position: fixed; inset: 0; background: rgba(0,0,0,.6); opacity: 0; pointer-events: none; transition: opacity .25s; z-index: 40; backdrop-filter: blur(2px); }
+  .sheet { position: fixed; left: 0; right: 0; bottom: 0; z-index: 41; max-width: 600px; margin: 0 auto; max-height: 92svh; background: var(--bg-2); border-radius: 22px 22px 0 0; border: 1px solid var(--line); border-bottom: 0; transform: translateY(105%); transition: transform .35s cubic-bezier(.2,.8,.2,1); display: flex; flex-direction: column; }
+  .open .scrim { opacity: 1; pointer-events: auto; }
+  .open .sheet { transform: none; }
+  body.open { overflow: hidden; }
+  .grab { width: 40px; height: 5px; border-radius: 3px; background: rgba(255,255,255,.25); margin: 10px auto 0; flex: none; }
+  .sheet-head { display: flex; gap: 14px; align-items: center; padding: 16px 18px 12px; flex: none; }
+  .sheet-head img { width: 64px; height: 64px; border-radius: 14px; object-fit: cover; flex: none; }
+  .sheet-head .n { font-family: var(--display); color: var(--gold); font-weight: 800; font-size: 14px; letter-spacing: .14em; }
+  .sheet-head h3 { font-family: var(--display); font-size: 30px; font-weight: 900; text-transform: uppercase; line-height: .95; margin: 2px 0; }
+  .sheet-head p { margin: 0; color: var(--muted); font-size: 13px; }
+  .x { margin-left: auto; align-self: flex-start; background: rgba(255,255,255,.08); border: 0; color: var(--text); width: 34px; height: 34px; border-radius: 50%; font-size: 18px; cursor: pointer; flex: none; }
+  .tabs { display: flex; gap: 6px; padding: 0 18px 12px; flex: none; }
+  .tabs button { flex: 1; font: inherit; font-size: 13px; font-weight: 600; background: rgba(255,255,255,.06); color: var(--muted); border: 0; border-radius: 10px; padding: 9px 4px; cursor: pointer; }
+  .tabs button[aria-selected="true"] { background: var(--gold); color: #1a1300; }
+  .sheet-body { overflow-y: auto; padding: 4px 18px 18px; -webkit-overflow-scrolling: touch; }
+  .sheet-body p { margin: 0 0 12px; font-size: 16px; color: #dfe6e0; }
+  .sheet-body .big { font-family: var(--display); font-size: 26px; line-height: 1.1; font-weight: 600; color: var(--text); }
+  .cimg { width: 100%; aspect-ratio: 16/10; object-fit: cover; border-radius: 14px; margin-bottom: 14px; }
+  .sheet-foot { display: flex; justify-content: space-between; padding: 12px 18px calc(12px + env(safe-area-inset-bottom)); border-top: 1px solid var(--line); flex: none; }
+  .sheet-foot button { font: inherit; font-size: 13px; font-weight: 600; background: none; border: 1px solid var(--line); color: var(--text); border-radius: 999px; padding: 8px 14px; cursor: pointer; }
+  .sheet-foot button:disabled { opacity: .3; }
+
+  /* BAND */
+  .bandimg { margin: 24px -16px 0; position: relative; }
+  .bandimg img { width: 100%; aspect-ratio: 4/3; object-fit: cover; }
+  .bandimg figcaption { padding: 10px 16px 0; color: var(--muted); font-size: 13px; }
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 20px; }
+  .stats div { border: 1px solid var(--line); border-radius: 14px; padding: 12px; text-align: center; }
+  .stats b { display: block; font-family: var(--display); font-size: 38px; font-weight: 900; color: var(--gold); line-height: 1; }
+  .stats small { font-size: 11px; color: var(--muted); letter-spacing: .06em; text-transform: uppercase; }
+
+  /* PERFORMERS */
+  .sec { margin-top: 30px; }
+  .sec-h { display: flex; justify-content: space-between; align-items: baseline; }
+  .sec-h h3 { font-family: var(--display); font-size: 24px; text-transform: uppercase; margin: 0; font-weight: 800; }
+  .sec-h small { color: var(--muted); font-size: 12px; }
+  .rail { display: flex; gap: 10px; overflow-x: auto; scroll-snap-type: x mandatory; margin: 12px -16px 0; padding: 0 16px 8px; scrollbar-width: none; }
+  .rail::-webkit-scrollbar { display: none; }
+  .flip { flex: none; width: 148px; aspect-ratio: 3/4; scroll-snap-align: start; perspective: 800px; background: none; border: 0; padding: 0; cursor: pointer; font: inherit; color: inherit; }
+  .flip .in { position: relative; width: 100%; height: 100%; transition: transform .5s; transform-style: preserve-3d; }
+  .flip.on .in { transform: rotateY(180deg); }
+  .face { position: absolute; inset: 0; border-radius: 16px; overflow: hidden; backface-visibility: hidden; -webkit-backface-visibility: hidden; border: 1px solid var(--line); }
+  .face img { width: 100%; height: 100%; object-fit: cover; }
+  .face .nm { position: absolute; left: 0; right: 0; bottom: 0; padding: 30px 10px 10px; background: linear-gradient(transparent, rgba(0,0,0,.85)); text-align: left; font-weight: 700; font-size: 14px; line-height: 1.15; }
+  .face .nm small { display: block; font-weight: 500; color: var(--gold); font-size: 10.5px; letter-spacing: .08em; text-transform: uppercase; margin-top: 2px; }
+  .back { transform: rotateY(180deg); background: var(--gold); color: #1a1300; padding: 14px; display: flex; flex-direction: column; justify-content: space-between; text-align: left; }
+  .back q { font-size: 13px; line-height: 1.35; font-weight: 500; quotes: "“" "”"; }
+  .back b { font-family: var(--display); font-size: 18px; text-transform: uppercase; line-height: 1; }
+  .tip { color: var(--muted); font-size: 13px; margin: 10px 0 0; }
+
+  /* DIRECTORS */
+  .dir { margin-top: 22px; border-radius: 22px; overflow: hidden; background: var(--surface); border: 1px solid var(--line); }
+  .dir img { width: 100%; aspect-ratio: 1/1; object-fit: cover; max-height: 360px; }
+  .dir .body { padding: 18px; }
+  .dir h3 { font-family: var(--display); font-size: 34px; text-transform: uppercase; margin: 0; line-height: .95; font-weight: 900; }
+  .dir .role { color: var(--gold); font-weight: 700; font-size: 12px; letter-spacing: .14em; text-transform: uppercase; margin-top: 6px; }
+  .dir .teach { color: var(--muted); font-size: 13px; margin-top: 2px; }
+  .dir blockquote { margin: 14px 0 0; padding-left: 12px; border-left: 3px solid var(--gold); font-size: 15px; font-style: italic; color: #dfe6e0; }
+  .more { margin-top: 14px; font: inherit; font-weight: 600; font-size: 14px; background: none; color: var(--gold); border: 1px solid var(--gold); border-radius: 999px; padding: 9px 16px; cursor: pointer; }
+
+  /* STAFF */
+  .staff { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 18px; }
+  .staff div { display: flex; gap: 10px; align-items: center; background: var(--surface); border-radius: 12px; padding: 8px; }
+  .staff img { width: 38px; height: 38px; border-radius: 10px; flex: none; }
+  .staff b { display: block; font-size: 13px; line-height: 1.2; }
+  .staff small { color: var(--gold); font-size: 11px; }
+  .intro { color: var(--muted); font-size: 15px; margin-top: 12px; }
+  .admin { margin-top: 26px; border-top: 1px solid var(--line); padding-top: 16px; }
+  .admin div { padding: 6px 0; font-size: 14px; color: var(--muted); }
+  .admin b { color: var(--text); }
+
+  .finale { margin-top: 72px; padding: 48px 0 calc(110px + env(safe-area-inset-bottom)); background: radial-gradient(120% 80% at 50% 0%, #1b432d, var(--bg)); text-align: center; }
+  .finale p { color: #dfe6e0; font-size: 16px; }
+  .motto { font-family: var(--display); font-weight: 900; text-transform: uppercase; font-size: 40px; line-height: .92; margin: 28px 0; color: var(--gold); }
+  .cta { display: inline-block; background: var(--gold); color: #1a1300; font-weight: 800; text-decoration: none; padding: 15px 26px; border-radius: 999px; font-size: 15px; letter-spacing: .02em; }
+  .finale small { display: block; margin-top: 22px; color: var(--muted); }
+  .finale small a { color: inherit; }
+
+  /* Floating nav */
+  .dock { position: fixed; left: 50%; bottom: calc(14px + env(safe-area-inset-bottom)); transform: translateX(-50%); z-index: 30; display: flex; gap: 2px; background: rgba(13,33,21,.88); backdrop-filter: blur(12px); border: 1px solid var(--line); border-radius: 999px; padding: 5px; box-shadow: 0 10px 30px rgba(0,0,0,.5); }
+  .dock a { color: var(--muted); text-decoration: none; font-size: 13px; font-weight: 600; padding: 9px 14px; border-radius: 999px; white-space: nowrap; }
+  .dock a.active { background: var(--gold); color: #1a1300; }
+</style>
+</head>
+<body>
+<div id="app"></div>
+<nav class="dock" aria-label="Sections">
+  <a href="#program" data-id="program">Program</a><a href="#band" data-id="band">Band</a><a href="#performers" data-id="performers">Players</a><a href="#directors" data-id="directors">Staff</a>
+</nav>
+<div class="scrim" id="scrim"></div>
+<div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle"></div>
+
+<script src="../shared/program-data.js"></script>
+<script src="../shared/placeholders.js"></script>
+<script>
+(() => {
+  const P = window.PROGRAM, U = window.PROGRAM_UTIL, e = U.esc, c = P.concert;
+  const PAL = { bg1: "#1b432d", bg2: "#0a1a10", fg: "#fbbf24", body: "#020805" };
+  const nn = i => String(i + 1).padStart(2, "0");
+  const ph = f => f ? ' <span class="ph">draft</span>' : "";
+  const total = P.sections.reduce((a, s) => a + s.players.length, 0);
+
+  document.getElementById("app").innerHTML = `
+  <header class="hero">
+    <img class="bg" alt="" src="${PH.band()}">
+    <div class="wrap">
+      <span class="badge"><b>80th</b> The Midwest Clinic · Chicago</span>
+      <h1>Walsh<span>Honor Band</span></h1>
+      <div class="sub">${e(c.school)} · ${e(c.hometown)} &nbsp;|&nbsp; <strong>${e(c.conductor)}</strong>, conductor</div>
+      <div class="facts">
+        <div><small>Date</small><span>${e(c.date.replace(/, 2026/, ""))}</span></div>
+        <div><small>Time</small><span>${e(c.time)}</span></div>
+        <div class="full"><small>Venue</small><span>${e(c.venue)} · ${e(c.room)}, ${e(c.city)}</span></div>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section id="welcome" style="padding-top:44px">
+      <div class="eyebrow">Welcome</div>
+      <h2>${e(P.welcome.heading)}</h2>
+      <p style="color:#dfe6e0;margin-top:16px">${e(P.welcome.body)}</p>
+      <p style="color:var(--gold);font-weight:600;font-size:14px">— ${e(P.welcome.signedBy)}</p>
+    </section>
+
+    <section id="program">
+      <div class="eyebrow">Tonight's Program</div>
+      <h2>The Music</h2>
+      <div class="pieces">
+        ${P.pieces.map((p, i) => `
+        <button class="pcard" data-piece="${i}">
+          <span class="n">${nn(i)}</span><span class="go">Notes ↗</span>
+          <h3>${e(p.title)}</h3><p>${e(p.composer)}${p.duration ? " · " + e(p.duration) : ""}</p>
+        </button>`).join("")}
+      </div>
+    </section>
+
+    <section id="band">
+      <div class="eyebrow">Meet the Ensemble</div>
+      <h2>The Band</h2>
+      <figure class="bandimg"><img alt="${e(P.bandPhoto.caption)}" src="${PH.band()}"><figcaption>${e(P.bandPhoto.caption)}</figcaption></figure>
+      <div class="stats"><div><b>${total}</b><small>Musicians</small></div><div><b>${P.sections.length}</b><small>Sections</small></div><div><b>2nd</b><small>Midwest<br>invite</small></div></div>
+    </section>
+
+    <section id="performers">
+      <div class="eyebrow">Personnel</div>
+      <h2>The Players</h2>
+      <p class="tip">Swipe each section · tap a card to flip it</p>
+      ${P.sections.map(s => `
+        <div class="sec">
+          <div class="sec-h"><h3>${e(s.instrument)}</h3><small>${s.players.length}</small></div>
+          <div class="rail">${s.players.map(n => { const st = U.student(n, s.instrument); return `
+            <button class="flip" aria-label="${e(n)}, ${e(s.instrument)}"><div class="in">
+              <div class="face"><img alt="" loading="lazy" src="${PH.photoFor(st, PAL)}"><div class="nm">${e(n)}<small>${e(s.instrument)}</small></div></div>
+              <div class="face back"><q>${e(st.quote)}</q><b>${e(n.split(" ")[0])}</b></div>
+            </div></button>`; }).join("")}
+          </div>
+        </div>`).join("")}
+    </section>
+
+    <section id="directors">
+      <div class="eyebrow">Leadership</div>
+      <h2>Directors</h2>
+      ${P.directors.map((d, i) => `
+        <article class="dir">
+          <img alt="${e(d.name)}" src="${PH.photoFor(d, PAL, { fontSize: 28 })}">
+          <div class="body">
+            <h3>${e(d.name)}</h3><div class="role">${e(d.role)}</div><div class="teach">${e(d.teaches || "")}</div>
+            <blockquote>${e(d.quote)}</blockquote>
+            <button class="more" data-director="${i}">Read full bio</button>
+          </div>
+        </article>`).join("")}
+    </section>
+
+    <section id="staff">
+      <div class="eyebrow">Private Lesson Faculty</div>
+      <h2>Lesson Staff</h2>
+      <p class="intro">${e(P.lessonStaffIntro)}</p>
+      <div class="staff">${P.lessonStaff.map(t => `<div><img alt="" src="${PH.portrait(t.name, PAL, { fontSize: 44, initialsY: 104 })}"><span><b>${e(t.name)}</b><small>${e(t.instrument)}</small></span></div>`).join("")}</div>
+      <div class="admin"><div class="eyebrow">Administration</div>${P.administration.map(a => `<div><b>${e(a.name)}</b> — ${e(a.role)}</div>`).join("")}</div>
+    </section>
+  </main>
+
+  <footer class="finale"><div class="wrap">
+    <div class="eyebrow" style="justify-content:center">Thank You</div>
+    <p>${e(P.thanks)}</p>
+    <div class="motto">${e(c.motto)}</div>
+    <a class="cta" href="${e(c.donateUrl)}">Support the Walsh Band →</a>
+    <small>${e(c.school)} · ${e(c.district)} · <a href="${e(c.siteUrl)}">walshband.com</a></small>
+  </div></footer>`;
+
+  /* Flip cards */
+  document.addEventListener("click", ev => { const f = ev.target.closest(".flip"); if (f) f.classList.toggle("on"); });
+
+  /* Sheet */
+  const sheet = document.getElementById("sheet");
+  let cur = 0, tab = "music";
+  function pieceSheet(i) {
+    cur = i; const p = P.pieces[i];
+    const img = PH.photoFor({ name: p.composer, photo: p.composerPhoto }, PAL);
+    const bodies = {
+      music: `<p class="big">${e(p.description)}</p>${ph(p.placeholder)}`,
+      composer: `<img class="cimg" alt="${e(p.composer)}" src="${img}"><p><strong>${e(p.composer)}</strong></p><p>${e(p.composerBio)}</p>`,
+      why: `<p class="big">“${e(p.why)}”</p><p style="color:var(--gold);font-size:13px;font-weight:600">— The Walsh Band Directors</p>`,
+    };
+    sheet.innerHTML = `<div class="grab"></div>
+      <div class="sheet-head"><img alt="" src="${img}"><div><div class="n">No. ${nn(i)}</div><h3 id="sheetTitle">${e(p.title)}</h3><p>${e(p.composer)}</p></div><button class="x" aria-label="Close">×</button></div>
+      <div class="tabs" role="tablist">${[["music","The Music"],["composer","Composer"],["why","Why We Play It"]].map(([k,l]) => `<button role="tab" data-tab="${k}" aria-selected="${tab===k}">${l}</button>`).join("")}</div>
+      <div class="sheet-body">${bodies[tab]}</div>
+      <div class="sheet-foot"><button data-step="-1" ${i===0?"disabled":""}>← Previous</button><button data-step="1" ${i===P.pieces.length-1?"disabled":""}>Next →</button></div>`;
+  }
+  function dirSheet(i) {
+    const d = P.directors[i];
+    sheet.innerHTML = `<div class="grab"></div>
+      <div class="sheet-head"><img alt="" src="${PH.photoFor(d, PAL)}"><div><div class="n">${e(d.role)}</div><h3 id="sheetTitle">${e(d.name)}</h3></div><button class="x" aria-label="Close">×</button></div>
+      <div class="sheet-body">${U.paras(d.bio)}</div>`;
+  }
+  const open = () => document.body.classList.add("open");
+  const close = () => document.body.classList.remove("open");
+  document.addEventListener("click", ev => {
+    const pc = ev.target.closest("[data-piece]"); if (pc) { tab = "music"; pieceSheet(+pc.dataset.piece); open(); return; }
+    const dr = ev.target.closest("[data-director]"); if (dr) { dirSheet(+dr.dataset.director); open(); return; }
+    const t = ev.target.closest("[data-tab]"); if (t) { tab = t.dataset.tab; pieceSheet(cur); return; }
+    const st = ev.target.closest("[data-step]"); if (st) { pieceSheet(cur + +st.dataset.step); return; }
+    if (ev.target.closest(".x") || ev.target.id === "scrim") close();
+  });
+  document.addEventListener("keydown", ev => { if (ev.key === "Escape") close(); });
+  // swipe down to dismiss
+  let y0 = null;
+  sheet.addEventListener("touchstart", ev => { if (!ev.target.closest(".sheet-body") || sheet.querySelector(".sheet-body").scrollTop === 0) y0 = ev.touches[0].clientY; }, { passive: true });
+  sheet.addEventListener("touchend", ev => { if (y0 !== null && ev.changedTouches[0].clientY - y0 > 90) close(); y0 = null; });
+
+  /* Dock highlight */
+  const links = [...document.querySelectorAll(".dock a")];
+  const map = { welcome: null, program: "program", band: "band", performers: "performers", directors: "directors", staff: "directors" };
+  const io = new IntersectionObserver(es => es.forEach(en => { if (en.isIntersecting) links.forEach(l => l.classList.toggle("active", l.dataset.id === map[en.target.id])); }), { rootMargin: "-45% 0px -50% 0px" });
+  Object.keys(map).forEach(id => io.observe(document.getElementById(id)));
+})();
+</script>
+</body>
+</html>

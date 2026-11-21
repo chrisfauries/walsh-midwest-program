@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Walsh Honor Band — Midwest Program</title>
+<meta name="theme-color" content="#f6f0e2">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #f6f0e2;
+    --paper-2: #efe6d2;
+    --ink: #14301f;
+    --ink-soft: #4a5a4f;
+    --green: #163825;
+    --gold: #a77a12;
+    --gold-bright: #fbbf24;
+    --rule: #d8c9a6;
+    --serif: "Cormorant Garamond", Georgia, serif;
+    --sans: "Inter", system-ui, sans-serif;
+    color-scheme: light;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: 64px; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--sans); font-size: 16px; line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  body::before { content: ""; position: fixed; inset: 0; pointer-events: none; opacity: .35; z-index: 0;
+    background-image: radial-gradient(rgba(120,90,30,.08) 1px, transparent 1px); background-size: 3px 3px; }
+  main { position: relative; z-index: 1; max-width: 560px; margin: 0 auto; padding: 0 20px 64px; }
+  h2 { font-family: var(--serif); font-weight: 600; font-size: 30px; text-align: center; margin: 0 0 4px; letter-spacing: .01em; }
+  .kicker { font-size: 11px; letter-spacing: .22em; text-transform: uppercase; color: var(--gold); text-align: center; font-weight: 600; }
+  .ornament { display: flex; align-items: center; gap: 12px; color: var(--gold); margin: 20px auto 28px; max-width: 220px; }
+  .ornament::before, .ornament::after { content: ""; flex: 1; height: 1px; background: currentColor; opacity: .6; }
+  .ornament span { font-family: var(--serif); font-size: 20px; line-height: 1; }
+  section { padding: 56px 0 8px; }
+
+  /* Cover */
+  .cover { min-height: 92svh; display: flex; flex-direction: column; justify-content: center; text-align: center; padding: 48px 4px 32px; }
+  .frame { border: 1px solid var(--gold); padding: 6px; }
+  .frame-inner { border: 1px solid var(--rule); padding: 40px 18px 34px; }
+  .cover .crest { width: 64px; height: 64px; margin: 0 auto 18px; }
+  .cover .event { font-family: var(--serif); font-style: italic; font-size: 20px; color: var(--gold); }
+  .cover .eventsub { font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: var(--ink-soft); margin-top: 2px; }
+  .cover h1 { font-family: var(--serif); font-weight: 700; font-size: clamp(40px, 12vw, 58px); line-height: .98; margin: 26px 0 10px; color: var(--green); }
+  .cover .cond { font-family: var(--serif); font-size: 19px; }
+  .cover .cond em { color: var(--ink-soft); }
+  .cover dl { margin: 26px 0 0; display: grid; gap: 2px; font-size: 13px; letter-spacing: .14em; text-transform: uppercase; }
+  .cover dl dd { margin: 0; }
+  .cover .date { font-weight: 600; color: var(--green); }
+  .cover .school { margin-top: 26px; font-family: var(--serif); font-size: 17px; color: var(--ink-soft); }
+  .scrollhint { margin-top: 28px; font-size: 12px; color: var(--ink-soft); letter-spacing: .14em; text-transform: uppercase; }
+  .scrollhint::after { content: "↓"; display: block; font-size: 18px; margin-top: 4px; animation: bob 2s infinite; }
+  @keyframes bob { 50% { transform: translateY(4px); } }
+
+  /* Nav */
+  nav { position: sticky; top: 0; z-index: 10; background: color-mix(in srgb, var(--paper) 92%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--rule); }
+  nav ul { list-style: none; display: flex; gap: 6px; overflow-x: auto; margin: 0 auto; padding: 10px 16px; max-width: 560px; scrollbar-width: none; }
+  nav ul::-webkit-scrollbar { display: none; }
+  nav a { display: block; white-space: nowrap; text-decoration: none; color: var(--green); font-size: 13px; font-weight: 500; padding: 7px 13px; border: 1px solid var(--rule); border-radius: 999px; }
+  nav a.active { background: var(--green); color: var(--paper); border-color: var(--green); }
+
+  /* Welcome */
+  .letter { font-family: var(--serif); font-size: 20px; line-height: 1.5; text-align: center; }
+  .letter .sig { font-style: italic; color: var(--ink-soft); margin-top: 16px; font-size: 18px; }
+
+  /* Program */
+  .piece { border-top: 1px solid var(--rule); }
+  .piece:last-child { border-bottom: 1px solid var(--rule); }
+  .piece summary { list-style: none; cursor: pointer; display: grid; grid-template-columns: 34px 1fr 22px; align-items: center; gap: 10px; padding: 18px 2px; }
+  .piece summary::-webkit-details-marker { display: none; }
+  .num { font-family: var(--serif); font-size: 18px; color: var(--gold); font-weight: 600; }
+  .ptitle { font-family: var(--serif); font-size: 23px; font-weight: 600; line-height: 1.15; color: var(--green); }
+  .pcomp { font-size: 13px; color: var(--ink-soft); margin-top: 3px; letter-spacing: .02em; }
+  .chev { width: 22px; height: 22px; border-radius: 50%; border: 1px solid var(--rule); display: grid; place-items: center; transition: transform .25s; color: var(--gold); font-size: 14px; }
+  .piece[open] .chev { transform: rotate(45deg); background: var(--green); color: var(--paper); border-color: var(--green); }
+  .pbody { padding: 2px 2px 26px 44px; animation: fade .3s ease; }
+  @keyframes fade { from { opacity: 0; transform: translateY(-4px); } }
+  .pbody h4 { font-size: 10.5px; letter-spacing: .2em; text-transform: uppercase; color: var(--gold); margin: 18px 0 6px; font-weight: 600; }
+  .pbody p { margin: 0; color: #2b3a30; }
+  .composer { display: flex; gap: 14px; align-items: center; margin-top: 6px; }
+  .composer img { width: 64px; height: 64px; border-radius: 50%; border: 2px solid var(--paper-2); box-shadow: 0 0 0 1px var(--gold); flex: none; }
+  .composer b { font-family: var(--serif); font-size: 19px; display: block; }
+  .composer small { color: var(--ink-soft); font-size: 12px; }
+  .ph { display: inline-block; font-size: 10px; letter-spacing: .1em; text-transform: uppercase; background: #fff3c4; color: #7a5a00; padding: 1px 6px; border-radius: 4px; margin-left: 6px; vertical-align: middle; }
+  .why { background: var(--paper-2); border-left: 3px solid var(--gold); padding: 12px 14px; font-family: var(--serif); font-size: 18px; font-style: italic; line-height: 1.4; }
+
+  /* Band photo */
+  .photo { margin: 0; }
+  .photo .mat { background: #fff; padding: 10px; box-shadow: 0 1px 0 var(--rule), 0 18px 40px -20px rgba(40,30,10,.45); transform: rotate(-.6deg); }
+  .photo img { width: 100%; display: block; aspect-ratio: 16/10; object-fit: cover; }
+  .photo figcaption { text-align: center; font-family: var(--serif); font-style: italic; font-size: 17px; color: var(--ink-soft); margin-top: 16px; }
+
+  /* Personnel */
+  .sec { text-align: center; margin: 26px 0 0; }
+  .sec h3 { font-family: var(--serif); font-size: 15px; letter-spacing: .22em; text-transform: uppercase; color: var(--gold); margin: 0 0 8px; font-weight: 700; }
+  .sec ul { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 2px 4px; }
+  .sec button { font: inherit; font-family: var(--serif); font-size: 19px; background: none; border: 0; color: var(--ink); padding: 3px 8px; border-radius: 6px; cursor: pointer; }
+  .sec button:hover, .sec button:focus-visible { background: var(--paper-2); outline: none; }
+  .hint { text-align: center; font-size: 12px; color: var(--ink-soft); margin-top: 6px; }
+
+  dialog { border: 0; padding: 0; width: min(92vw, 380px); background: var(--paper); color: var(--ink); border-radius: 4px; box-shadow: 0 30px 80px rgba(0,0,0,.4); }
+  dialog::backdrop { background: rgba(20,30,22,.55); backdrop-filter: blur(3px); }
+  .card { text-align: center; padding: 28px 24px 22px; border: 1px solid var(--gold); margin: 6px; }
+  .card img { width: 120px; height: 120px; border-radius: 50%; box-shadow: 0 0 0 1px var(--gold), 0 0 0 6px var(--paper), 0 0 0 7px var(--rule); }
+  .card h3 { font-family: var(--serif); font-size: 28px; margin: 18px 0 0; color: var(--green); }
+  .card .inst { font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: var(--gold); font-weight: 600; }
+  .card blockquote { font-family: var(--serif); font-style: italic; font-size: 18px; margin: 16px 0 0; line-height: 1.4; }
+  .card .close { margin-top: 20px; font: inherit; font-size: 13px; background: var(--green); color: var(--paper); border: 0; padding: 9px 22px; border-radius: 999px; cursor: pointer; }
+
+  /* Directors */
+  .director { text-align: center; margin-top: 34px; }
+  .director img { width: 150px; height: 190px; object-fit: cover; border-radius: 75px / 95px; box-shadow: 0 0 0 1px var(--gold), 0 0 0 7px var(--paper), 0 0 0 8px var(--rule); }
+  .director h3 { font-family: var(--serif); font-size: 27px; margin: 18px 0 0; color: var(--green); }
+  .director .role { font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: var(--gold); font-weight: 600; }
+  .director .teaches { font-size: 13px; color: var(--ink-soft); margin-top: 4px; }
+  .director blockquote { font-family: var(--serif); font-style: italic; font-size: 19px; margin: 12px 0 0; }
+  .director details { margin-top: 10px; }
+  .director summary { cursor: pointer; font-size: 13px; color: var(--green); font-weight: 500; text-decoration: underline; text-underline-offset: 3px; list-style: none; }
+  .director summary::-webkit-details-marker { display: none; }
+  .director details p { text-align: left; font-size: 15px; color: #2b3a30; }
+
+  /* Lesson staff */
+  .leaders { list-style: none; padding: 0; margin: 18px 0 0; }
+  .leaders li { display: flex; align-items: baseline; gap: 8px; padding: 5px 0; font-size: 15px; }
+  .leaders li .n { font-family: var(--serif); font-size: 19px; }
+  .leaders li .dots { flex: 1; border-bottom: 1px dotted var(--gold); transform: translateY(-4px); }
+  .leaders li .i { font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-soft); }
+
+  .admin { text-align: center; font-size: 14px; color: var(--ink-soft); }
+  .admin b { display: block; font-family: var(--serif); font-size: 19px; color: var(--ink); font-weight: 600; }
+  .admin div { margin-top: 12px; }
+
+  .thanks { font-family: var(--serif); font-size: 19px; text-align: center; line-height: 1.5; }
+  .motto { margin: 36px 0 0; text-align: center; font-family: var(--serif); font-weight: 700; font-size: 24px; color: var(--green); line-height: 1.2; text-transform: uppercase; letter-spacing: .04em; }
+  .donate { display: block; text-align: center; margin: 32px auto 0; max-width: 320px; background: var(--green); color: var(--paper); text-decoration: none; padding: 15px 20px; border-radius: 2px; font-weight: 600; letter-spacing: .06em; box-shadow: inset 0 0 0 1px var(--gold-bright), inset 0 0 0 4px var(--green), inset 0 0 0 5px var(--gold-bright); }
+  footer { text-align: center; font-size: 12px; color: var(--ink-soft); margin-top: 40px; }
+</style>
+</head>
+<body>
+<nav aria-label="Sections"><ul id="nav"></ul></nav>
+<main id="app"></main>
+
+<dialog id="dlg"><div class="card" id="dlgBody"></div></dialog>
+
+<script src="../shared/program-data.js"></script>
+<script src="../shared/placeholders.js"></script>
+<script>
+(() => {
+  const P = window.PROGRAM, U = window.PROGRAM_UTIL, e = U.esc;
+  const PAL = { bg1: "#efe6d2", bg2: "#d8c9a6", fg: "#163825", body: "#a77a12" };
+  const ROMAN = ["I","II","III","IV","V","VI","VII","VIII","IX","X","XI","XII"];
+  const ph = flag => flag ? '<span class="ph">draft copy</span>' : "";
+  const orn = '<div class="ornament" aria-hidden="true"><span>❦</span></div>';
+  const c = P.concert;
+
+  const crest = `<svg class="crest" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="30" fill="none" stroke="#a77a12"/><circle cx="32" cy="32" r="26" fill="#163825"/><path d="M14 22 L23 44 L32 30 L41 44 L50 22 L43 22 L32 38 L21 22Z" fill="#f6f0e2"/><path d="M35 24v12c-1-.4-2-.5-3-.3-2 .6-3 2.4-2.3 4 .8 1.6 2.8 2.2 4.6 1.4 1.3-.6 2-1.9 2-3.4V28l5 1.4v-3.5z" fill="#fbbf24"/></svg>`;
+
+  const sections = [
+    ["welcome","Welcome"],["program","Program"],["band","The Band"],["personnel","Personnel"],["directors","Directors"],["staff","Lesson Staff"],["thanks","Thanks"]
+  ];
+  document.getElementById("nav").innerHTML = sections.map(([id, l]) => `<li><a href="#${id}" data-id="${id}">${l}</a></li>`).join("");
+
+  const html = `
+  <header class="cover">
+    <div class="frame"><div class="frame-inner">
+      ${crest}
+      <div class="event">${e(c.event)}</div>
+      <div class="eventsub">${e(c.eventSub)}</div>
+      <h1>${e(c.ensemble)}</h1>
+      <div class="cond"><em>conducted by</em> ${e(c.conductor)}</div>
+      <dl>
+        <dd class="date">${e(c.date)}</dd>
+        <dd>${e(c.time === "TBD" ? "Time TBD" : c.time)}</dd>
+        <dd>${e(c.venue)} · ${e(c.room)}</dd>
+        <dd>${e(c.city)}</dd>
+      </dl>
+      <div class="school">${e(c.school)} · ${e(c.district)} · ${e(c.hometown)}</div>
+    </div></div>
+    <div class="scrollhint">Program</div>
+  </header>
+
+  <section id="welcome">
+    <div class="kicker">From the Directors</div>
+    <h2>${e(P.welcome.heading)}</h2>${orn}
+    <p class="letter">${e(P.welcome.body)}</p>
+    <p class="letter sig">— ${e(P.welcome.signedBy)}</p>
+  </section>
+
+  <section id="program">
+    <div class="kicker">Tonight's Program</div>
+    <h2>Program</h2>${orn}
+    ${P.pieces.map((p, i) => `
+      <details class="piece">
+        <summary>
+          <span class="num">${ROMAN[i]}</span>
+          <span><div class="ptitle">${e(p.title)}</div><div class="pcomp">${e(p.composer)}${p.duration ? " · " + e(p.duration) : ""}</div></span>
+          <span class="chev" aria-hidden="true">+</span>
+        </summary>
+        <div class="pbody">
+          <h4>About the Music ${ph(p.placeholder)}</h4>
+          <p>${e(p.description)}</p>
+          <h4>About the Composer</h4>
+          <div class="composer"><img alt="" src="${PH.photoFor({ name: p.composer, photo: p.composerPhoto }, PAL)}"><div><b>${e(p.composer)}</b><small>Composer</small></div></div>
+          <p style="margin-top:10px">${e(p.composerBio)}</p>
+          <h4>Why We Play It</h4>
+          <p class="why">${e(p.why)}</p>
+        </div>
+      </details>`).join("")}
+  </section>
+
+  <section id="band">
+    <div class="kicker">${e(c.shortName)}</div>
+    <h2>The Band</h2>${orn}
+    <figure class="photo"><div class="mat"><img alt="${e(P.bandPhoto.caption)}" src="${PH.band({ sky1: "#3b5a44", sky2: "#14301f", stage: "#6b5226", head: "#5a4a36", figure: "#111" })}"></div>
+    <figcaption>${e(P.bandPhoto.caption)}</figcaption></figure>
+  </section>
+
+  <section id="personnel">
+    <div class="kicker">${e(c.ensemble)}</div>
+    <h2>Personnel</h2>${orn}
+    <p class="hint">Tap any name to meet the performer.</p>
+    ${P.sections.map(s => `
+      <div class="sec"><h3>${e(s.instrument)}</h3>
+      <ul>${s.players.map(n => `<li><button data-student="${e(n)}" data-inst="${e(s.instrument)}">${e(n)}</button></li>`).join("")}</ul></div>`).join("")}
+  </section>
+
+  <section id="directors">
+    <div class="kicker">Walsh Band Staff</div>
+    <h2>Directors</h2>${orn}
+    ${P.directors.map(d => `
+      <article class="director">
+        <img alt="${e(d.name)}" src="${PH.photoFor(d, PAL, { fontSize: 30 })}">
+        <h3>${e(d.name)}</h3><div class="role">${e(d.role)}</div>
+        <div class="teaches">${e(d.teaches || "")}</div>
+        <blockquote>“${e(d.quote)}”</blockquote>
+        <details><summary>Read biography</summary>${U.paras(d.bio)}</details>
+      </article>`).join("")}
+  </section>
+
+  <section id="staff">
+    <div class="kicker">With Gratitude To</div>
+    <h2>Private Lesson Staff</h2>${orn}
+    <p class="thanks" style="font-size:17px">${e(P.lessonStaffIntro)}</p>
+    <ul class="leaders">${P.lessonStaff.map(t => `<li><span class="n">${e(t.name)}</span><span class="dots"></span><span class="i">${e(t.instrument)}</span></li>`).join("")}</ul>
+    <div class="admin" style="margin-top:40px">
+      <div class="kicker">Administration</div>
+      ${P.administration.map(a => `<div><b>${e(a.name)}</b>${e(a.role)}</div>`).join("")}
+    </div>
+  </section>
+
+  <section id="thanks">
+    <div class="kicker">Acknowledgments</div>
+    <h2>Thank You</h2>${orn}
+    <p class="thanks">${e(P.thanks)}</p>
+    <p class="motto">${e(c.motto)}</p>
+    <a class="donate" href="${e(c.donateUrl)}">Support the Walsh Band</a>
+    <footer>${e(c.school)} · ${e(c.district)}<br><a href="${e(c.siteUrl)}" style="color:inherit">walshband.com</a></footer>
+  </section>`;
+  document.getElementById("app").innerHTML = html;
+
+  // Performer dialog
+  const dlg = document.getElementById("dlg"), body = document.getElementById("dlgBody");
+  document.addEventListener("click", ev => {
+    const b = ev.target.closest("[data-student]");
+    if (b) {
+      const s = U.student(b.dataset.student, b.dataset.inst);
+      body.innerHTML = `<img alt="" src="${PH.photoFor(s, PAL)}"><h3>${e(s.name)}</h3><div class="inst">${e(s.instrument)}${s.grade ? " · Grade " + s.grade : ""}</div><blockquote>“${e(s.quote)}”</blockquote><button class="close" autofocus>Close</button>`;
+      dlg.showModal();
+    }
+    if (ev.target.closest(".close") || ev.target === dlg) dlg.close();
+  });
+
+  // Active nav chip
+  const links = [...document.querySelectorAll("nav a")];
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(en => { if (en.isIntersecting) {
+      links.forEach(l => l.classList.toggle("active", l.dataset.id === en.target.id));
+      const a = links.find(l => l.dataset.id === en.target.id); a && a.scrollIntoView({ inline: "center", block: "nearest" });
+    }});
+  }, { rootMargin: "-45% 0px -50% 0px" });
+  sections.forEach(([id]) => io.observe(document.getElementById(id)));
+})();
+</script>
+</body>
+</html>
