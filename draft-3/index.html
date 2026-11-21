@@ -24,8 +24,9 @@
 
   /* Masthead */
   .mast { position: sticky; top: 0; z-index: 20; background: rgba(255,255,255,.94); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
-  .mast .wrap { display: flex; align-items: center; justify-content: space-between; height: 54px; }
-  .mast a.logo { text-decoration: none; font-family: var(--serif); font-weight: 800; font-size: 18px; letter-spacing: -.01em; }
+  .mast .wrap { display: flex; align-items: center; justify-content: space-between; height: 54px; padding-left: 50px; }
+  .mast a.logo { text-decoration: none; font-family: var(--serif); font-weight: 800; font-size: 16px; letter-spacing: -.01em; white-space: nowrap; }
+  .mast nav { gap: 12px !important; }
   .mast a.logo span { color: var(--gold); }
   .mast nav { display: flex; gap: 16px; font-size: 13px; font-weight: 500; }
   .mast nav a { text-decoration: none; color: var(--muted); }
@@ -41,8 +42,8 @@
   .cover h1 em { font-weight: 400; color: var(--green-2); }
   .dek { font-family: var(--serif); font-size: 21px; line-height: 1.35; color: var(--muted); margin: 16px 0 0; }
   .cover-img { margin: 22px -20px 0; position: relative; }
-  .cover-img img { width: 100%; aspect-ratio: 4/5; object-fit: cover; }
-  .cover-img .tag { position: absolute; left: 20px; bottom: 16px; background: var(--gold); color: #1a1300; font-weight: 700; font-size: 12px; padding: 6px 10px; letter-spacing: .04em; }
+  .cover-img img { width: 100%; height: auto; }
+  .cover-img .tag { display: inline-block; margin: 10px 20px 0; background: var(--gold); color: #1a1300; font-weight: 700; font-size: 12px; padding: 6px 10px; letter-spacing: .04em; }
   .meta { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 18px; margin-top: 20px; padding-bottom: 20px; border-bottom: 1px solid var(--line); }
   .meta small { display: block; font-size: 10.5px; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); font-weight: 700; }
   .meta span { font-family: var(--serif); font-size: 17px; font-weight: 600; }
@@ -66,7 +67,7 @@
 
   /* Spread */
   .spread { margin: 0 -20px; background: var(--green); color: #fff; padding: 28px 20px 30px; }
-  .spread img { width: 100%; aspect-ratio: 3/2; object-fit: cover; }
+  .spread img { width: 100%; height: auto; }
   .spread .cap { display: flex; justify-content: space-between; gap: 12px; font-size: 12.5px; opacity: .8; margin-top: 10px; }
   .spread h3 { font-family: var(--serif); font-size: 30px; font-weight: 600; margin: 0 0 16px; line-height: 1.05; }
   .spread h3 em { color: var(--gold); }
@@ -93,7 +94,10 @@
 
   .staff { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px 12px; }
   .staff img { width: 100%; aspect-ratio: 4/5; object-fit: cover; object-position: 50% 20%; filter: grayscale(1) contrast(1.05); transition: filter .3s; }
-  .staff div:hover img { filter: none; }
+  .staff button { font: inherit; color: inherit; background: none; border: 0; padding: 0; text-align: left; cursor: pointer; }
+  .staff button:hover img { filter: none; }
+  .prof .bio { font-size: 15.5px; margin-top: 14px; }
+  .prof .biolink { font-weight: 700; color: var(--green); }
   .staff b { display: block; font-size: 13px; line-height: 1.2; margin-top: 6px; }
   .staff small { font-size: 11.5px; color: var(--muted); }
 
@@ -132,7 +136,7 @@
   .chips button.on { background: var(--ink); color: #fff; border-color: var(--ink); }
   .grid-h { font-family: var(--serif); font-size: 22px; font-weight: 600; margin: 24px 0 10px; display: flex; justify-content: space-between; align-items: baseline; }
   .grid-h small { font-family: var(--sans); font-size: 12px; color: var(--muted); font-weight: 500; }
-  .pgrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .pgrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px 10px; align-items: start; }
   .pgrid button { font: inherit; text-align: left; background: none; border: 0; padding: 0; cursor: pointer; color: inherit; }
   .pgrid img { width: 100%; aspect-ratio: 4/5; object-fit: cover; }
   .pgrid b { display: block; font-size: 13px; line-height: 1.2; margin-top: 6px; font-weight: 600; }
@@ -157,6 +161,7 @@
 
 <script src="../shared/program-data.js"></script>
 <script src="../shared/placeholders.js"></script>
+<script src="../shared/review-nav.js"></script>
 <script>
 (() => {
   const P = window.PROGRAM, U = window.PROGRAM_UTIL, e = U.esc, c = P.concert;
@@ -233,7 +238,7 @@
       <div class="kick">With gratitude</div>
       <h2 class="sec">Private Lesson Staff</h2>
       <p style="color:var(--muted);margin-top:-6px">${e(P.lessonStaffIntro)}</p>
-      <div class="staff">${P.lessonStaff.map(t => `<div><img alt="" loading="lazy" src="${PH.photoFor(t, PAL)}"><b>${e(t.name)}</b><small>${e(t.instrument)}</small></div>`).join("")}</div>
+      <div class="staff">${P.lessonStaff.map((t, i) => `<button data-staff="${i}"><img alt="" loading="lazy" src="${PH.photoFor(t, PAL)}"><b>${e(t.name)}</b><small>${e(t.instrument)}</small></button>`).join("")}</div>
       <div class="admin"><div class="kick" style="margin-bottom:6px">Administration</div>${P.administration.map(a => `<div><b>${e(a.name)}</b> — ${e(a.role)}</div>`).join("")}</div>
     </section>`;
   }
@@ -294,6 +299,12 @@
     if (s) {
       const st = U.student(s.dataset.student, s.dataset.inst);
       dlg.innerHTML = `<div class="prof"><button class="close" aria-label="Close">×</button><img alt="" src="${PH.photoFor(st, PAL)}"><div class="in"><h3>${e(st.name)}</h3><div class="role">${e(st.instrument)}${st.grade ? " · Grade " + st.grade : ""}</div><p class="pull">“${e(st.quote)}”</p></div></div>`;
+      dlg.showModal(); return;
+    }
+    const sf = ev.target.closest("[data-staff]");
+    if (sf) {
+      const t = U.staff(P.lessonStaff[+sf.dataset.staff]);
+      dlg.innerHTML = `<div class="prof"><button class="close" aria-label="Close">×</button><img alt="" style="object-position:50% 20%" src="${PH.photoFor(t, PAL)}"><div class="in"><h3>${e(t.name)}</h3><div class="role">${e(t.role)}</div><div class="bio">${U.paras(t.bio)}</div><a class="biolink" href="${e(t.link)}">${e(t.linkLabel)} →</a>${t.linkPlaceholder ? ' <span class="ph">mock link</span>' : ""}</div></div>`;
       dlg.showModal(); return;
     }
     if (ev.target.closest(".close") || ev.target === dlg) dlg.close();

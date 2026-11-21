@@ -30,7 +30,7 @@
   .hero { position: relative; min-height: 100svh; display: flex; flex-direction: column; justify-content: flex-end; overflow: hidden; }
   .hero img.bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: saturate(.8); transform: scale(1.15); }
   .hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(7,19,12,.3) 0%, rgba(7,19,12,.1) 30%, rgba(7,19,12,.85) 62%, var(--bg) 100%); }
-  .hero .wrap { position: relative; z-index: 1; padding-bottom: 36px; width: 100%; }
+  .hero .wrap { position: relative; z-index: 1; padding-bottom: calc(84px + env(safe-area-inset-bottom)); width: 100%; }
   .badge { display: inline-flex; align-items: center; gap: 8px; border: 1px solid var(--gold); color: var(--gold); border-radius: 999px; padding: 6px 12px 6px 6px; font-size: 12px; font-weight: 600; letter-spacing: .04em; background: rgba(7,19,12,.6); backdrop-filter: blur(6px); }
   .badge b { background: var(--gold); color: #1a1300; border-radius: 999px; padding: 2px 8px; font-weight: 800; }
   .hero h1 { font-family: var(--display); font-weight: 900; text-transform: uppercase; font-size: clamp(58px, 19vw, 104px); line-height: .82; margin: 18px 0 10px; letter-spacing: -.005em; }
@@ -79,7 +79,7 @@
 
   /* BAND */
   .bandimg { margin: 24px -16px 0; position: relative; }
-  .bandimg img { width: 100%; aspect-ratio: 4/3; object-fit: cover; }
+  .bandimg img { width: 100%; height: auto; }
   .bandimg figcaption { padding: 10px 16px 0; color: var(--muted); font-size: 13px; }
   .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 20px; }
   .stats div { border: 1px solid var(--line); border-radius: 14px; padding: 12px; text-align: center; }
@@ -91,7 +91,7 @@
   .sec-h { display: flex; justify-content: space-between; align-items: baseline; }
   .sec-h h3 { font-family: var(--display); font-size: 24px; text-transform: uppercase; margin: 0; font-weight: 800; }
   .sec-h small { color: var(--muted); font-size: 12px; }
-  .rail { display: flex; gap: 10px; overflow-x: auto; scroll-snap-type: x mandatory; margin: 12px -16px 0; padding: 0 16px 8px; scrollbar-width: none; }
+  .rail { display: flex; gap: 10px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: 16px; margin: 12px -16px 0; padding: 0 16px 8px; scrollbar-width: none; }
   .rail::-webkit-scrollbar { display: none; }
   .flip { flex: none; width: 148px; aspect-ratio: 3/4; scroll-snap-align: start; perspective: 800px; background: none; border: 0; padding: 0; cursor: pointer; font: inherit; color: inherit; }
   .flip .in { position: relative; width: 100%; height: 100%; transition: transform .5s; transform-style: preserve-3d; }
@@ -117,7 +117,8 @@
 
   /* STAFF */
   .staff { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 18px; }
-  .staff div { display: flex; gap: 10px; align-items: center; background: var(--surface); border-radius: 12px; padding: 8px; }
+  .staff button { display: flex; gap: 10px; align-items: center; background: var(--surface); border-radius: 12px; padding: 8px; border: 0; color: inherit; font: inherit; text-align: left; cursor: pointer; }
+  .sheet-body .biolink { display: inline-block; margin-top: 6px; color: var(--gold); font-weight: 700; }
   .staff img { width: 44px; height: 44px; border-radius: 10px; flex: none; object-fit: cover; object-position: 50% 20%; }
   .staff b { display: block; font-size: 13px; line-height: 1.2; }
   .staff small { color: var(--gold); font-size: 11px; }
@@ -149,6 +150,7 @@
 
 <script src="../shared/program-data.js"></script>
 <script src="../shared/placeholders.js"></script>
+<script src="../shared/review-nav.js"></script>
 <script>
 (() => {
   const P = window.PROGRAM, U = window.PROGRAM_UTIL, e = U.esc, c = P.concert;
@@ -233,7 +235,7 @@
       <div class="eyebrow">Private Lesson Faculty</div>
       <h2>Lesson Staff</h2>
       <p class="intro">${e(P.lessonStaffIntro)}</p>
-      <div class="staff">${P.lessonStaff.map(t => `<div><img alt="" loading="lazy" src="${PH.photoFor(t, PAL, { fontSize: 44, initialsY: 104 })}"><span><b>${e(t.name)}</b><small>${e(t.instrument)}</small></span></div>`).join("")}</div>
+      <div class="staff">${P.lessonStaff.map((t, i) => `<button data-staff="${i}"><img alt="" loading="lazy" src="${PH.photoFor(t, PAL, { fontSize: 44, initialsY: 104 })}"><span><b>${e(t.name)}</b><small>${e(t.instrument)}</small></span></button>`).join("")}</div>
       <div class="admin"><div class="eyebrow">Administration</div>${P.administration.map(a => `<div><b>${e(a.name)}</b> — ${e(a.role)}</div>`).join("")}</div>
     </section>
   </main>
@@ -272,11 +274,18 @@
       <div class="sheet-head"><img alt="" src="${PH.photoFor(d, PAL)}"><div><div class="n">${e(d.role)}</div><h3 id="sheetTitle">${e(d.name)}</h3></div><button class="x" aria-label="Close">×</button></div>
       <div class="sheet-body">${U.paras(d.bio)}</div>`;
   }
+  function staffSheet(i) {
+    const t = U.staff(P.lessonStaff[i]);
+    sheet.innerHTML = `<div class="grab"></div>
+      <div class="sheet-head"><img alt="" src="${PH.photoFor(t, PAL)}"><div><div class="n">${e(t.role)}</div><h3 id="sheetTitle">${e(t.name)}</h3></div><button class="x" aria-label="Close">×</button></div>
+      <div class="sheet-body">${U.paras(t.bio)}<a class="biolink" href="${e(t.link)}">${e(t.linkLabel)} ↗</a>${t.linkPlaceholder ? ' <span class="ph">mock link</span>' : ""}</div>`;
+  }
   const open = () => document.body.classList.add("open");
   const close = () => document.body.classList.remove("open");
   document.addEventListener("click", ev => {
     const pc = ev.target.closest("[data-piece]"); if (pc) { tab = "music"; pieceSheet(+pc.dataset.piece); open(); return; }
     const dr = ev.target.closest("[data-director]"); if (dr) { dirSheet(+dr.dataset.director); open(); return; }
+    const sf = ev.target.closest("[data-staff]"); if (sf) { staffSheet(+sf.dataset.staff); open(); return; }
     const t = ev.target.closest("[data-tab]"); if (t) { tab = t.dataset.tab; pieceSheet(cur); return; }
     const st = ev.target.closest("[data-step]"); if (st) { pieceSheet(cur + +st.dataset.step); return; }
     if (ev.target.closest(".x") || ev.target.id === "scrim") close();

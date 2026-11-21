@@ -15,10 +15,11 @@ window.PROGRAM = {
     shortName: "Walsh Honor Band",
     event: "The 80th Annual Midwest Clinic",
     eventSub: "International Band & Orchestra Conference",
-    date: "Thursday, December 17, 2026", // placeholder — confirm performance date
-    time: "TBD",                         // placeholder — confirm performance time
-    venue: "McCormick Place West",       // placeholder — confirm hall/room
-    room: "Ballroom W375",               // placeholder
+    // Source: midwestclinic.org schedule of events (verify before printing)
+    date: "Thursday, December 17, 2026",
+    time: "1:30 – 2:20 PM",
+    venue: "McCormick Place West",
+    room: "Room W375E",
     city: "Chicago, Illinois",
     school: "Walsh Middle School",
     district: "Round Rock ISD",
@@ -32,107 +33,115 @@ window.PROGRAM = {
   welcome: {
     placeholder: true,
     heading: "Welcome to Chicago",
-    body: "[Placeholder welcome letter from the directors] Thank you for joining us for this once-in-a-lifetime performance. Being invited to perform at The Midwest Clinic is one of the highest honors a school band can receive, and these students have earned every moment on this stage through thousands of hours of practice, sectionals, and Friday rehearsals. We are so proud of them — and so grateful to the families, teachers, and community who made this trip possible.",
+    body: "[Placeholder welcome letter from the directors] Thank you for joining us for this once-in-a-lifetime performance. Being invited to perform at The Midwest Clinic is one of the highest honors a school band can receive, and these students have earned every moment on this stage through thousands of hours of practice, sectionals, and Friday rehearsals. This is the second time in its history that the Walsh Honor Band has performed at The Midwest Clinic. We are so proud of them — and so grateful to the families, teachers, and community who made this trip possible.",
     signedBy: "Jennifer Bergeron, Stone Wang & Zachary Glaser",
   },
 
   // ---- Program order (10 pieces) ----------------------------------------
+  // `placeholder: true` = some text is still mock. `sources` = where real info came from.
   pieces: [
     {
       title: "Crosswalk",
       composer: "Dennis Llinás",
-      duration: "≈ 4 min",
+      duration: "",
       placeholder: true,
-      description: "A bright, kinetic opener that captures the rush of a busy city intersection — overlapping rhythms, honking brass, and a melody that keeps darting through the traffic.",
-      composerBio: "Dennis Llinás is a Cuban-American composer, conductor and music educator whose works for winds blend Latin rhythms with a contemporary American band sound. His music is performed by school and community ensembles across the country.",
-      why: "We open with Crosswalk because it is pure energy — every section of the band gets a moment in the spotlight, and it sets the tone for the city that is hosting us.",
+      description: "[Placeholder — no published program note found yet] A bright, kinetic opener that captures the rush of a busy city intersection — overlapping rhythms, bold brass, and a melody that keeps darting through the traffic.",
+      composerBio: "Dennis Llinás is a Cuban-Colombian conductor and composer and the Director of Bands at the University of Oregon, where he conducts the Wind Ensemble and oversees the band area. A native of Hialeah, Florida, he studied at Florida International University and The University of Texas. He is also one of the mentors Mr. Glaser credits with shaping his own teaching.",
+      why: "[Placeholder] We open with Crosswalk because it is pure energy — every section gets a moment in the spotlight.",
     },
     {
       title: "Dystopia",
       composer: "Jay Coles",
-      duration: "≈ 5 min",
-      placeholder: true,
-      description: "A dark, driving work that imagines a world gone wrong. Relentless percussion and biting brass give way to moments of eerie stillness before a fierce finish.",
-      composerBio: "Jay Coles is an American composer and educator originally from Detroit, Michigan. His concert band music is known for its cinematic colors, rhythmic drive and strong emotional storytelling.",
-      why: "Dystopia challenges our students to play with intensity and control at the same time — a huge step up in maturity of sound.",
+      composerPhoto: "images/composers/jay-coles.jpg",
+      duration: "≈ 2½ min",
+      description: "Dystopia is a dark and brooding musical exploration of a nation severely damaged by a long war. Filled with driving rhythms, blazing dissonances, and rapid-fire tuttis, it places the musicians at the center of the ruin, where everyone plays a part in the final escape. Inspired by blockbuster dystopian film trilogies, it tells the story of a society working together to survive and rebuild — a musical toast to the idea of working together to break free.",
+      composerBio: "Jay Coles writes music for young bands that is unique yet accessible, and has quickly become one of the most-played new voices in the concert band world. Dystopia, published by C. Alan Publications, was selected as a 2017–18 J.W. Pepper Editor's Choice.",
+      why: "[Placeholder] Dystopia challenges our students to play with intensity and control at the same time.",
+      sources: ["https://c-alanpublications.com/dystopia/"],
     },
     {
       title: "Rozana",
       composer: "Reena Esmail",
-      duration: "≈ 5 min",
+      duration: "",
       placeholder: true,
-      description: "Rozana — \"daily\" in Hindi/Urdu — is a lyrical, meditative piece built on a melody that returns again and again, like a daily ritual. It draws on the sound world of Hindustani music.",
-      composerBio: "Reena Esmail is an Indian-American composer based in Los Angeles whose work brings together Hindustani and Western classical music. Her music has been commissioned and performed by leading orchestras, choirs and ensembles worldwide.",
-      why: "Rozana teaches us to listen. It asks for beautiful, connected phrasing and gives many of our students their first experience with music rooted in a raga.",
+      description: "Clear phrasing and imaginative use of color define this expressive work. Its transparent textures and rich harmonic language let the band focus on musical shaping, balance, and tone — music that sounds mature, confident, and deeply expressive. [Add composer's note on the meaning of “Rozana.”]",
+      composerBio: "Reena Esmail works between the worlds of Indian and Western classical music, and brings communities together through the creation of equitable musical spaces. She holds degrees from The Juilliard School and the Yale School of Music, and her music is performed by orchestras, choirs, and ensembles around the world.",
+      why: "[Placeholder] Rozana teaches us to listen — it asks for beautiful, connected phrasing.",
+      sources: ["https://www.jwpepper.com/rozana-11628239/p"],
     },
     {
       title: "Ogres and Goblins and Trolls, Oh My!",
       composer: "Julie Giroux",
       duration: "≈ 4 min",
-      placeholder: true,
-      description: "A mischievous romp through a fairy-tale forest full of lumbering ogres, sneaky goblins and grumpy trolls. Expect growling low brass, scurrying woodwinds and plenty of humor.",
-      composerBio: "Julie Giroux is an American composer and orchestrator who has worked extensively in film and television and has written well over a hundred works for wind band. Her music is played by ensembles of every level around the world.",
-      why: "Because band should be fun! This piece lets the students show off character, color and a little bit of theatre.",
+      description: "Commissioned by Dan Bassett and the South Florida Pride Concert Band, this is Halloween-style music in the spirit of Grieg's “In the Hall of the Mountain King.” Giroux started with her favorite gaming characters — ogres, goblins and trolls — and heard how the words fit the rhythm of “Lions and Tigers and Bears, Oh My!” In her words: “It has several great sound effects that involve everybody in the band, crazy fun melodies, and you never know what is coming next.”",
+      composerBio: "Julie Giroux is an American composer and orchestrator whose career began in film and television scoring. She has written well over a hundred works for wind band, published through her own company, Giroux Music, and her music is performed by ensembles of every level around the world.",
+      why: "[Placeholder] Because band should be fun! This piece lets the students show off character and a little bit of theatre.",
+      sources: ["https://www.girouxmusic.com/products/ogres-and-goblins-and-trolls-oh-my"],
     },
     {
       title: "Simple Suite",
       composer: "Tyler S. Grant",
-      duration: "≈ 6 min",
-      placeholder: true,
-      description: "A suite of short contrasting movements that celebrate the beauty of simple ideas — a folk-like tune, a gentle chorale and a playful dance.",
-      composerBio: "[Placeholder bio] Tyler S. Grant is a composer and music educator whose works for young bands are performed across the United States.",
-      why: "Simple music is never easy. This suite puts our tone, balance and blend on full display.",
+      duration: "",
+      description: "A four-movement suite — Intrada, Dance, Song, and March — that moves from a bright fanfare to a lilting 6/8 dance, a lyrical song, and finally a brisk march. Simple Suite won the 2026 Barbara Buehlman Prize for Composition, presented by The Midwest Clinic, and was commissioned by a consortium of bands led by Jared Brockmeyer.",
+      composerBio: "Tyler S. Grant is an internationally recognized composer, arranger, conductor, and clinician of music for concert bands, orchestras, and chamber ensembles of all levels. His music appears regularly on region and all-state programs and Editor's Choice lists, and has been performed at The Midwest Clinic, Carnegie Hall, and the Macy's Thanksgiving Day Parade. He credits his mentor Brian Balmages as pivotal to his success.",
+      why: "[Placeholder] Simple music is never easy. This suite puts our tone, balance and blend on full display.",
+      sources: ["https://www.alfred.com/products/simple-suite-for-band-98-tsgb047", "https://www.alfred.com/pages/authors/tyler-grant-a1O6S00000GfjxSUAR"],
     },
     {
       title: "Frequency",
       composer: "Minoo Dixon",
+      composerPhoto: "images/composers/minoo-dixon.webp",
       duration: "≈ 4 min",
-      placeholder: true,
-      description: "Inspired by sound waves and signals, Frequency pulses with layered ostinatos that tune in and out of focus before locking into a powerful, unified groove.",
-      composerBio: "[Placeholder bio] Minoo Dixon is a composer and educator writing music for school and professional wind ensembles.",
-      why: "Frequency is a masterclass in rhythmic precision — every player has to be locked in with the rest of the band.",
+      description: "Minimalist techniques fuel this engaging work: gradually layered percussion establishes a compelling groove that immediately draws listeners in. Repetition stays purposeful as evolving texture and color keep the music moving forward with momentum, focus, and drive.",
+      composerBio: "Minoo Dixon (b. 1999) is an Asian-American composer recognized by ASCAP and the National Federation of Music Clubs, writing exciting music meant to be enjoyed by performers and audience alike. He grew up in Suwanee, Georgia, studied at Berklee College of Music, and earned his composition degree at New England Conservatory under Michael Gandolfi.",
+      why: "[Placeholder] Frequency is a masterclass in rhythmic precision — every player has to lock in with the band.",
+      sources: ["https://www.jwpepper.com/frequency-11665008/p", "https://www.minoodixon.com/about"],
     },
     {
       title: "Pale Blue Dot",
       composer: "James M. David",
-      duration: "≈ 6 min",
-      placeholder: true,
-      description: "Named for the famous 1990 Voyager 1 photograph of Earth taken from nearly four billion miles away, this piece reflects on how small — and how precious — our home really is.",
-      composerBio: "James M. David is an American composer and professor of composition at Colorado State University. His wind music is widely performed and frequently explores science, nature and history.",
-      why: "Pale Blue Dot is the emotional heart of our program. It gives the students a chance to play with real depth and perspective.",
+      duration: "≈ 4 min",
+      description: "Subtitled “A Song for Carl,” Pale Blue Dot is a tribute to astronomer Carl Sagan and the famous Voyager 1 photograph of Earth. The music follows the spacecraft's journey in two parts: first leaving Earth and breaking beyond the solar system, then looking backward at home in all its fragility. It was commissioned by Dr. Erik Johnson and the Colorado State University Middle School Outreach Ensemble.",
+      composerBio: "James M. David (b. 1978) is an American composer and professor of music theory and composition at Colorado State University. His works for winds — including Urban Light, Ghosts of the Old Year, and Two-Lane Blacktop — are performed widely, and he has described Pale Blue Dot as his best work for young band to date.",
+      why: "[Placeholder] Pale Blue Dot is the emotional heart of our program.",
+      sources: ["https://www.windrep.org/Pale_Blue_Dot"],
     },
     {
       title: "Street Music",
       composer: "Aakash Mittal",
-      duration: "≈ 5 min",
+      duration: "",
       placeholder: true,
-      description: "A vibrant portrait of the sounds of the street — vendors, buskers, traffic and conversation — woven into a joyful, rhythmic collage.",
-      composerBio: "Aakash Mittal is a saxophonist and composer whose music draws from jazz, Hindustani music and contemporary classical traditions.",
-      why: "Street Music lets the band groove. It is full of rhythm and personality, and the students love playing it.",
+      description: "Street Music draws on the outdoor ritual and festival music Mittal heard while living in Kolkata, India — the improvised rhythms and sounds of the street woven into a vibrant, rhythmic collage. [Add the composer's program note from the score.]",
+      composerBio: "Aakash Mittal is a saxophonist and composer whose music explores the meeting points of jazz, Hindustani classical music, and contemporary composition. His works for winds include Salt March, Three Songs of Bengal, and Poorvi: An Evening Raga, published by Murphy Music Press.",
+      why: "[Placeholder] Street Music lets the band groove — it is full of rhythm and personality.",
+      sources: ["https://www.windrep.org/Aakash_Mittal"],
     },
     {
       title: "The Way We Do Anything...",
       composer: "Randall Standridge",
-      duration: "≈ 5 min",
+      composerPhoto: "images/composers/randall-standridge.jpg",
+      duration: "",
       placeholder: true,
-      description: "Titled after the Walsh Band motto — \"The way we do anything is the way we do everything\" — this piece celebrates hard work, attention to detail and pride in doing things the right way.",
-      composerBio: "Randall Standridge is an American composer, arranger and band director from Arkansas whose energetic works for concert band are performed worldwide.",
-      why: "This one is personal. Our motto is in the title, and it reminds every student why the small details matter.",
+      description: "[Placeholder — confirm commission details] Titled after the Walsh Band motto — “The way we do anything is the way we do everything” — this 2026 work celebrates hard work, attention to detail, and pride in doing things the right way. Standridge also wrote “Affirmation,” which the Walsh Honor Band performed at its first Midwest Clinic appearance in 2021.",
+      composerBio: "Randall Standridge (b. 1976) earned his bachelor's and master's degrees from Arkansas State University and served as Director of Bands at Harrisburg High School in Arkansas from 2001 to 2013 before becoming a full-time composer and marching arts designer. His music is performed internationally, appears in the Teaching Music Through Performance in Band series, and has been featured many times at The Midwest Clinic. He also leads the unBroken Project, a musical initiative about mental health.",
+      why: "[Placeholder] This one is personal — our motto is in the title.",
+      sources: ["https://www.randallstandridge.com/about"],
     },
     {
       title: "Dancing in the Sun",
       composer: "Nathan Hervey",
-      duration: "≈ 4 min",
-      placeholder: true,
-      description: "A radiant, celebratory closer full of syncopated rhythms and soaring melodies — a musical burst of sunshine to end the program.",
-      composerBio: "[Placeholder bio] Nathan Hervey is a composer whose music for wind band is known for its warmth and rhythmic energy.",
-      why: "We wanted to end the way we feel about this trip: joyful, bright and grateful.",
+      composerPhoto: "images/composers/nathan-hervey.jpg",
+      duration: "",
+      description: "Joyful and uplifting, Dancing in the Sun celebrates the shared human experience of dance. Symphonic and pop influences blend as the music shifts between 4/4 and 3/4 to create a buoyant rhythmic flow, full of syncopation, energetic melodies, and colorful scoring.",
+      composerBio: "[Add bio] Nathan Hervey is a composer of music for concert band whose works, including Sonic Pathways and Everyday Heroes, are published by Randall Standridge Music and C.L. Barnhouse.",
+      why: "[Placeholder] We wanted to end the way we feel about this trip: joyful, bright and grateful.",
+      sources: ["https://www.jwpepper.com/dancing-in-the-sun-11684712/p"],
     },
   ],
 
   // ---- Full band photo --------------------------------------------------
   bandPhoto: {
-    photo: "", // e.g. "images/full-band.jpg"
+    photo: "images/full-band.jpg",
     caption: "The 2026–2027 Walsh Middle School Honor Band",
   },
 
@@ -238,6 +247,19 @@ At Walsh, Mr. Glaser is excited to inspire and nurture the musical talents of hi
   thanks: "The driving force behind every successful student is a family who truly values their child's education. The Walsh Band staff extends our heartfelt thanks to all parents for their continued support and commitment to their child's musical journey. We are deeply grateful for everything you do to make the Walsh Band program thrive.",
 };
 
+/* ---------- MOCK student headshots (delete this block when real photos arrive) ----------
+ * Faces cropped from the full band photo and assigned in roster order. They do NOT
+ * match the names — they exist only so the layouts can be judged with real faces.
+ */
+(function () {
+  const P = window.PROGRAM, N = 63;
+  let i = 0;
+  P.sections.forEach(s => s.players.forEach(name => {
+    const n = String((i++ % N) + 1).padStart(2, "0");
+    P.students[name] = Object.assign({ photo: `images/students-mock/face-${n}.jpg`, mockPhoto: true }, P.students[name] || {});
+  }));
+})();
+
 /* ---------- helpers shared by all drafts ---------- */
 window.PROGRAM_UTIL = {
   initials(name) {
@@ -258,6 +280,18 @@ window.PROGRAM_UTIL = {
       photo: d.photo || "",
       quote: d.quote || `[Placeholder quote — a sentence or two from ${first} about what playing at Midwest means to them.]`,
       quotePlaceholder: !d.quote,
+    };
+  },
+  /** Lesson teacher with mock bio/link fallbacks. */
+  staff(t) {
+    return {
+      ...t,
+      role: `${t.instrument} · Private Lesson Teacher`,
+      bio: t.bio || `[Placeholder bio] ${t.name} teaches private ${t.instrument.toLowerCase()} lessons for Walsh Band students.\n\n[Add their degrees, performing experience, ensembles, and how many years they have taught at Walsh.]`,
+      bioPlaceholder: !t.bio,
+      link: t.link || "#",
+      linkLabel: t.linkLabel || "Studio website",
+      linkPlaceholder: !t.link,
     };
   },
   allStudents() {
