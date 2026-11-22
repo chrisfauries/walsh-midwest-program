@@ -271,7 +271,6 @@ At Walsh, Mr. Glaser is excited to inspire and nurture the musical talents of hi
     { name: "Dustin Hunter", instrument: "Saxophone", photo: "images/staff/dustin-hunter.jpg" },
     { name: "Gilbert Elorreaga", instrument: "Trumpet", photo: "images/staff/gilbert-elorreaga.jpg" },
     { name: "Dr. Emily Tourgeman", instrument: "Trumpet", photo: "images/staff/emily-tourgeman.jpg" },
-    { name: "Will Paladino", instrument: "Trumpet" },
     { name: "Eileen Kane", instrument: "Horn", photo: "images/staff/eileen-kane.jpg" },
     { name: "Alex Doolittle", instrument: "Trombone & Low Brass", photo: "images/staff/alex-doolittle.jpg" },
     { name: "Ian Vinciguerra", instrument: "Trombone", photo: "images/staff/ian-vinciguerra.jpg" },
@@ -289,6 +288,29 @@ At Walsh, Mr. Glaser is excited to inspire and nurture the musical talents of hi
     { name: "Jager Loyde", role: "RRISD Fine Arts Director of Instrumental Music" },
     { name: "Tim Lowke", role: "RRISD Fine Arts Director of Visual & Performing Arts" },
   ],
+
+  // About the Walsh Band program (Draft 6) — PLACEHOLDER, director to write
+  aboutProgram: {
+    heading: "The Walsh Band Program",
+    body: `[Placeholder] A few paragraphs about the Walsh Middle School Band program: how many students and bands it includes, the concert bands, chamber music and solo opportunities, past honors, and what makes the program special.
+
+[Placeholder] Add details about the community, families and staff that support the program.`,
+    placeholder: true,
+  },
+
+  // Thank-you letter to the 2025–2026 Honor Band, the ensemble whose recording earned the invitation (Draft 6) — PLACEHOLDER
+  qualifyingBand: {
+    photo: "images/band-2025-26.jpg",
+    caption: "The 2025–2026 Walsh Honor Band",
+    letterHeading: "To the 2025–2026 Honor Band",
+    letter: `[Placeholder letter] Dear 2025–2026 Honor Band,
+
+[Placeholder] A letter from the directors thanking last year's Honor Band, whose performances earned this invitation to The Midwest Clinic.
+
+[Placeholder] Closing thoughts and signature.`,
+    signedBy: "[Signature — Directors' names]",
+    placeholder: true,
+  },
 
   thanks: "The driving force behind every successful student is a family who truly values their child's education. The Walsh Band staff extends our heartfelt thanks to all parents for their continued support and commitment to their child's musical journey. We are deeply grateful for everything you do to make the Walsh Band program thrive.",
 };
@@ -369,6 +391,10 @@ At Walsh, Mr. Glaser is excited to inspire and nurture the musical talents of hi
   });
 })();
 
+/* Students who play more than their roster instrument (shown on their card) */
+Object.assign(window.PROGRAM.students["Yuno Mishina"], { instrumentLabel: "Soprano & Alto Saxophone" });
+Object.assign(window.PROGRAM.students["Asmi Alex Thomas"], { instrumentLabel: "Bass & Contrabass Clarinet" });
+
 /* ---------- helpers shared by all drafts ---------- */
 window.PROGRAM_UTIL = {
   initials(name) {
@@ -384,7 +410,7 @@ window.PROGRAM_UTIL = {
     const d = (window.PROGRAM.students || {})[name] || {};
     const first = name.split(" ")[0];
     return {
-      name, instrument,
+      name, instrument: d.instrumentLabel || instrument,
       grade: d.grade || null,
       photo: d.photo || "",
       quote: d.quote || `[Placeholder quote — a sentence or two from ${first} about what playing at Midwest means to them.]`,

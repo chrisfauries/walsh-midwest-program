@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Walsh Honor Band — Midwest Program</title>
+<meta name="theme-color" content="#0d1f16">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --night: #0d1f16; --night-2: #102a1c; --card: #13301f;
+    --text: #ffffff; --muted: rgba(255,255,255,.68); --line: rgba(255,255,255,.12);
+    /* the five theme colors (from the ties & sashes) */
+    --gold: #D2A93A; --purple: #6B3FA0; --blue: #2D5BD0; --green: #13804F; --red: #C4153A;
+    --gold-text: #f2c75c;
+    --paper: #fbf6ea; --ink: #13261b;
+    --serif: "Instrument Serif", Georgia, serif; --sans: "Manrope", system-ui, sans-serif;
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--night); color: var(--text); font-family: var(--sans); line-height: 1.55; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+  body:has(dialog[open]) { overflow: hidden; }
+  img { display: block; max-width: 100%; }
+  button { font: inherit; color: inherit; }
+  .wrap { max-width: 640px; margin: 0 auto; padding: 0 20px; }
+  .ph { display: inline-block; font-family: var(--sans); font-size: 9.5px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: #1a1300; background: var(--gold); padding: 2px 6px; border-radius: 3px; vertical-align: middle; font-style: normal; }
+  .stripe { display: flex; height: 4px; width: 150px; border-radius: 2px; overflow: hidden; }
+  .stripe i { flex: 1; }
+
+  /* ---------- HERO: band photo, title in the trees above their heads ---------- */
+  .hero { position: relative; height: clamp(420px, 64svh, 560px); overflow: hidden; }
+  .hero img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 85%; }
+  .hero::before { content: ""; position: absolute; inset: 0; z-index: 1; background: linear-gradient(180deg, rgba(13,31,22,.78) 0%, rgba(13,31,22,.35) 26%, rgba(13,31,22,0) 42%, rgba(13,31,22,0) 82%, var(--night) 100%); }
+  .hero h1 { position: absolute; z-index: 2; left: 0; right: 0; top: calc(54px + env(safe-area-inset-top)); margin: 0; padding: 0 20px; text-align: center; font-family: var(--serif); font-weight: 400; line-height: .92; text-shadow: 0 2px 18px rgba(0,0,0,.55); }
+  .hero h1 .l1 { display: block; font-size: clamp(26px, 7.4vw, 44px); letter-spacing: .01em; }
+  .hero h1 .l2 { display: block; font-size: clamp(50px, 14.5vw, 88px); font-style: italic; color: var(--gold-text); }
+
+  /* ---------- concert details ---------- */
+  .details { text-align: center; padding: 8px 20px 10px; }
+  .details .stripe { margin: 0 auto 22px; }
+  .details .event { font-family: var(--serif); font-style: italic; font-size: 30px; line-height: 1.05; color: var(--gold-text); }
+  .details .conf { font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); margin-top: 6px; font-weight: 600; }
+  .details ul { list-style: none; padding: 0; margin: 24px 0 0; }
+  .details li { font-size: 16px; font-weight: 600; padding: 9px 0; }
+  .details li + li::before { content: ""; display: block; width: 6px; height: 6px; margin: 0 auto 14px; transform: rotate(45deg); background: var(--dc); }
+
+  /* ---------- sections ---------- */
+  section.wrap { position: relative; padding: 76px 20px 8px; }
+  section::before { content: ""; position: absolute; z-index: -1; width: 420px; height: 420px; border-radius: 50%; background: radial-gradient(circle, var(--glow) 0%, transparent 65%); opacity: .16; top: 10px; pointer-events: none; }
+  section.gl::before { left: -220px; } section.gr::before { right: -220px; }
+  main { position: relative; z-index: 0; overflow: hidden; }
+  .head { text-align: center; margin-bottom: 26px; }
+  .head .k { font-size: 11px; font-weight: 800; letter-spacing: .24em; text-transform: uppercase; color: var(--gold-text); }
+  .head h2 { font-family: var(--serif); font-weight: 400; font-size: 52px; line-height: .95; margin: 8px 0 14px; }
+  .head .stripe { margin: 0 auto; width: 110px; }
+  .lede { color: var(--muted); text-align: center; font-size: 15px; margin: -8px 0 22px; }
+
+  /* program list (like Draft 5) */
+  .prog { list-style: none; margin: 0; padding: 0; }
+  .prog button { display: flex; gap: 16px; align-items: center; width: 100%; text-align: left; background: none; border: 0; border-bottom: 1px solid var(--line); padding: 14px 2px; cursor: pointer; }
+  .prog .n { font-size: 12px; font-weight: 800; color: var(--pc); width: 22px; flex: none; }
+  .prog b { display: block; font-family: var(--serif); font-weight: 400; font-size: 24px; line-height: 1.1; }
+  .prog small { display: block; font-size: 13px; color: var(--muted); margin-top: 3px; }
+  .prog .tx { flex: 1; min-width: 0; }
+  .prog .more { flex: none; width: 28px; height: 28px; border-radius: 50%; border: 1.5px solid var(--pc); color: var(--pc); display: grid; place-items: center; }
+  .prog .more svg { width: 12px; height: 12px; }
+
+  /* meet the musicians */
+  .group { margin-top: 46px; }
+  .group:first-of-type { margin-top: 0; }
+  .shot { position: relative; margin: 0 -20px; }
+  .shot img { width: 100%; height: auto; }
+  .shot figcaption { position: absolute; top: 0; left: 0; right: 0; padding: 14px 20px 30px; background: linear-gradient(180deg, rgba(8,18,12,.82), rgba(8,18,12,0)); }
+  .shot figcaption b { font-family: var(--serif); font-weight: 400; font-size: 34px; line-height: 1; display: inline-block; border-bottom: 3px solid var(--c); padding-bottom: 4px; }
+  .rowlabel { font-size: 10.5px; font-weight: 800; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); margin: 18px 0 10px; display: flex; align-items: center; gap: 10px; }
+  .rowlabel::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+  .faces { display: grid; grid-template-columns: repeat(auto-fill, minmax(76px, 1fr)); gap: 14px 10px; }
+  .faces button { background: none; border: 0; padding: 0; cursor: pointer; text-align: center; }
+  .faces img { width: 100%; aspect-ratio: 1; border-radius: 50%; object-fit: cover; border: 2.5px solid var(--c); }
+  .faces span { display: block; font-size: 12px; line-height: 1.2; margin-top: 6px; font-weight: 600; }
+
+  /* directors */
+  .dirs { display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-start; gap: 22px 14px; }
+  .dirs button { width: calc(50% - 7px); max-width: 200px; background: none; border: 0; padding: 0; cursor: pointer; text-align: center; }
+  .dirs img { width: 100%; aspect-ratio: 4/5; object-fit: cover; object-position: 50% 20%; border-radius: 16px; box-shadow: 0 0 0 1px var(--line); }
+  .dirs b { display: block; font-family: var(--serif); font-weight: 400; font-size: 23px; line-height: 1.1; margin-top: 10px; }
+  .dirs small { display: block; font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: color-mix(in srgb, var(--dc) 50%, #fff); margin-top: 4px; }
+
+  /* lesson staff (large headshots like Draft 5) */
+  .staff { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px 12px; }
+  .staff button { background: none; border: 0; padding: 0; cursor: pointer; text-align: center; }
+  .staff img { width: 100%; aspect-ratio: 1; border-radius: 50%; object-fit: cover; object-position: 50% 20%; box-shadow: 0 0 0 2px var(--night), 0 0 0 4px var(--sc); }
+  .staff b { display: block; font-size: 13px; line-height: 1.2; margin-top: 9px; }
+  .staff small { display: block; font-size: 11.5px; color: var(--muted); margin-top: 2px; }
+
+  /* about + thanks */
+  .prose p { font-size: 16.5px; margin: 0 0 14px; color: rgba(255,255,255,.86); }
+  .letter-photo { margin: 0 -20px; }
+  .letter-photo img { width: 100%; height: auto; }
+  .letter-photo figcaption { text-align: center; font-size: 13px; color: var(--muted); padding-top: 10px; }
+  .letter { position: relative; background: var(--paper); color: var(--ink); border-radius: 6px; padding: 30px 24px 26px; margin-top: 26px; box-shadow: 0 30px 60px -30px rgba(0,0,0,.6); }
+  .letter::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 5px; border-radius: 6px 6px 0 0; background: var(--five); }
+  .letter h3 { font-family: var(--serif); font-weight: 400; font-size: 32px; line-height: 1; margin: 0 0 18px; }
+  .letter p { font-family: var(--serif); font-size: 20px; line-height: 1.45; margin: 0 0 14px; }
+  .letter .sig { font-style: italic; margin-top: 18px; }
+  .thanks-more { margin-top: 40px; text-align: center; }
+  .thanks-more p { color: var(--muted); font-size: 15.5px; }
+  .admin { margin-top: 22px; font-size: 13.5px; color: var(--muted); }
+  .admin b { display: block; color: var(--text); font-family: var(--serif); font-weight: 400; font-size: 20px; }
+  .admin div + div { margin-top: 10px; }
+  .motto { font-family: var(--serif); font-size: 30px; line-height: 1.1; margin: 44px 0 0; }
+  .motto i { color: var(--gold-text); }
+  footer { text-align: center; color: var(--muted); font-size: 12.5px; padding: 40px 20px calc(40px + env(safe-area-inset-bottom)); }
+  footer a { color: inherit; }
+
+  /* ---------- dialogs ---------- */
+  dialog { border: 0; padding: 0; color: inherit; max-height: 90svh; width: min(94vw, 520px); border-radius: 22px; overflow: auto; overscroll-behavior: contain; }
+  dialog::backdrop { background: rgba(4,10,7,.72); }
+  .x:focus:not(:focus-visible) { outline: none; }
+  .x { position: sticky; top: 10px; float: right; margin: 10px 10px -50px 0; z-index: 2; width: 38px; height: 38px; border-radius: 50%; border: 0; background: rgba(0,0,0,.35); color: #fff; font-size: 22px; line-height: 1; cursor: pointer; }
+  /* piece: colorful, prominent composer headshot */
+  dialog.piece { background: linear-gradient(160deg, color-mix(in srgb, var(--a) 78%, #000) 0%, color-mix(in srgb, var(--b) 62%, #000) 100%); color: #fff; }
+  .piece .top { text-align: center; padding: 34px 24px 6px; }
+  .piece .top img { width: 168px; height: 168px; border-radius: 50%; object-fit: cover; object-position: 50% 25%; margin: 0 auto; box-shadow: 0 0 0 4px rgba(255,255,255,.9), 0 20px 40px rgba(0,0,0,.35); }
+  .piece .no { font-size: 11px; font-weight: 800; letter-spacing: .22em; text-transform: uppercase; opacity: .75; margin-top: 20px; }
+  .piece h3 { font-family: var(--serif); font-weight: 400; font-size: 40px; line-height: 1; margin: 6px 0 4px; }
+  .piece .by { font-size: 15px; opacity: .85; }
+  .piece .body { padding: 6px 24px 28px; }
+  .piece h4 { font-size: 11px; font-weight: 800; letter-spacing: .2em; text-transform: uppercase; margin: 24px 0 8px; opacity: .8; }
+  .piece p { margin: 0 0 12px; font-size: 16px; line-height: 1.6; }
+  .piece blockquote { margin: 0; padding: 14px 16px; background: rgba(0,0,0,.2); border-radius: 12px; font-family: var(--serif); font-size: 21px; line-height: 1.35; font-style: italic; }
+  /* student: like Draft 1's card */
+  dialog.student { background: var(--paper); color: var(--ink); width: min(92vw, 380px); text-align: center; border-top: 5px solid var(--c); }
+  .student .in { padding: 30px 24px 24px; }
+  .student img { width: 150px; height: 150px; border-radius: 50%; object-fit: cover; margin: 0 auto; box-shadow: 0 0 0 3px var(--c), 0 0 0 8px var(--paper), 0 0 0 9px #d8c9a6; }
+  .student h3 { font-family: var(--serif); font-weight: 400; font-size: 34px; line-height: 1.05; margin: 18px 0 4px; }
+  .student .inst { font-size: 11px; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; color: #6b5a2a; }
+  .student .inst i { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--c); margin-right: 6px; vertical-align: 1px; }
+  .student blockquote { font-family: var(--serif); font-style: italic; font-size: 21px; line-height: 1.35; margin: 16px 0 0; }
+  .student .close { margin-top: 22px; border: 0; background: var(--night); color: #fff; font-weight: 700; font-size: 14px; padding: 10px 26px; border-radius: 999px; cursor: pointer; }
+  /* people (directors, lesson staff) */
+  dialog.person { background: var(--night-2); color: #fff; box-shadow: inset 0 0 0 1px var(--line); }
+  .person .photo { width: 100%; aspect-ratio: 1; object-fit: cover; object-position: 50% 20%; border-bottom: 5px solid var(--c); }
+  .person .in { padding: 22px 24px 28px; }
+  .person h3 { font-family: var(--serif); font-weight: 400; font-size: 38px; line-height: 1; margin: 0 0 6px; }
+  .person .role { font-size: 12px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--gold-text); }
+  .person .sub { color: var(--muted); font-size: 14px; margin-top: 4px; }
+  .person .bio { margin-top: 18px; }
+  .person .bio p { margin: 0 0 12px; font-size: 16px; line-height: 1.6; color: rgba(255,255,255,.88); }
+  .person .link { display: inline-block; margin-top: 4px; color: var(--gold-text); font-weight: 700; }
+</style>
+</head>
+<body>
+<div id="app"></div>
+<dialog id="dlg"></dialog>
+
+<script src="../shared/program-data.js"></script>
+<script src="../shared/placeholders.js"></script>
+<script src="../shared/review-nav.js"></script>
+<script>
+(function () {
+  const P = window.PROGRAM, U = window.PROGRAM_UTIL, PH = window.PH, c = P.concert, e = U.esc;
+  const PAL = { bg1: "#1f5235", bg2: "#0d1f16", fg: "#fbf6ea", body: "#2c6a46" };
+
+  // Five theme colors. Teal (percussion) folds into green for this draft.
+  const FIVE = { gold: "#D2A93A", purple: "#6B3FA0", blue: "#2D5BD0", green: "#13804F", red: "#C4153A" };
+  const ORDER = ["gold", "purple", "blue", "green", "red"];
+  const col = inst => FIVE[P.sectionColor[inst] === "teal" ? "green" : P.sectionColor[inst]] || FIVE.gold;
+  const cyc = i => FIVE[ORDER[i % 5]];
+  const stripe = (w) => `<div class="stripe"${w ? ` style="width:${w}"` : ""} aria-hidden="true">${ORDER.map(k => `<i style="background:${FIVE[k]}"></i>`).join("")}</div>`;
+  document.documentElement.style.setProperty("--five", `linear-gradient(90deg, ${ORDER.map((k, i) => `${FIVE[k]} ${i * 20}% ${(i + 1) * 20}%`).join(", ")})`);
+  const nn = i => String(i + 1).padStart(2, "0");
+  const ph = f => f ? ' <span class="ph">draft</span>' : "";
+  const head = (k, title) => `<div class="head"><div class="k">${k}</div><h2>${title}</h2>${stripe()}</div>`;
+  const plus = `<svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 2v8M2 6h8"/></svg>`;
+
+  document.getElementById("app").innerHTML = `
+  <header class="hero">
+    <img alt="The Walsh Middle School Honor Band" src="${PH.band()}">
+    <h1><span class="l1">Walsh Middle School</span><span class="l2">Honor Band</span></h1>
+  </header>
+
+  <div class="details">
+    ${stripe()}
+    <div class="event">The 80th Annual Midwest Clinic</div>
+    <div class="conf">International Band &amp; Orchestra Conference</div>
+    <ul>
+      <li>${e(c.date)}</li>
+      <li style="--dc:${FIVE.gold}">${e(c.time)}</li>
+      <li style="--dc:${FIVE.purple}">${e(c.venue)} · ${e(c.room)}</li>
+      <li style="--dc:${FIVE.blue}">${e(c.city)}</li>
+    </ul>
+  </div>
+
+  <main>
+    <section id="program" class="wrap gr" style="--glow:${FIVE.purple}">
+      ${head("Tonight's Program", "Program")}
+      <ol class="prog">${P.pieces.map((p, i) => `
+        <li><button data-piece="${i}" style="--pc:${cyc(i)}" aria-label="${e(p.title)} by ${e(p.composer)}: program notes">
+          <span class="n">${nn(i)}</span><span class="tx"><b>${e(p.title)}</b><small>${e(p.composer)}</small></span><span class="more" aria-hidden="true">${plus}</span>
+        </button></li>`).join("")}
+      </ol>
+    </section>
+
+    <section id="musicians" class="wrap gl" style="--glow:${FIVE.blue}">
+      ${head(e(c.ensemble), "Meet the Musicians")}
+      <p class="lede">Tap any musician to meet them.</p>
+      ${P.sectionPhotos.map(g => { const cc = col(g.instruments[0]); return `
+        <div class="group" style="--c:${cc}">
+          <figure class="shot"><img alt="${e(g.title)} section photo" loading="lazy" src="${PH.section(g)}"><figcaption><b>${e(g.title)}</b></figcaption></figure>
+          ${g.rows.map(([row, names]) => `${row ? `<div class="rowlabel">${e(row)}</div>` : `<div style="height:16px"></div>`}
+          <div class="faces">${names.map(n => { const inst = U.instrumentOf(n), st = U.student(n, inst); return `<button data-student="${e(n)}" data-inst="${e(inst)}"><img alt="" loading="lazy" src="${PH.photoFor(st, PAL, { fontSize: 40, initialsY: 100 })}"><span>${e(n)}</span></button>`; }).join("")}</div>`).join("")}
+        </div>`; }).join("")}
+    </section>
+
+    <section id="directors" class="wrap gr" style="--glow:${FIVE.red}">
+      ${head("Walsh Band Staff", "Directors")}
+      <div class="dirs">${P.directors.map((d, i) => `
+        <button data-director="${i}" style="--dc:${[FIVE.gold, FIVE.purple, FIVE.blue][i % 3]}"><img alt="" loading="lazy" src="${PH.photoFor(d, PAL)}"><b>${e(d.name)}</b><small>${e(d.role)}</small></button>`).join("")}
+      </div>
+    </section>
+
+    <section id="staff" class="wrap gl" style="--glow:${FIVE.green}">
+      ${head("With Gratitude", "Private Lesson Staff")}
+      <p class="lede">${e(P.lessonStaffIntro)}</p>
+      <div class="staff">${P.lessonStaff.map((t, i) => `
+        <button data-staff="${i}" style="--sc:${cyc(i)}"><img alt="" loading="lazy" src="${PH.photoFor(t, PAL, { fontSize: 40, initialsY: 100 })}"><b>${e(t.name)}</b><small>${e(t.instrument)}</small></button>`).join("")}
+      </div>
+    </section>
+
+    <section id="about" class="wrap gr" style="--glow:${FIVE.gold}">
+      ${head("Our Program", e(P.aboutProgram.heading) + ph(P.aboutProgram.placeholder))}
+      <div class="prose">${U.paras(P.aboutProgram.body)}</div>
+    </section>
+
+    <section id="thanks" class="wrap gl" style="--glow:${FIVE.purple}">
+      ${head("Acknowledgments", "Thank You")}
+      <figure class="letter-photo"><img alt="${e(P.qualifyingBand.caption)}" loading="lazy" src="${(window.ASSET_ROOT || "../") + P.qualifyingBand.photo}"><figcaption>${e(P.qualifyingBand.caption)}</figcaption></figure>
+      <article class="letter">
+        <h3>${e(P.qualifyingBand.letterHeading)}${ph(P.qualifyingBand.placeholder)}</h3>
+        ${U.paras(P.qualifyingBand.letter)}
+        <p class="sig">${e(P.qualifyingBand.signedBy)}</p>
+      </article>
+      <div class="thanks-more">
+        <p>${e(P.thanks)}</p>
+        <div class="admin">${P.administration.map(a => `<div><b>${e(a.name)}</b>${e(a.role)}</div>`).join("")}</div>
+        <p class="motto">The way we do <i>anything</i> is the way we do <i>everything.</i></p>
+      </div>
+    </section>
+  </main>
+  <footer><div style="display:flex;justify-content:center;margin-bottom:16px">${stripe("90px")}</div>${e(c.school)} · ${e(c.district)}<br><a href="${e(c.siteUrl)}">walshband.com</a></footer>`;
+
+  /* ---------- dialogs ---------- */
+  const dlg = document.getElementById("dlg");
+  const show = (cls, html, vars = {}) => {
+    dlg.className = cls; dlg.removeAttribute("style");
+    Object.entries(vars).forEach(([k, v]) => dlg.style.setProperty(k, v));
+    dlg.innerHTML = `<button class="x" aria-label="Close" data-close>×</button>` + html;
+    dlg.showModal(); dlg.scrollTop = 0;
+  };
+  const PAIRS = [["red", "purple"], ["blue", "green"], ["gold", "red"], ["purple", "blue"], ["green", "gold"]];
+
+  document.addEventListener("click", ev => {
+    const t = ev.target;
+    if (t === dlg || t.closest("[data-close]")) return dlg.close();
+    const pb = t.closest("[data-piece]");
+    if (pb) {
+      const i = +pb.dataset.piece, p = P.pieces[i], [a, b] = PAIRS[i % PAIRS.length];
+      return show("piece", `
+        <div class="top"><img alt="${e(p.composer)}" src="${PH.photoFor({ name: p.composer, photo: p.composerPhoto }, PAL)}">
+          <div class="no">No. ${nn(i)}</div><h3>${e(p.title)}</h3><div class="by">${e(p.composer)}${p.duration ? " · " + e(p.duration) : ""}</div></div>
+        <div class="body">
+          <h4>About the music${ph(p.placeholder)}</h4><p>${e(p.description)}</p>
+          <h4>About the composer</h4><p>${e(p.composerBio)}</p>
+          <h4>Why we play it</h4><blockquote>${e(p.why)}</blockquote>
+        </div>`, { "--a": FIVE[a], "--b": FIVE[b] });
+    }
+    const sb = t.closest("[data-student]");
+    if (sb) {
+      const st = U.student(sb.dataset.student, sb.dataset.inst);
+      return show("student", `<div class="in"><img alt="" src="${PH.photoFor(st, PAL)}"><h3>${e(st.name)}</h3>
+        <div class="inst"><i></i>${e(st.instrument)}</div><blockquote>“${e(st.quote)}”</blockquote>
+        <button class="close" data-close>Close</button></div>`, { "--c": col(sb.dataset.inst) });
+    }
+    const db = t.closest("[data-director]");
+    if (db) {
+      const d = P.directors[+db.dataset.director];
+      return show("person", `<img class="photo" alt="" src="${PH.photoFor(d, PAL)}"><div class="in"><h3>${e(d.name)}</h3><div class="role">${e(d.role)}</div>${d.teaches ? `<div class="sub">${e(d.teaches)}</div>` : ""}<div class="bio">${U.paras(d.bio)}</div></div>`, { "--c": db.style.getPropertyValue("--dc") });
+    }
+    const sf = t.closest("[data-staff]");
+    if (sf) {
+      const s = U.staff(P.lessonStaff[+sf.dataset.staff]);
+      return show("person", `<img class="photo" alt="" src="${PH.photoFor(s, PAL)}"><div class="in"><h3>${e(s.name)}</h3><div class="role">${e(s.role)}</div><div class="bio">${U.paras(s.bio)}</div><a class="link" href="${e(s.link)}">${e(s.linkLabel)} →</a>${s.linkPlaceholder ? ' <span class="ph">mock link</span>' : ""}</div>`, { "--c": sf.style.getPropertyValue("--sc") });
+    }
+  });
+})();
+</script>
+</body>
+</html>
