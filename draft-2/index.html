@@ -104,6 +104,14 @@
   .back q { font-size: 13px; line-height: 1.35; font-weight: 500; quotes: "“" "”"; }
   .back b { font-family: var(--display); font-size: 18px; text-transform: uppercase; line-height: 1; }
   .tip { color: var(--muted); font-size: 13px; margin: 10px 0 0; }
+  /* tie & sash colors */
+  .sash { height: 4px; width: 132px; border-radius: 2px; margin: 4px 0 14px; }
+  .sec-h h3 { display: flex; align-items: center; gap: 10px; }
+  .sec-h h3::before { content: ""; width: 10px; height: 22px; background: var(--c); clip-path: polygon(30% 0, 70% 0, 62% 18%, 100% 85%, 50% 100%, 0 85%, 38% 18%); }
+  .flip .face:not(.back) { border-bottom: 3px solid var(--c); }
+  .flip .face .nm small { color: color-mix(in srgb, var(--c) 45%, #fff); }
+  .flip .back { background: var(--c); color: #fff; }
+  .bandimg.candid { margin-top: 18px; }
 
   /* DIRECTORS */
   .dir { margin-top: 22px; border-radius: 22px; overflow: hidden; background: var(--surface); border: 1px solid var(--line); }
@@ -165,6 +173,7 @@
     <div class="wrap">
       <span class="badge"><b>80th</b> The Midwest Clinic · Chicago</span>
       <h1>Walsh<span>Honor Band</span></h1>
+      <div class="sash" style="background:${U.stripe()}" aria-hidden="true"></div>
       <div class="sub">${e(c.school)} · ${e(c.hometown)} &nbsp;|&nbsp; <strong>${e(c.conductor)}</strong>, conductor</div>
       <div class="facts">
         <div><small>Date</small><span>${e(c.date.replace(/, 2026/, ""))}</span></div>
@@ -198,6 +207,7 @@
       <div class="eyebrow">Meet the Ensemble</div>
       <h2>The Band</h2>
       <figure class="bandimg"><img alt="${e(P.bandPhoto.caption)}" src="${PH.band()}"><figcaption>${e(P.bandPhoto.caption)}</figcaption></figure>
+      <figure class="bandimg candid"><img alt="${e(P.bandPhotoCandid.caption)}" loading="lazy" src="${PH.candid()}"><figcaption>${e(P.bandPhotoCandid.caption)}</figcaption></figure>
       <div class="stats"><div><b>${total}</b><small>Musicians</small></div><div><b>${P.sections.length}</b><small>Sections</small></div><div><b>2nd</b><small>Midwest<br>invite</small></div></div>
     </section>
 
@@ -206,7 +216,7 @@
       <h2>The Players</h2>
       <p class="tip">Swipe each section · tap a card to flip it</p>
       ${P.sections.map(s => `
-        <div class="sec">
+        <div class="sec" style="--c:${U.color(s.instrument)}">
           <div class="sec-h"><h3>${e(s.instrument)}</h3><small>${s.players.length}</small></div>
           <div class="rail">${s.players.map(n => { const st = U.student(n, s.instrument); return `
             <button class="flip" aria-label="${e(n)}, ${e(s.instrument)}"><div class="in">

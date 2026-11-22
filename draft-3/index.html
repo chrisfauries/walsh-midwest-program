@@ -139,6 +139,16 @@
   .pgrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px 10px; align-items: start; }
   .pgrid button { font: inherit; text-align: left; background: none; border: 0; padding: 0; cursor: pointer; color: inherit; }
   .pgrid img { width: 100%; aspect-ratio: 4/5; object-fit: cover; }
+  /* tie & sash colors */
+  .sash { height: 5px; }
+  .cover-img .sash { margin-top: 0; }
+  .spread .candid { margin-top: 22px; }
+  .chips button .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; vertical-align: 0; }
+  .chips button.on .dot { box-shadow: 0 0 0 1.5px #fff; }
+  .grid-h { border-bottom: 2px solid var(--c); padding-bottom: 6px; }
+  .pgrid img { border-bottom: 3px solid var(--c); }
+  .prof .role.tie { color: var(--c); display: flex; align-items: center; gap: 8px; }
+  .prof .role.tie::before { content: ""; width: 18px; height: 3px; background: var(--c); }
   .pgrid b { display: block; font-size: 13px; line-height: 1.2; margin-top: 6px; font-weight: 600; }
 
   dialog { border: 0; padding: 0; width: min(100vw, 480px); max-width: 100vw; max-height: 100svh; margin: auto auto 0; background: #fff; color: var(--ink); }
@@ -176,7 +186,7 @@
       <div class="issue"><span>${e(c.event.replace("The ", ""))}</span><span>Dec 2026</span></div>
       <h1>Walsh <em>Honor</em> Band</h1>
       <p class="dek">${students.length} middle school musicians from Round Rock, Texas, take the stage at the world's largest band and orchestra conference.</p>
-      <figure class="cover-img"><img alt="${e(P.bandPhoto.caption)}" src="${PH.band({ sky1: "#2c5a3e", sky2: "#0d2115" })}"><span class="tag">Conducted by ${e(c.conductor)}</span></figure>
+      <figure class="cover-img"><img alt="${e(P.bandPhoto.caption)}" src="${PH.band({ sky1: "#2c5a3e", sky2: "#0d2115" })}"><div class="sash" style="background:${U.stripe()}" aria-hidden="true"></div><span class="tag">Conducted by ${e(c.conductor)}</span></figure>
       <div class="meta">
         <div><small>Date</small><span>${e(c.date)}</span></div>
         <div><small>Time</small><span>${e(c.time)}</span></div>
@@ -206,9 +216,11 @@
         <h3>${students.length} musicians. <em>One sound.</em></h3>
         <img alt="${e(P.bandPhoto.caption)}" src="${PH.band()}">
         <div class="cap"><span>${e(P.bandPhoto.caption)}</span><span>Photo: [credit]</span></div>
+        <img class="candid" alt="${e(P.bandPhotoCandid.caption)}" loading="lazy" src="${PH.candid()}">
+        <div class="cap"><span>${e(P.bandPhotoCandid.caption)}</span></div>
         <a class="btn" href="#/performers">Meet the performers →</a>
       </div>
-      <div class="mosaic">${students.slice(0, 16).map(s => `<img alt="" loading="lazy" src="${PH.photoFor(s, PAL, { fontSize: 46, initialsY: 104 })}">`).join("")}</div>
+      <div class="mosaic">${students.filter((_, i) => i % 4 === 1).slice(0, 16).map(s => `<img alt="" loading="lazy" src="${PH.photoFor(s, PAL, { fontSize: 46, initialsY: 104 })}">`).join("")}</div>
     </section>
 
     ${peopleBlock()}
@@ -271,10 +283,10 @@
     <section class="block" style="padding-top:28px">
       <div class="kick">${e(c.ensemble)}</div>
       <h2 class="sec">The Performers</h2>
-      <div class="chips">${["All", ...P.sections.map(s => s.instrument)].map(x => `<button data-filter="${e(x)}" class="${x === filter ? "on" : ""}">${e(x)}</button>`).join("")}</div>
+      <div class="chips">${["All", ...P.sections.map(s => s.instrument)].map(x => `<button data-filter="${e(x)}" class="${x === filter ? "on" : ""}">${x === "All" ? "" : `<span class="dot" style="background:${U.color(x)}"></span>`}${e(x)}</button>`).join("")}</div>
       ${secs.map(s => `
-        <div class="grid-h">${e(s.instrument)}<small>${s.players.length} ${s.players.length === 1 ? "player" : "players"}</small></div>
-        <div class="pgrid">${s.players.map(n => `<button data-student="${e(n)}" data-inst="${e(s.instrument)}"><img alt="" loading="lazy" src="${PH.photoFor({ name: n, photo: (P.students[n] || {}).photo }, PAL)}"><b>${e(n)}</b></button>`).join("")}</div>`).join("")}
+        <div style="--c:${U.color(s.instrument)}"><div class="grid-h">${e(s.instrument)}<small>${s.players.length} ${s.players.length === 1 ? "player" : "players"}</small></div>
+        <div class="pgrid">${s.players.map(n => `<button data-student="${e(n)}" data-inst="${e(s.instrument)}"><img alt="" loading="lazy" src="${PH.photoFor({ name: n, photo: (P.students[n] || {}).photo }, PAL)}"><b>${e(n)}</b></button>`).join("")}</div></div>`).join("")}
     </section>`;
   };
 
@@ -298,7 +310,7 @@
     const s = ev.target.closest("[data-student]");
     if (s) {
       const st = U.student(s.dataset.student, s.dataset.inst);
-      dlg.innerHTML = `<div class="prof"><button class="close" aria-label="Close">×</button><img alt="" src="${PH.photoFor(st, PAL)}"><div class="in"><h3>${e(st.name)}</h3><div class="role">${e(st.instrument)}${st.grade ? " · Grade " + st.grade : ""}</div><p class="pull">“${e(st.quote)}”</p></div></div>`;
+      dlg.innerHTML = `<div class="prof" style="--c:${U.color(st.instrument)}"><button class="close" aria-label="Close">×</button><img alt="" src="${PH.photoFor(st, PAL)}"><div class="sash" style="background:var(--c)"></div><div class="in"><h3>${e(st.name)}</h3><div class="role tie">${e(st.instrument)}${st.grade ? " · Grade " + st.grade : ""}</div><p class="pull">“${e(st.quote)}”</p></div></div>`;
       dlg.showModal(); return;
     }
     const sf = ev.target.closest("[data-staff]");

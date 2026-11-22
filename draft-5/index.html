@@ -88,6 +88,16 @@
   .faces { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px 8px; }
   .faces button { background: none; border: 0; padding: 0; color: inherit; font: inherit; cursor: pointer; text-align: center; }
   .faces img { width: 100%; aspect-ratio: 1; border-radius: 50%; object-fit: cover; border: 2px solid rgba(251,191,36,.35); }
+  /* tie & sash colors */
+  .sash { height: 5px; width: 150px; border-radius: 3px; margin: 18px 0 0; }
+  .fam h3 { display: flex; align-items: center; gap: 8px; color: #fff; }
+  .fam h3::before { content: ""; width: 16px; height: 4px; border-radius: 2px; background: var(--c); }
+  .faces img.tie { border-color: var(--c); }
+  .candid { background: var(--night); justify-content: flex-end; }
+  .candid img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 45%; }
+  .candid::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(13,31,22,.0) 45%, rgba(13,31,22,.92) 88%); }
+  .candid .in { position: relative; z-index: 1; }
+  .candid h2 { font-family: var(--serif); font-weight: 400; font-size: 52px; line-height: .9; margin: 8px 0 0; }
   .faces span { display: block; font-size: 11.5px; line-height: 1.15; margin-top: 5px; font-weight: 600; }
 
   /* Director slide */
@@ -171,6 +181,7 @@
     <div class="in">
       <div class="k">${e(c.school)} presents</div>
       <h1>Walsh<br><i>Honor</i><br>Band</h1>
+      <div class="sash" style="background:${U.stripe()}" aria-hidden="true"></div>
       <div class="info"><span><b>${e(c.date)}</b> · ${e(c.time)}</span><span>${e(c.venue)} · ${e(c.room)}</span><span>Conducted by <b>${e(c.conductor)}</b></span></div>
       <div class="swipe"><span></span>Swipe up for the program</div>
     </div></section>`);
@@ -201,12 +212,16 @@
     <div class="pan" id="pan"><img alt="${e(P.bandPhoto.caption)}" src="${PH.band()}"></div>
     <div class="panhint">← swipe to see everyone →</div><p style="margin-top:6px">${e(P.bandPhoto.caption)}</p></div></section>`);
 
+  slides.push(`<section class="slide candid"><img alt="${e(P.bandPhotoCandid.caption)}" loading="lazy" src="${PH.candid()}">
+    <div class="in"><div class="k">Photo day</div><h2>${e(P.bandPhotoCandid.caption)}</h2>
+    <div class="sash" style="background:${U.stripe()}" aria-hidden="true"></div></div></section>`);
+
   FAMILIES.forEach(([title, insts]) => {
     const secs = P.sections.filter(s => insts.includes(s.instrument));
     const count = secs.reduce((a, s) => a + s.players.length, 0);
     slides.push(`<section class="slide roster"><div class="in">
       <div class="k">Meet the Band</div><h2>${e(title)}</h2><div class="sub">${count} performers · tap a face</div>
-      ${secs.map(s => `<div class="fam"><h3>${e(s.instrument)}</h3><div class="faces">${s.players.map(n => { const st = U.student(n, s.instrument); return `<button data-student="${e(n)}" data-inst="${e(s.instrument)}"><img alt="" loading="lazy" src="${PH.photoFor(st, PAL, { fontSize: 40, initialsY: 100 })}"><span>${e(n)}</span></button>`; }).join("")}</div></div>`).join("")}
+      ${secs.map(s => `<div class="fam" style="--c:${U.color(s.instrument)}"><h3>${e(s.instrument)}</h3><div class="faces">${s.players.map(n => { const st = U.student(n, s.instrument); return `<button data-student="${e(n)}" data-inst="${e(s.instrument)}"><img class="tie" alt="" loading="lazy" src="${PH.photoFor(st, PAL, { fontSize: 40, initialsY: 100 })}"><span>${e(n)}</span></button>`; }).join("")}</div></div>`).join("")}
     </div></section>`);
   });
 
@@ -278,7 +293,7 @@
     if (s) {
       const st = U.student(s.dataset.student, s.dataset.inst);
       return open(`<div class="head"><div class="k">${e(st.instrument)}</div><h2>${e(st.name)}</h2></div>
-        <div class="body"><img class="pimg" alt="" src="${PH.photoFor(st, PAL)}"><h4>In their words</h4><blockquote>${e(st.quote)}</blockquote></div>`);
+        <div class="body"><img class="pimg" alt="" src="${PH.photoFor(st, PAL)}"><h4>In their words</h4><blockquote>${e(st.quote)}</blockquote></div>`, U.color(st.instrument));
     }
     const sf = ev.target.closest("[data-staff]");
     if (sf) {

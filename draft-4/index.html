@@ -73,6 +73,11 @@
   .seg button { flex: none; border: 0; background: var(--card); border-radius: 999px; padding: 7px 12px; font-size: 13.5px; font-weight: 600; cursor: pointer; }
   .seg button.on { background: var(--brand-2); color: #fff; }
   .photo-card img { width: 100%; height: auto; }
+  /* tie & sash colors */
+  .hero-card .sash { position: absolute; left: 0; right: 0; bottom: 0; height: 4px; }
+  .seg button .dot, .label .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; vertical-align: 1px; }
+  .row .av.tie { box-shadow: 0 0 0 2px var(--card), 0 0 0 4px var(--c); }
+  .big-photo.tie { box-shadow: 0 0 0 3px var(--bg), 0 0 0 6px var(--c); margin-top: 6px; }
   .push .bar { padding-left: 46px !important; }
   .biolink { display: block; text-align: center; margin-top: 12px; background: var(--card); color: var(--text); font-weight: 600; text-decoration: none; padding: 13px; border-radius: 14px; }
   .photo-card .cap { padding: 12px 14px; font-size: 14px; color: var(--muted); }
@@ -166,6 +171,7 @@
       <div class="ev">${e(c.event)}</div>
       <h2>${e(c.ensemble)}</h2>
       <div class="chips"><span>📅 ${e(c.date.replace(", 2026", ""))}</span><span>🕖 ${e(c.time)}</span><span>📍 ${e(c.venue)}</span><span>🎼 ${e(c.conductor)}</span></div>
+      <div class="sash" style="background:${U.stripe()}" aria-hidden="true"></div>
     </div>
     <div class="label">Program · ${P.pieces.length} works</div>
     <div class="list">${P.pieces.map((p, i) => `
@@ -177,9 +183,10 @@
   $("p-band").innerHTML = `
     <h1 class="large">The Band</h1>
     <div class="card photo-card"><img alt="${e(P.bandPhoto.caption)}" src="${PH.band()}"><div class="cap">${e(P.bandPhoto.caption)} · ${students.length} musicians</div></div>
+    <div class="card photo-card"><img alt="${e(P.bandPhotoCandid.caption)}" loading="lazy" src="${PH.candid()}"><div class="cap">${e(P.bandPhotoCandid.caption)}</div></div>
     <div class="label">Performers</div>
     <label class="search"><span aria-hidden="true">🔍</span><input id="q" type="search" placeholder="Search ${students.length} performers" autocomplete="off"></label>
-    <div class="seg" id="seg">${["All", ...P.sections.map(s => s.instrument)].map(x => `<button data-sec="${e(x)}" class="${x === "All" ? "on" : ""}">${e(x)}</button>`).join("")}</div>
+    <div class="seg" id="seg">${["All", ...P.sections.map(s => s.instrument)].map(x => `<button data-sec="${e(x)}" class="${x === "All" ? "on" : ""}">${x === "All" ? "" : `<span class="dot" style="background:${U.color(x)}"></span>`}${e(x)}</button>`).join("")}</div>
     <div id="roster"></div>`;
   function renderRoster() {
     const term = q.trim().toLowerCase();
@@ -187,8 +194,8 @@
       .map(s => ({ ...s, players: s.players.filter(n => !term || n.toLowerCase().includes(term)) }))
       .filter(s => s.players.length);
     $("roster").innerHTML = groups.length ? groups.map(s => `
-      <div class="label">${e(s.instrument)} · ${s.players.length}</div>
-      <div class="list">${s.players.map(n => { const st = U.student(n, s.instrument); return `<button class="row" data-student="${e(n)}" data-inst="${e(s.instrument)}"><img class="av" alt="" loading="lazy" src="${PH.photoFor(st, PAL)}"><span class="tx"><b>${e(n)}</b><small>${e(s.instrument)}</small></span><span class="chev">›</span></button>`; }).join("")}</div>`).join("")
+      <div class="label"><span class="dot" style="background:${U.color(s.instrument)}"></span>${e(s.instrument)} · ${s.players.length}</div>
+      <div class="list" style="--c:${U.color(s.instrument)}">${s.players.map(n => { const st = U.student(n, s.instrument); return `<button class="row" data-student="${e(n)}" data-inst="${e(s.instrument)}"><img class="av tie" alt="" loading="lazy" src="${PH.photoFor(st, PAL)}"><span class="tx"><b>${e(n)}</b><small>${e(s.instrument)}</small></span><span class="chev">›</span></button>`; }).join("")}</div>`).join("")
       : `<div class="empty">No performers match “${e(q)}”.</div>`;
   }
   renderRoster();
@@ -251,7 +258,7 @@
   }
   function personScreen(o) {
     openPush(o.name, `
-      <img class="big-photo" alt="" src="${PH.photoFor(o, PAL)}">
+      <img class="big-photo${o.tie ? " tie" : ""}" alt="" style="${o.tie ? `--c:${o.tie}` : ""}" src="${PH.photoFor(o, PAL)}">
       <h2 style="font-size:28px;margin:16px 0 2px;letter-spacing:-.01em">${e(o.name)}</h2>
       <div style="color:var(--gold-ink);font-weight:700;font-size:13px;text-transform:uppercase;letter-spacing:.05em">${e(o.role)}</div>
       ${o.teaches ? `<div style="color:var(--muted);font-size:14px">${e(o.teaches)}</div>` : ""}
@@ -263,7 +270,7 @@
   document.addEventListener("click", ev => {
     const p = ev.target.closest("[data-piece]"); if (p && !p.disabled) return pieceScreen(+p.dataset.piece);
     const s = ev.target.closest("[data-student]");
-    if (s) { const st = U.student(s.dataset.student, s.dataset.inst); return personScreen({ ...st, role: st.instrument + (st.grade ? " · Grade " + st.grade : "") }); }
+    if (s) { const st = U.student(s.dataset.student, s.dataset.inst); return personScreen({ ...st, tie: U.color(st.instrument), role: st.instrument + (st.grade ? " · Grade " + st.grade : "") }); }
     const d = ev.target.closest("[data-director]"); if (d) return personScreen(P.directors[+d.dataset.director]);
     const t = ev.target.closest("[data-staff]"); if (t) return personScreen(U.staff(P.lessonStaff[+t.dataset.staff]));
     const sg = ev.target.closest("[data-sec]"); if (sg) { sec = sg.dataset.sec; document.querySelectorAll("#seg button").forEach(b => b.classList.toggle("on", b === sg)); renderRoster(); }

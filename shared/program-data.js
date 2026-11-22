@@ -140,6 +140,25 @@ window.PROGRAM = {
   ],
 
   // ---- Full band photo --------------------------------------------------
+  // Tie & sash colors from the official section photos. Each section wears one.
+  tieColors: {
+    gold:   "#D2A93A",
+    purple: "#6B3FA0",
+    blue:   "#2D5BD0",
+    green:  "#13804F",
+    red:    "#C4153A",
+    teal:   "#118A7E",
+  },
+  sectionColor: {
+    "Flute": "gold", "Oboe": "purple", "Bassoon": "blue", "Clarinet": "green",
+    "Bass Clarinet": "blue", "Alto Saxophone": "red", "Tenor Saxophone": "red",
+    "Baritone Saxophone": "red", "Trumpet": "red", "Horn": "green", "Trombone": "blue",
+    "Bass Trombone": "blue", "Euphonium": "gold", "Tuba": "purple", "Percussion": "teal",
+  },
+
+  // Second, candid band photo (official Midwest photo shoot)
+  bandPhotoCandid: { photo: "images/band-playground.jpg", caption: "All smiles at the Midwest photo shoot" },
+
   bandPhoto: {
     photo: "images/full-band.jpg",
     caption: "The 2026–2027 Walsh Middle School Honor Band",
@@ -247,17 +266,81 @@ At Walsh, Mr. Glaser is excited to inspire and nurture the musical talents of hi
   thanks: "The driving force behind every successful student is a family who truly values their child's education. The Walsh Band staff extends our heartfelt thanks to all parents for their continued support and commitment to their child's musical journey. We are deeply grateful for everything you do to make the Walsh Band program thrive.",
 };
 
-/* ---------- MOCK student headshots (delete this block when real photos arrive) ----------
- * Faces cropped from the full band photo and assigned in roster order. They do NOT
- * match the names — they exist only so the layouts can be judged with real faces.
+/* ---------- Student headshots ----------
+ * Cropped from the official Midwest section photos (images/students/<instrument>-N.jpg,
+ * numbered left to right in each section photo). Name pairings are a best GUESS and
+ * need to be checked by the directors — just swap file names below to fix one.
  */
 (function () {
-  const P = window.PROGRAM, N = 63;
-  let i = 0;
-  P.sections.forEach(s => s.players.forEach(name => {
-    const n = String((i++ % N) + 1).padStart(2, "0");
-    P.students[name] = Object.assign({ photo: `images/students-mock/face-${n}.jpg`, mockPhoto: true }, P.students[name] || {});
-  }));
+  const P = window.PROGRAM;
+  const photos = {
+    "Scarlet Mobley": "oboe-1",
+    "Chasity Coburn": "oboe-2",
+    "Zlata Karmalitova": "bassoon-1",
+    "Sofia Russell": "bassoon-2",
+    "Amelie Pribadi": "flute-1",
+    "Abbie Ding": "flute-2",
+    "Hyein Lee": "flute-3",
+    "Ana Luisa Salcedo": "flute-4",
+    "Nancy Liu": "flute-5",
+    "Joie Park": "flute-6",
+    "Laura Zhao": "flute-7",
+    "Navni Prasad": "flute-8",
+    "Serena Wang": "clarinet-1",
+    "Niki Karthikeyan": "clarinet-2",
+    "Jian Park": "clarinet-3",
+    "Eshan Nair": "clarinet-4",
+    "Connor Lee": "clarinet-5",
+    "Jake Hwang": "clarinet-6",
+    "Elisabeth Terry": "clarinet-7",
+    "Natalia Ybarra": "clarinet-8",
+    "Aidan Vu": "clarinet-9",
+    "Zack Bingham": "trumpet-1",
+    "Yenny Chae": "trumpet-2",
+    "Jude Ferrero": "trumpet-3",
+    "Malhar Bagal": "trumpet-4",
+    "Sunwoo Jung": "trumpet-5",
+    "Theo Nellans": "trumpet-6",
+    "Everett Platt": "trumpet-7",
+    "Elianna Ma-Zepeta": "horn-1",
+    "SJ Kuk": "horn-2",
+    "Ethan Bergeron": "horn-3",
+    "Thoshika Gali": "horn-4",
+    "Neha Murali": "horn-5",
+    "Tamanna Narayan": "horn-6",
+    "Elli Hwang": "alto-saxophone-1",
+    "Yuno Mishina": "alto-saxophone-2",
+    "Vedha Vigneswaran": "alto-saxophone-3",
+    "Ekagra Saksham": "alto-saxophone-4",
+    "Hasini Hewa-Kasakarage": "tenor-saxophone-1",
+    "Seungyu Kang": "baritone-saxophone-1",
+    "Abhinav Kankanala": "bass-clarinet-1",
+    "Asmi Alex Thomas": "bass-clarinet-2",
+    "Gabriel Zhang": "bass-clarinet-3",
+    "Aaryesh Dasgupta": "bass-trombone-1",
+    "Prisha Gupta": "trombone-1",
+    "Miles Ledgerwood": "trombone-2",
+    "Sevi Cochran": "trombone-3",
+    "Rishi Kotha": "trombone-4",
+    "Eli Shadle": "trombone-5",
+    "Senuka Abeysinghe": "euphonium-1",
+    "Aiden Kim": "euphonium-2",
+    "Aryav Bheemreddy": "euphonium-3",
+    "August Power": "tuba-1",
+    "Sofia Chaves de Araujo": "tuba-2",
+    "Ethan Fisher": "tuba-3",
+    "Darius Alagar": "tuba-4",
+    "Leo Dumapat": "percussion-1",
+    "William Wood": "percussion-2",
+    "Niyanth Raghuram": "percussion-3",
+    "Adam Haas": "percussion-4",
+    "Irene Renjith": "percussion-5",
+    "Euisung Jung": "percussion-6",
+    "Avery Tyler": "percussion-7",
+    "Adrian Meono-Monsivais": "percussion-8",  };
+  Object.keys(photos).forEach(name => {
+    P.students[name] = Object.assign({ photo: `images/students/${photos[name]}.jpg`, photoGuess: true }, P.students[name] || {});
+  });
 })();
 
 /* ---------- helpers shared by all drafts ---------- */
@@ -298,6 +381,16 @@ window.PROGRAM_UTIL = {
     return window.PROGRAM.sections.flatMap(s => s.players.map(p => window.PROGRAM_UTIL.student(p, s.instrument)));
   },
   paras(text) { return String(text).split(/\n\s*\n/).map(t => "<p>" + window.PROGRAM_UTIL.esc(t) + "</p>").join(""); },
+  /** Tie/sash color (hex) worn by an instrument section. */
+  color(instrument) {
+    const P = window.PROGRAM;
+    return P.tieColors[P.sectionColor[instrument]] || P.tieColors.gold;
+  },
+  /** CSS gradient of all six tie colors as hard-edged bands (a "sash stripe"). */
+  stripe(dir = "90deg") {
+    const c = Object.values(window.PROGRAM.tieColors), n = c.length;
+    return `linear-gradient(${dir}, ${c.map((x, i) => `${x} ${(i / n * 100).toFixed(2)}% ${((i + 1) / n * 100).toFixed(2)}%`).join(", ")})`;
+  },
   slug(s) { return s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, ""); },
   esc(s) { return String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c])); },
 };

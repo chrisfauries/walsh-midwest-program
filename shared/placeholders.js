@@ -110,5 +110,11 @@
     return bandPhoto(pal);
   }
 
-  window.PH = { portrait, initialsBadge, bandPhoto, band, photoFor };
+  /** The candid (playground) band photo. */
+  function candid() {
+    const ph = (window.PROGRAM.bandPhotoCandid || {}).photo;
+    return ph ? (window.ASSET_ROOT || "../") + ph : "";
+  }
+
+  window.PH = { portrait, initialsBadge, bandPhoto, band, candid, photoFor };
 })();
