@@ -139,6 +139,12 @@
   .staff b { display: block; font-size: 13px; line-height: 1.2; }
   .staff small { color: var(--gold); font-size: 11px; }
   .intro { color: var(--muted); font-size: 15px; margin-top: 12px; }
+  .prose { margin-top: 16px; }
+  .prose p { color: #dfe6e0; margin: 0 0 12px; }
+  .qletter { margin-top: 22px; background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--gold); border-radius: 18px; padding: 22px 20px 12px; }
+  .qletter h3 { font-family: var(--display); font-weight: 800; font-size: 28px; text-transform: uppercase; line-height: 1; margin: 0 0 14px; }
+  .qletter p { color: #dfe6e0; margin: 0 0 12px; }
+  .qletter .sig { color: var(--gold); font-weight: 600; }
   .admin { margin-top: 26px; border-top: 1px solid var(--line); padding-top: 16px; }
   .admin div { padding: 6px 0; font-size: 14px; color: var(--muted); }
   .admin b { color: var(--text); }
@@ -159,7 +165,7 @@
 <body>
 <div id="app"></div>
 <nav class="dock" aria-label="Sections">
-  <a href="#program" data-id="program">Program</a><a href="#band" data-id="band">Band</a><a href="#performers" data-id="performers">Players</a><a href="#directors" data-id="directors">Staff</a>
+  <a href="#program" data-id="program">Program</a><a href="#performers" data-id="performers">Musicians</a><a href="#directors" data-id="directors">Faculty</a><a href="#thanks" data-id="thanks">Thanks</a>
 </nav>
 <div class="scrim" id="scrim"></div>
 <div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle"></div>
@@ -191,14 +197,7 @@
   </header>
 
   <main class="wrap">
-    <section id="welcome" style="padding-top:44px">
-      <div class="eyebrow">Welcome</div>
-      <h2>${e(P.welcome.heading)}</h2>
-      <p style="color:#dfe6e0;margin-top:16px">${e(P.welcome.body)}</p>
-      <p style="color:var(--gold);font-weight:600;font-size:14px">— ${e(P.welcome.signedBy)}</p>
-    </section>
-
-    <section id="program">
+    <section id="program" style="padding-top:44px">
       <div class="eyebrow">Tonight's Program</div>
       <h2>The Music</h2>
       <div class="pieces">
@@ -210,16 +209,9 @@
       </div>
     </section>
 
-    <section id="band">
-      <div class="eyebrow">Meet the Ensemble</div>
-      <h2>The Band</h2>
-      <figure class="bandimg"><img alt="${e(P.bandPhoto.caption)}" src="${PH.band()}"><figcaption>${e(P.bandPhoto.caption)}</figcaption></figure>
-      <figure class="bandimg candid"><img alt="${e(P.bandPhotoCandid.caption)}" loading="lazy" src="${PH.candid()}"><figcaption>${e(P.bandPhotoCandid.caption)}</figcaption></figure>
-    </section>
-
     <section id="performers">
-      <div class="eyebrow">Personnel</div>
-      <h2>The Players</h2>
+      <div class="eyebrow">${e(c.ensemble)}</div>
+      <h2>Meet the Musicians</h2>
       <p class="tip">Swipe each section · tap a card to flip it</p>
       ${P.sections.map(s => { const g = U.sectionPhotoStart(s.instrument); return `
         ${g ? `<figure class="secban" style="--c:${U.color(s.instrument)}"><img alt="${e(g.title)} section photo" loading="lazy" src="${PH.section(g)}"><figcaption><b>${e(g.title)}</b></figcaption></figure>` : ""}
@@ -250,16 +242,32 @@
 
     <section id="staff">
       <div class="eyebrow">Private Lesson Faculty</div>
-      <h2>Lesson Staff</h2>
+      <h2>Private Lesson Staff</h2>
       <p class="intro">${e(P.lessonStaffIntro)}</p>
       <div class="staff">${P.lessonStaff.map((t, i) => `<button data-staff="${i}"><img alt="" loading="lazy" src="${PH.photoFor(t, PAL, { fontSize: 44, initialsY: 104 })}"><span><b>${e(t.name)}</b><small>${e(t.instrument)}</small></span></button>`).join("")}</div>
-      <div class="admin"><div class="eyebrow">Administration</div>${P.administration.map(a => `<div><b>${e(a.name)}</b> — ${e(a.role)}</div>`).join("")}</div>
+    </section>
+
+    <section id="about">
+      <div class="eyebrow">Our Program</div>
+      <h2>${e(P.aboutProgram.heading)}</h2>
+      <div class="prose">${P.aboutProgram.placeholder ? '<span class="ph">draft</span>' : ""}${U.paras(P.aboutProgram.body)}</div>
+    </section>
+
+    <section id="thanks">
+      <div class="eyebrow">Acknowledgments</div>
+      <h2>Thank You</h2>
+      <figure class="bandimg"><img alt="${e(P.qualifyingBand.caption)}" loading="lazy" src="${(window.ASSET_ROOT || "../") + P.qualifyingBand.photo}"><figcaption>${e(P.qualifyingBand.caption)}</figcaption></figure>
+      <article class="qletter">
+        <h3>${e(P.qualifyingBand.letterHeading)}${P.qualifyingBand.placeholder ? ' <span class="ph">draft</span>' : ""}</h3>
+        ${U.paras(P.qualifyingBand.letter)}
+        <p class="sig">${e(P.qualifyingBand.signedBy)}</p>
+      </article>
     </section>
   </main>
 
   <footer class="finale"><div class="wrap">
-    <div class="eyebrow" style="justify-content:center">Thank You</div>
     <p>${e(P.thanks)}</p>
+    <div class="admin" style="text-align:center">${P.administration.map(a => `<div><b>${e(a.name)}</b> — ${e(a.role)}</div>`).join("")}</div>
     <div class="motto">${e(c.motto)}</div>
     <small>${e(c.school)} · ${e(c.district)} · <a href="${e(c.siteUrl)}">walshband.com</a></small>
   </div></footer>`;
@@ -314,7 +322,7 @@
 
   /* Dock highlight */
   const links = [...document.querySelectorAll(".dock a")];
-  const map = { welcome: null, program: "program", band: "band", performers: "performers", directors: "directors", staff: "directors" };
+  const map = { program: "program", performers: "performers", directors: "directors", staff: "directors", about: "thanks", thanks: "thanks" };
   const io = new IntersectionObserver(es => es.forEach(en => { if (en.isIntersecting) links.forEach(l => l.classList.toggle("active", l.dataset.id === map[en.target.id])); }), { rootMargin: "-45% 0px -50% 0px" });
   Object.keys(map).forEach(id => io.observe(document.getElementById(id)));
 })();

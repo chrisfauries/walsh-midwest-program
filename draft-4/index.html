@@ -149,7 +149,7 @@
 
     <nav class="tabs" aria-label="Tabs">
       <button data-tab="program" class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>Program</button>
-      <button data-tab="band"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="9" cy="8" r="3.2"/><path d="M3 20c.6-3.5 3-5.5 6-5.5s5.4 2 6 5.5"/><circle cx="17" cy="9" r="2.5"/><path d="M16 14.6c2.6-.3 4.5 1.5 5 4.4"/></svg>Band</button>
+      <button data-tab="band"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="9" cy="8" r="3.2"/><path d="M3 20c.6-3.5 3-5.5 6-5.5s5.4 2 6 5.5"/><circle cx="17" cy="9" r="2.5"/><path d="M16 14.6c2.6-.3 4.5 1.5 5 4.4"/></svg>Musicians</button>
       <button data-tab="faculty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 9l9-5 9 5-9 5z"/><path d="M7 11.5V16c0 1.5 2.2 3 5 3s5-1.5 5-3v-4.5"/></svg>Faculty</button>
       <button data-tab="info"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/></svg>Info</button>
     </nav>
@@ -169,6 +169,7 @@
 
   /* Program tab */
   $("p-program").innerHTML = `
+    <div class="card photo-card" style="margin-bottom:12px"><img alt="The Walsh Middle School Honor Band" src="${PH.band()}"><div class="cap">${e(P.bandPhoto.caption)}</div></div>
     <div class="hero-card">
       <div class="ev">${e(c.event)}</div>
       <h2>${e(c.ensemble)}</h2>
@@ -183,10 +184,7 @@
   /* Band tab */
   let q = "", sec = "All";
   $("p-band").innerHTML = `
-    <h1 class="large">The Band</h1>
-    <div class="card photo-card"><img alt="${e(P.bandPhoto.caption)}" src="${PH.band()}"><div class="cap">${e(P.bandPhoto.caption)}</div></div>
-    <div class="card photo-card"><img alt="${e(P.bandPhotoCandid.caption)}" loading="lazy" src="${PH.candid()}"><div class="cap">${e(P.bandPhotoCandid.caption)}</div></div>
-    <div class="label">Performers</div>
+    <h1 class="large">Meet the Musicians</h1>
     <label class="search"><span aria-hidden="true">🔍</span><input id="q" type="search" placeholder="Search performers" autocomplete="off"></label>
     <div class="seg" id="seg">${["All", ...P.sections.map(s => s.instrument)].map(x => `<button data-sec="${e(x)}" class="${x === "All" ? "on" : ""}">${x === "All" ? "" : `<span class="dot" style="background:${U.color(x)}"></span>`}${e(x)}</button>`).join("")}</div>
     <div id="roster"></div>`;
@@ -210,13 +208,11 @@
     <div class="label">Band Directors</div>
     <div class="dirs">${P.directors.map((d, i) => `<button class="dir" data-director="${i}"><img alt="" src="${PH.photoFor(d, PAL)}"><div><b>${e(d.name)}</b><small>${e(d.role.replace("Assistant Director of Bands", "Asst. Director"))}</small></div></button>`).join("")}</div>
     <div class="label">Private Lesson Staff</div>
-    <div class="list">${P.lessonStaff.map((t, i) => `<button class="row" data-staff="${i}"><img class="av" alt="" loading="lazy" src="${PH.photoFor(t, PAL)}"><span class="tx"><b>${e(t.name)}</b><small>${e(t.instrument)}</small></span><span class="chev">›</span></button>`).join("")}</div>
-    <div class="label">Administration</div>
-    <div class="list">${P.administration.map(a => `<div class="row" style="cursor:default"><span class="badge">${U.initials(a.name) || "•"}</span><span class="tx"><b>${e(a.name)}</b><small>${e(a.role)}</small></span></div>`).join("")}</div>`;
+    <div class="list">${P.lessonStaff.map((t, i) => `<button class="row" data-staff="${i}"><img class="av" alt="" loading="lazy" src="${PH.photoFor(t, PAL)}"><span class="tx"><b>${e(t.name)}</b><small>${e(t.instrument)}</small></span><span class="chev">›</span></button>`).join("")}</div>`;
 
   /* Info tab */
   $("p-info").innerHTML = `
-    <h1 class="large">Concert Info</h1>
+    <h1 class="large">Info &amp; Thanks</h1>
     <div class="prose"><dl class="kv">
       <dt>Event</dt><dd>${e(c.event)}</dd>
       <dt>Date</dt><dd>${e(c.date)}</dd>
@@ -226,10 +222,14 @@
       <dt>Conductor</dt><dd>${e(c.conductor)}</dd>
       <dt>School</dt><dd>${e(c.school)}, ${e(c.district)}</dd>
     </dl></div>
-    <div class="label">${e(P.welcome.heading)}</div>
-    <div class="prose"><p>${e(P.welcome.body)}</p><p style="color:var(--muted)">— ${e(P.welcome.signedBy)}</p></div>
-    <div class="label">Thank you</div>
-    <div class="prose"><p>${e(P.thanks)}</p></div>
+    <div class="label">Our Program${ph(P.aboutProgram.placeholder)}</div>
+    <div class="prose"><b style="display:block;font-size:17px;margin-bottom:6px">${e(P.aboutProgram.heading)}</b>${U.paras(P.aboutProgram.body)}</div>
+    <div class="label">Thank You</div>
+    <div class="card photo-card"><img alt="${e(P.qualifyingBand.caption)}" loading="lazy" src="${(window.ASSET_ROOT || "../") + P.qualifyingBand.photo}"><div class="cap">${e(P.qualifyingBand.caption)}</div></div>
+    <div class="prose" style="margin-top:12px"><b style="display:block;font-size:17px;margin-bottom:6px">${e(P.qualifyingBand.letterHeading)}${ph(P.qualifyingBand.placeholder)}</b>${U.paras(P.qualifyingBand.letter)}<p style="color:var(--muted);font-style:italic">${e(P.qualifyingBand.signedBy)}</p></div>
+    <div class="prose" style="margin-top:12px"><p>${e(P.thanks)}</p></div>
+    <div class="label">Administration</div>
+    <div class="list">${P.administration.map(a => `<div class="row" style="cursor:default"><span class="badge">${U.initials(a.name) || "•"}</span><span class="tx"><b>${e(a.name)}</b><small>${e(a.role)}</small></span></div>`).join("")}</div>
     <p class="motto">“${e(c.motto)}”</p>
     <p style="text-align:center;color:var(--muted);font-size:13px;margin-top:16px"><a href="${e(c.siteUrl)}" style="color:inherit">walshband.com</a></p>`;
 

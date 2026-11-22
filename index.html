@@ -27,6 +27,15 @@
   .body h2 { font-size: 18px; margin: 0 0 4px; }
   .body p { margin: 0; font-size: 14px; color: var(--muted); }
   .open { margin-top: 10px; font-size: 13px; font-weight: 700; color: var(--gold); }
+  .toggle { display: flex; align-items: center; justify-content: space-between; gap: 14px; background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px; margin: 0 0 16px; cursor: pointer; }
+  .toggle b { display: block; font-size: 15px; }
+  .toggle small { display: block; font-size: 13px; color: var(--muted); }
+  .toggle input { position: absolute; opacity: 0; pointer-events: none; }
+  .switch { flex: none; width: 48px; height: 28px; border-radius: 999px; background: rgba(255,255,255,.2); position: relative; transition: background .2s; }
+  .switch::after { content: ""; position: absolute; top: 3px; left: 3px; width: 22px; height: 22px; border-radius: 50%; background: #fff; transition: transform .2s; }
+  .toggle input:checked + .switch { background: var(--gold); }
+  .toggle input:checked + .switch::after { transform: translateX(20px); }
+  .toggle input:focus-visible + .switch { outline: 2px solid var(--gold); outline-offset: 2px; }
   footer { margin-top: 28px; font-size: 12.5px; color: var(--muted); }
 </style>
 </head>
@@ -37,6 +46,10 @@
     <h1>Digital program: 6 draft styles</h1>
     <p>Open each draft on your phone and compare. Content is shared across all six; anything marked “draft” is placeholder.</p>
   </header>
+  <label class="toggle">
+    <span><b>Blurred backgrounds on student headshots</b><small>Applies to all drafts. Turn off to see the original crops.</small></span>
+    <input type="checkbox" id="blurToggle" checked><span class="switch" aria-hidden="true"></span>
+  </label>
   <div class="grid">
     <a class="card" href="draft-1/">
       <div class="sw" style="background:linear-gradient(135deg,#f6f0e2,#d8c9a6);color:#163825"><b>1</b></div>
@@ -65,5 +78,12 @@
   </div>
   <footer>Content lives in <code>shared/program-data.js</code>.</footer>
 </main>
+<script>
+  (function () {
+    var t = document.getElementById("blurToggle"), KEY = "walsh-blur-headshots";
+    try { t.checked = localStorage.getItem(KEY) !== "0"; } catch (e) {}
+    t.addEventListener("change", function () { try { localStorage.setItem(KEY, t.checked ? "1" : "0"); } catch (e) {} });
+  })();
+</script>
 </body>
 </html>

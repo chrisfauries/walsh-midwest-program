@@ -321,6 +321,11 @@ At Walsh, Mr. Glaser is excited to inspire and nurture the musical talents of hi
  */
 (function () {
   const P = window.PROGRAM;
+  // Review toggle (set on the draft picker page): blurred-background headshots vs. originals.
+  // Blurred is the default; originals live in images/students/.
+  let blur = true;
+  try { blur = localStorage.getItem("walsh-blur-headshots") !== "0"; } catch (err) {}
+  const dir = blur ? "students-blur" : "students";
   const photos = {
     "Scarlet Mobley": "oboe-1",
     "Chasity Coburn": "oboe-2",
@@ -387,7 +392,7 @@ At Walsh, Mr. Glaser is excited to inspire and nurture the musical talents of hi
     "Avery Tyler": "percussion-7",
     "Adrian Meono-Monsivais": "percussion-8",  };
   Object.keys(photos).forEach(name => {
-    P.students[name] = Object.assign({ photo: `images/students/${photos[name]}.jpg`, photoConfirmed: true }, P.students[name] || {});
+    P.students[name] = Object.assign({ photo: `images/${dir}/${photos[name]}.jpg`, photoConfirmed: true }, P.students[name] || {});
   });
 })();
 

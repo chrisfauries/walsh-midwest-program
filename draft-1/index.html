@@ -95,6 +95,12 @@
   .sec h3::after { content: ""; display: block; width: 26px; height: 3px; border-radius: 2px; background: var(--c); margin: 6px auto 0; }
   .sash { height: 4px; margin: 26px auto 0; max-width: 180px; border-radius: 2px; }
   .photo + .photo { margin-top: 34px; }
+  .coverphoto { margin: 0 0 30px; }
+  .about p { font-family: var(--serif); font-size: 19px; line-height: 1.5; margin: 0 0 14px; }
+  .qletter { margin-top: 30px; padding: 26px 22px 18px; border: 1px solid var(--gold); outline: 1px solid var(--rule); outline-offset: -6px; background: var(--paper-2); }
+  .qletter h3 { font-family: var(--serif); font-size: 26px; font-weight: 600; color: var(--green); margin: 0 0 14px; text-align: center; }
+  .qletter p { font-family: var(--serif); font-size: 19px; line-height: 1.5; margin: 0 0 12px; }
+  .qletter .sig { font-style: italic; color: var(--ink-soft); }
   .secphoto { margin: 44px 10px 0; }
   .secphoto .mat { padding: 7px; border-bottom: 3px solid var(--c); }
   .secphoto:nth-of-type(even) .mat { transform: rotate(.7deg); }
@@ -175,12 +181,14 @@
   const crest = `<svg class="crest" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="30" fill="none" stroke="#a77a12"/><circle cx="32" cy="32" r="26" fill="#163825"/><path d="M14 22 L23 44 L32 30 L41 44 L50 22 L43 22 L32 38 L21 22Z" fill="#f6f0e2"/><path d="M35 24v12c-1-.4-2-.5-3-.3-2 .6-3 2.4-2.3 4 .8 1.6 2.8 2.2 4.6 1.4 1.3-.6 2-1.9 2-3.4V28l5 1.4v-3.5z" fill="#fbbf24"/></svg>`;
 
   const sections = [
-    ["welcome","Welcome"],["program","Program"],["band","The Band"],["personnel","Personnel"],["directors","Directors"],["staff","Lesson Staff"],["thanks","Thanks"]
+    ["program","Program"],["personnel","Musicians"],["directors","Directors"],["staff","Lesson Staff"],["about","Our Program"],["thanks","Thank You"]
   ];
   document.getElementById("nav").innerHTML = sections.map(([id, l]) => `<li><a href="#${id}" data-id="${id}">${l}</a></li>`).join("");
 
   const html = `
   <header class="cover">
+    <figure class="photo coverphoto"><div class="mat"><img alt="The Walsh Middle School Honor Band" src="${PH.band({ sky1: "#3b5a44", sky2: "#14301f", stage: "#6b5226", head: "#5a4a36", figure: "#111" })}"></div>
+    <figcaption>${e(P.bandPhoto.caption)}</figcaption></figure>
     <div class="frame"><div class="frame-inner">
       ${crest}
       <div class="event">${e(c.event)}</div>
@@ -198,13 +206,6 @@
     </div></div>
     <div class="scrollhint">Program</div>
   </header>
-
-  <section id="welcome">
-    <div class="kicker">From the Directors</div>
-    <h2>${e(P.welcome.heading)}</h2>${orn}
-    <p class="letter">${e(P.welcome.body)}</p>
-    <p class="letter sig">— ${e(P.welcome.signedBy)}</p>
-  </section>
 
   <section id="program">
     <div class="kicker">Tonight's Program</div>
@@ -228,19 +229,10 @@
       </details>`).join("")}
   </section>
 
-  <section id="band">
-    <div class="kicker">${e(c.shortName)}</div>
-    <h2>The Band</h2>${orn}
-    <figure class="photo"><div class="mat"><img alt="${e(P.bandPhoto.caption)}" src="${PH.band({ sky1: "#3b5a44", sky2: "#14301f", stage: "#6b5226", head: "#5a4a36", figure: "#111" })}"></div>
-    <figcaption>${e(P.bandPhoto.caption)}</figcaption></figure>
-    <figure class="photo candid"><div class="mat"><img alt="${e(P.bandPhotoCandid.caption)}" loading="lazy" src="${PH.candid()}"></div>
-    <figcaption>${e(P.bandPhotoCandid.caption)}</figcaption></figure>
-  </section>
-
   <section id="personnel">
     <div class="kicker">${e(c.ensemble)}</div>
-    <h2>Personnel</h2>${orn}
-    <p class="hint">Tap any name to meet the performer.</p>
+    <h2>Meet the Musicians</h2>${orn}
+    <p class="hint">Tap any name to meet the musician.</p>
     ${P.sectionPhotos.map(g => { return `
       <figure class="photo secphoto" style="--c:${U.color(g.instruments[0])}"><div class="mat"><img alt="${e(g.title)} section photo" loading="lazy" src="${PH.section(g)}"></div></figure>
       <div class="sec" style="--c:${U.color(g.instruments[0])}"><h3>${e(g.title)}</h3>
@@ -267,16 +259,29 @@
     <p class="thanks" style="font-size:17px">${e(P.lessonStaffIntro)}</p>
     <ul class="leaders">${P.lessonStaff.map((t, i) => `<li><button data-staff="${i}"><img alt="" loading="lazy" src="${PH.photoFor(t, PAL)}"><span class="n">${e(t.name)}</span><span class="dots"></span><span class="i">${e(t.instrument)}</span></button></li>`).join("")}</ul>
     <p class="hint">Tap a teacher to read their bio.</p>
-    <div class="admin" style="margin-top:40px">
-      <div class="kicker">Administration</div>
-      ${P.administration.map(a => `<div><b>${e(a.name)}</b>${e(a.role)}</div>`).join("")}
-    </div>
+  </section>
+
+  <section id="about">
+    <div class="kicker">Our Program</div>
+    <h2>${e(P.aboutProgram.heading)}</h2>${orn}
+    <div class="about">${ph(P.aboutProgram.placeholder)}${U.paras(P.aboutProgram.body)}</div>
   </section>
 
   <section id="thanks">
     <div class="kicker">Acknowledgments</div>
     <h2>Thank You</h2>${orn}
-    <p class="thanks">${e(P.thanks)}</p>
+    <figure class="photo"><div class="mat"><img alt="${e(P.qualifyingBand.caption)}" loading="lazy" src="${(window.ASSET_ROOT || "../") + P.qualifyingBand.photo}"></div>
+    <figcaption>${e(P.qualifyingBand.caption)}</figcaption></figure>
+    <div class="qletter">
+      <h3>${e(P.qualifyingBand.letterHeading)}${ph(P.qualifyingBand.placeholder)}</h3>
+      ${U.paras(P.qualifyingBand.letter)}
+      <p class="sig">${e(P.qualifyingBand.signedBy)}</p>
+    </div>
+    <p class="thanks" style="margin-top:40px">${e(P.thanks)}</p>
+    <div class="admin" style="margin-top:30px">
+      <div class="kicker">Administration</div>
+      ${P.administration.map(a => `<div><b>${e(a.name)}</b>${e(a.role)}</div>`).join("")}
+    </div>
     <p class="motto">${e(c.motto)}</p>
     <footer>${e(c.school)} · ${e(c.district)}<br><a href="${e(c.siteUrl)}" style="color:inherit">walshband.com</a></footer>
   </section>`;

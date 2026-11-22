@@ -142,7 +142,14 @@
   /* tie & sash colors */
   .sash { height: 5px; }
   .cover-img .sash { margin-top: 0; }
-  .spread .candid { margin-top: 22px; }
+  .about p { font-size: 17px; }
+  .qphoto { margin: 0 -20px; }
+  .qphoto img { width: 100%; height: auto; display: block; }
+  .qphoto figcaption { padding: 8px 20px 0; font-size: 12.5px; color: var(--muted); }
+  .qletter { margin-top: 22px; border-left: 3px solid var(--gold); padding: 2px 0 2px 18px; }
+  .qletter h3 { font-family: var(--serif); font-size: 26px; font-weight: 600; margin: 0 0 12px; letter-spacing: -.01em; }
+  .qletter p { font-family: var(--serif); font-size: 18px; line-height: 1.55; margin: 0 0 12px; }
+  .qletter .sig { font-style: italic; color: var(--muted); }
   .chips button .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; vertical-align: 0; }
   .chips button.on .dot { box-shadow: 0 0 0 1.5px #fff; }
   .grid-h { border-bottom: 2px solid var(--c); padding-bottom: 6px; }
@@ -168,7 +175,7 @@
 <body>
 <header class="mast"><div class="wrap">
   <a class="logo" href="#/">Walsh<span>.</span>Midwest</a>
-  <nav><a href="#/" data-r="home">Program</a><a href="#/performers" data-r="performers">Performers</a><a href="#/people" data-r="people">Faculty</a></nav>
+  <nav><a href="#/" data-r="home">Program</a><a href="#/performers" data-r="performers">Musicians</a><a href="#/people" data-r="people">Faculty</a></nav>
 </div></header>
 <main class="wrap" id="app"></main>
 <dialog id="dlg"></dialog>
@@ -199,13 +206,6 @@
       </div>
     </section>
 
-    <section class="block letter">
-      <div class="kick">Editor's letter</div>
-      <h2 class="sec">${e(P.welcome.heading)}</h2>
-      <p>${e(P.welcome.body)}</p>
-      <p class="sig">— ${e(P.welcome.signedBy)}</p>
-    </section>
-
     <section class="block">
       <div class="kick">In this program</div>
       <h2 class="sec">The Program</h2>
@@ -217,21 +217,34 @@
     <section class="block">
       <div class="spread">
         <div class="kick" style="color:var(--gold)">The ensemble</div>
-        <h3>${students.length} musicians. <em>One sound.</em></h3>
-        <img alt="${e(P.bandPhoto.caption)}" src="${PH.band()}">
-        <div class="cap"><span>${e(P.bandPhoto.caption)}</span><span>Photo: [credit]</span></div>
-        <img class="candid" alt="${e(P.bandPhotoCandid.caption)}" loading="lazy" src="${PH.candid()}">
-        <div class="cap"><span>${e(P.bandPhotoCandid.caption)}</span></div>
-        <a class="btn" href="#/performers">Meet the performers →</a>
+        <h3>Meet the <em>Musicians</em></h3>
+        <a class="btn" href="#/performers">See every section →</a>
       </div>
       <div class="mosaic">${students.filter((_, i) => i % 4 === 1).slice(0, 16).map(s => `<img alt="" loading="lazy" src="${PH.photoFor(s, PAL, { fontSize: 46, initialsY: 104 })}">`).join("")}</div>
     </section>
 
     ${peopleBlock()}
 
-    <section class="end"><div>
+    <section class="block about">
+      <div class="kick">Our program</div>
+      <h2 class="sec">${e(P.aboutProgram.heading)}</h2>
+      ${P.aboutProgram.placeholder ? '<span class="ph">draft</span>' : ""}${U.paras(P.aboutProgram.body)}
+    </section>
+
+    <section class="block">
       <div class="kick">Acknowledgments</div>
+      <h2 class="sec">Thank You</h2>
+      <figure class="qphoto"><img alt="${e(P.qualifyingBand.caption)}" loading="lazy" src="${(window.ASSET_ROOT || "../") + P.qualifyingBand.photo}"><figcaption>${e(P.qualifyingBand.caption)}</figcaption></figure>
+      <article class="qletter">
+        <h3>${e(P.qualifyingBand.letterHeading)}${P.qualifyingBand.placeholder ? ' <span class="ph">draft</span>' : ""}</h3>
+        ${U.paras(P.qualifyingBand.letter)}
+        <p class="sig">${e(P.qualifyingBand.signedBy)}</p>
+      </article>
+    </section>
+
+    <section class="end"><div>
       <p style="font-size:17px">${e(P.thanks)}</p>
+      <div class="admin" style="text-align:left"><div class="kick" style="margin-bottom:6px">Administration</div>${P.administration.map(a => `<div><b>${e(a.name)}</b> — ${e(a.role)}</div>`).join("")}</div>
       <p class="motto">The way we do <em>anything</em> is the way we do <em>everything.</em></p>
     </div></section>
     <footer class="colophon">${e(c.ensemble)} · ${e(c.district)} · <a href="${e(c.siteUrl)}">walshband.com</a></footer>`;
@@ -254,7 +267,6 @@
       <h2 class="sec">Private Lesson Staff</h2>
       <p style="color:var(--muted);margin-top:-6px">${e(P.lessonStaffIntro)}</p>
       <div class="staff">${P.lessonStaff.map((t, i) => `<button data-staff="${i}"><img alt="" loading="lazy" src="${PH.photoFor(t, PAL)}"><b>${e(t.name)}</b><small>${e(t.instrument)}</small></button>`).join("")}</div>
-      <div class="admin"><div class="kick" style="margin-bottom:6px">Administration</div>${P.administration.map(a => `<div><b>${e(a.name)}</b> — ${e(a.role)}</div>`).join("")}</div>
     </section>`;
   }
 
@@ -274,7 +286,7 @@
       <div class="why"><h4>Why we play it</h4><p>“${e(p.why)}”</p></div>
       <nav class="pager">
         ${prev ? `<a href="#/piece/${i}"><small>← Previous</small><span>${e(prev.title)}</span></a>` : `<a href="#/"><small>←</small><span>Program</span></a>`}
-        ${next ? `<a href="#/piece/${i + 2}"><small>Next →</small><span>${e(next.title)}</span></a>` : `<a href="#/performers"><small>Next →</small><span>The Performers</span></a>`}
+        ${next ? `<a href="#/piece/${i + 2}"><small>Next →</small><span>${e(next.title)}</span></a>` : `<a href="#/performers"><small>Next →</small><span>Meet the Musicians</span></a>`}
       </nav>
     </article>`;
   };
@@ -285,7 +297,7 @@
     return `
     <section class="block" style="padding-top:28px">
       <div class="kick">${e(c.ensemble)}</div>
-      <h2 class="sec">The Performers</h2>
+      <h2 class="sec">Meet the Musicians</h2>
       <div class="chips">${["All", ...P.sections.map(s => s.instrument)].map(x => `<button data-filter="${e(x)}" class="${x === filter ? "on" : ""}">${x === "All" ? "" : `<span class="dot" style="background:${U.color(x)}"></span>`}${e(x)}</button>`).join("")}</div>
       ${secs.map(s => { const g = U.sectionPhotoStart(s.instrument) || (filter !== "All" && U.sectionPhoto(s.instrument)); return `
         ${g ? `<figure class="secfig"><img alt="${e(g.title)} section photo" loading="lazy" src="${PH.section(g)}"><figcaption><b>${e(g.title)}.</b> ${e(U.rowsText(g))}</figcaption></figure>` : ""}

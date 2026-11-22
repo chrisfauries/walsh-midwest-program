@@ -128,6 +128,17 @@
   .sgrid b { display: block; font-size: 11px; line-height: 1.15; margin-top: 5px; text-align: center; }
   .sgrid small { display: block; font-size: 10px; text-align: center; color: #6b5a2a; }
 
+  .about { background: var(--cream); color: #13261b; justify-content: center; }
+  .about .k { color: #8a6400; }
+  .about h2 { font-family: var(--serif); font-weight: 400; font-size: 46px; line-height: .95; margin: 6px 0 16px; }
+  .about p { font-size: 16px; line-height: 1.6; margin: 0 0 12px; }
+  .thanks { background: radial-gradient(120% 60% at 50% 0%, #1f5235, var(--night) 75%); justify-content: center; }
+  .thanks .qphoto { width: calc(100% + 48px); max-width: none; height: auto; margin: 14px -24px 0; }
+  .thanks .qcap { font-size: 12px; opacity: .6; margin-top: 8px; }
+  .qletter { background: var(--cream); color: #13261b; border-radius: 6px; padding: 20px 18px 8px; margin-top: 18px; border-top: 4px solid var(--gold); }
+  .qletter h2 { font-family: var(--serif); font-weight: 400; font-size: 30px; line-height: 1; margin: 0 0 10px; }
+  .qletter p { font-family: var(--serif); font-size: 18px; line-height: 1.45; margin: 0 0 10px; }
+  .qletter .sig { font-style: italic; opacity: .7; }
   .finale { background: radial-gradient(100% 60% at 50% 0%, #2a6b45, var(--night) 70%); justify-content: center; text-align: center; }
   .finale p { font-size: 16px; line-height: 1.6; opacity: .85; }
   .finale .motto { font-family: var(--serif); font-size: 44px; line-height: .98; margin: 24px 0; opacity: 1; }
@@ -215,8 +226,10 @@
       <div class="swipe"><span></span>Swipe up for the program</div>
     </div></section>`);
 
-  slides.push(`<section class="slide welcome"><div class="in">
-    <div class="k">Welcome</div><h2>${e(P.welcome.heading)}</h2><p>${e(P.welcome.body)}</p><p class="sig">— ${e(P.welcome.signedBy)}</p></div></section>`);
+  slides.push(`<section class="slide band"><div class="in">
+    <div class="k">The Ensemble</div><h2>${total} musicians.<br><i>One band.</i></h2>
+    <div class="pan" id="pan"><img alt="${e(P.bandPhoto.caption)}" src="${PH.band()}"></div>
+    <div class="panhint">← swipe to see everyone →</div><p style="margin-top:6px">${e(P.bandPhoto.caption)}</p></div></section>`);
 
   slides.push(`<section class="slide overview"><div class="in">
     <div class="k">Tonight</div><h2>The Program</h2>
@@ -236,21 +249,12 @@
       </div></section>`);
   });
 
-  slides.push(`<section class="slide band"><div class="in">
-    <div class="k">The Ensemble</div><h2>${total} musicians.<br><i>One band.</i></h2>
-    <div class="pan" id="pan"><img alt="${e(P.bandPhoto.caption)}" src="${PH.band()}"></div>
-    <div class="panhint">← swipe to see everyone →</div><p style="margin-top:6px">${e(P.bandPhoto.caption)}</p></div></section>`);
-
-  slides.push(`<section class="slide candid"><img alt="${e(P.bandPhotoCandid.caption)}" loading="lazy" src="${PH.candid()}">
-    <div class="in"><div class="k">Photo day</div><h2>${e(P.bandPhotoCandid.caption)}</h2>
-    <div class="sash" style="background:${U.stripe()}" aria-hidden="true"></div></div></section>`);
-
   // Personnel: one page per section photo — photo on top, then one swipeable row of faces in photo order
   P.sectionPhotos.forEach(g => {
     slides.push(`<section class="slide secview" style="--c:${U.color(g.instruments[0])}">
       <img class="blur" alt="" loading="lazy" src="${PH.section(g)}">
       <div class="in">
-        <div class="k">Meet the Band</div>
+        <div class="k">Meet the Musicians</div>
         <img class="shot" alt="${e(g.title)} section photo" loading="lazy" src="${PH.section(g)}">
         <h2>${e(g.title)}</h2>
         <div class="strip">${g.rows.map(([row, names]) => `${row ? `<span class="rl">${e(row)}</span>` : ""}${names.map(n => { const inst = U.instrumentOf(n), st = U.student(n, inst); return `<button data-student="${e(n)}" data-inst="${e(inst)}"><img alt="" loading="lazy" src="${PH.photoFor(st, PAL, { fontSize: 40, initialsY: 100 })}"><span>${e(n)}</span></button>`; }).join("")}`).join("")}</div>
@@ -268,11 +272,24 @@
     <div class="k">Private Lesson Staff</div><h2>The teachers behind every section</h2>
     <div class="sgrid">${P.lessonStaff.map((t, i) => `<button data-staff="${i}"><img alt="" loading="lazy" src="${PH.photoFor(t, { bg1: "#efe6d2", bg2: "#d8c9a6", fg: "#163825", body: "#a77a12" }, { fontSize: 40, initialsY: 100 })}"><b>${e(t.name)}</b><small>${e(t.instrument)}</small></button>`).join("")}</div>
     <p style="font-size:12px;margin-top:10px;opacity:.6">Tap a teacher for their bio</p>
-    <p style="font-size:12.5px;margin-top:18px;opacity:.75">${P.administration.map(a => `<b>${e(a.name)}</b>, ${e(a.role)}`).join(" · ")}</p>
+  </div></section>`);
+
+  slides.push(`<section class="slide about"><div class="in">
+    <div class="k">Our Program</div><h2>${e(P.aboutProgram.heading)}</h2>
+    ${P.aboutProgram.placeholder ? '<span class="ph">draft</span>' : ""}${U.paras(P.aboutProgram.body)}
+  </div></section>`);
+
+  slides.push(`<section class="slide thanks"><div class="in">
+    <div class="k">Thank You</div>
+    <img class="qphoto" alt="${e(P.qualifyingBand.caption)}" loading="lazy" src="${(window.ASSET_ROOT || "../") + P.qualifyingBand.photo}">
+    <div class="qcap">${e(P.qualifyingBand.caption)}</div>
+    <article class="qletter"><h2>${e(P.qualifyingBand.letterHeading)}</h2>${P.qualifyingBand.placeholder ? '<span class="ph">draft</span>' : ""}
+      ${U.paras(P.qualifyingBand.letter)}<p class="sig">${e(P.qualifyingBand.signedBy)}</p></article>
   </div></section>`);
 
   slides.push(`<section class="slide finale"><div class="in">
-    <div class="k">Thank You</div><p>${e(P.thanks)}</p>
+    <div class="k">With Gratitude</div><p>${e(P.thanks)}</p>
+    <p style="font-size:13px;margin-top:16px">${P.administration.map(a => `<b>${e(a.name)}</b>, ${e(a.role)}`).join("<br>")}</p>
     <p class="motto">The way we do <i>anything</i> is the way we do <i>everything.</i></p>
     <small>${e(c.school)} · ${e(c.district)} · <a href="${e(c.siteUrl)}">walshband.com</a></small>
   </div></section>`);
@@ -286,7 +303,7 @@
   panImg.complete ? center() : panImg.addEventListener("load", center);
 
   /* contents: label every slide so we can show where you are and jump anywhere */
-  const GROUP = { cover: "Cover", welcome: "Welcome", overview: "Program", piece: "Program", band: "The Band", candid: "The Band", secview: "Personnel", director: "Directors", staff: "Lesson Staff", finale: "Thank You" };
+  const GROUP = { cover: "Cover", band: "The Band", overview: "Program", piece: "Program", secview: "Meet the Musicians", director: "Directors", staff: "Lesson Staff", about: "Our Program", thanks: "Thank You", finale: "Thank You" };
   const meta = all.map(sl => {
     const type = Object.keys(GROUP).find(k => sl.classList.contains(k)) || "";
     const h2 = sl.querySelector("h2");
@@ -303,16 +320,16 @@
     <div class="brand">Walsh <i>Honor</i> Band</div><div class="sub">Midwest Clinic · Dec 2026</div>
     <ul>
       ${top(first("cover"), "Cover")}
-      ${top(first("welcome"), "Welcome")}
+      ${top(first("band"), "The Band")}
       ${top(first("overview"), "Program")}
       ${idx("piece").map((i, k) => child(i, `<span class="no">${nn(k)}</span>${e(meta[i].label)}`)).join("")}
-      ${top(first("band"), "The Band")}
-      ${top(first("secview"), "Personnel")}
+      ${top(first("secview"), "Meet the Musicians")}
       ${idx("secview").map(i => child(i, `<span class="dot" style="background:${meta[i].color}"></span>${e(meta[i].label)}`)).join("")}
       ${top(first("director"), "Faculty")}
       ${idx("director").map(i => child(i, e(meta[i].label))).join("")}
       ${child(first("staff"), "Private Lesson Staff")}
-      ${top(first("finale"), "Thank You")}
+      ${top(first("about"), "Our Program")}
+      ${top(first("thanks"), "Thank You")}
     </ul>`;
   const menuItems = [...menu.querySelectorAll("[data-goto]")];
   function markMenu() {
