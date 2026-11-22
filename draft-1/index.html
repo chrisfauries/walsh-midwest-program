@@ -95,6 +95,13 @@
   .sec h3::after { content: ""; display: block; width: 26px; height: 3px; border-radius: 2px; background: var(--c); margin: 6px auto 0; }
   .sash { height: 4px; margin: 26px auto 0; max-width: 180px; border-radius: 2px; }
   .photo + .photo { margin-top: 34px; }
+  .secphoto { margin: 44px 10px 0; }
+  .secphoto .mat { padding: 7px; border-bottom: 3px solid var(--c); }
+  .secphoto:nth-of-type(even) .mat { transform: rotate(.7deg); }
+  .secphoto img { width: 100%; height: auto; display: block; }
+  .secphoto + .sec { margin-top: 18px; }
+  .sec .rlabel { display: block; font-size: 10.5px; letter-spacing: .2em; text-transform: uppercase; color: var(--ink-soft); margin: 12px 0 2px; font-weight: 600; }
+  .sec button small { display: block; font-family: var(--sans); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-soft); margin-top: -2px; }
   .photo.candid .mat { transform: rotate(.8deg); }
   .card { border-top: 4px solid var(--c, var(--gold)); }
   .card img.stu { box-shadow: 0 0 0 2px var(--c), 0 0 0 6px var(--paper), 0 0 0 7px var(--rule); }
@@ -234,9 +241,11 @@
     <div class="kicker">${e(c.ensemble)}</div>
     <h2>Personnel</h2>${orn}
     <p class="hint">Tap any name to meet the performer.</p>
-    ${P.sections.map(s => `
-      <div class="sec" style="--c:${U.color(s.instrument)}"><h3>${e(s.instrument)}</h3>
-      <ul>${s.players.map(n => `<li><button data-student="${e(n)}" data-inst="${e(s.instrument)}">${e(n)}</button></li>`).join("")}</ul></div>`).join("")}
+    ${P.sectionPhotos.map(g => { return `
+      <figure class="photo secphoto" style="--c:${U.color(g.instruments[0])}"><div class="mat"><img alt="${e(g.title)} section photo" loading="lazy" src="${PH.section(g)}"></div></figure>
+      <div class="sec" style="--c:${U.color(g.instruments[0])}"><h3>${e(g.title)}</h3>
+      ${g.rows.map(([row, names]) => `${row ? `<span class="rlabel">${e(row)}</span>` : ""}
+      <ul>${names.map(n => { const inst = U.instrumentOf(n); return `<li><button data-student="${e(n)}" data-inst="${e(inst)}">${e(n)}</button></li>`; }).join("")}</ul>`).join("")}</div>`; }).join("")}
   </section>
 
   <section id="directors">
@@ -269,7 +278,6 @@
     <h2>Thank You</h2>${orn}
     <p class="thanks">${e(P.thanks)}</p>
     <p class="motto">${e(c.motto)}</p>
-    <a class="donate" href="${e(c.donateUrl)}">Support the Walsh Band</a>
     <footer>${e(c.school)} · ${e(c.district)}<br><a href="${e(c.siteUrl)}" style="color:inherit">walshband.com</a></footer>
   </section>`;
   document.getElementById("app").innerHTML = html;

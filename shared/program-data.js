@@ -156,12 +156,39 @@ window.PROGRAM = {
     "Bass Trombone": "blue", "Euphonium": "gold", "Tuba": "purple", "Percussion": "teal",
   },
 
+  // Official section photos. Each covers one or more roster sections, in roster order.
+  sectionPhotos: [
+    { id: "flute",         title: "Flutes",                 instruments: ["Flute"],
+      rows: [["Front row", ["Hyein Lee", "Laura Zhao", "Joie Park", "Abbie Ding"]], ["Back row", ["Nancy Liu", "Ana Luisa Salcedo", "Amelie Pribadi", "Navni Prasad"]]] },
+    { id: "double-reeds",  title: "Oboes & Bassoons",       instruments: ["Oboe", "Bassoon"],
+      rows: [["Front row", ["Sofia Russell", "Zlata Karmalitova"]], ["Back row", ["Scarlet Mobley", "Chasity Coburn"]]] },
+    { id: "clarinet",      title: "Clarinets",              instruments: ["Clarinet"],
+      rows: [["Front row", ["Serena Wang", "Jake Hwang", "Connor Lee"]], ["Middle row", ["Jian Park", "Eshan Nair", "Elisabeth Terry"]], ["Back row", ["Niki Karthikeyan", "Aidan Vu", "Natalia Ybarra"]]] },
+    { id: "bass-clarinet", title: "Bass Clarinets",         instruments: ["Bass Clarinet"],
+      rows: [[null, ["Abhinav Kankanala", "Asmi Alex Thomas", "Gabriel Zhang"]]] },
+    { id: "saxophone",     title: "Saxophones",             instruments: ["Alto Saxophone", "Tenor Saxophone", "Baritone Saxophone"],
+      rows: [[null, ["Yuno Mishina", "Elli Hwang", "Vedha Vigneswaran", "Ekagra Saksham", "Hasini Hewa-Kasakarage", "Seungyu Kang"]]] },
+    { id: "trumpet",       title: "Trumpets",               instruments: ["Trumpet"],
+      rows: [["Front row", ["Zack Bingham", "Everett Platt", "Sunwoo Jung", "Theo Nellans"]], ["Back row", ["Yenny Chae", "Malhar Bagal", "Jude Ferrero"]]] },
+    { id: "horn",          title: "Horns",                  instruments: ["Horn"],
+      rows: [["Front row", ["SJ Kuk", "Tamanna Narayan", "Thoshika Gali"]], ["Back row", ["Elianna Ma-Zepeta", "Ethan Bergeron", "Neha Murali"]]] },
+    { id: "trombone",      title: "Trombones",              instruments: ["Trombone", "Bass Trombone"],
+      rows: [[null, ["Aaryesh Dasgupta", "Prisha Gupta", "Eli Shadle", "Sevi Cochran", "Rishi Kotha", "Miles Ledgerwood"]]] },
+    { id: "euphonium",     title: "Euphoniums",             instruments: ["Euphonium"],
+      rows: [[null, ["Aryav Bheemreddy", "Aiden Kim", "Senuka Abeysinghe"]]] },
+    { id: "tuba",          title: "Tubas",                  instruments: ["Tuba"],
+      rows: [[null, ["August Power", "Sofia Chaves de Araujo", "Ethan Fisher", "Darius Alagar"]]] },
+    { id: "percussion",    title: "Percussion",             instruments: ["Percussion"],
+      rows: [["Front row", ["Adam Haas", "Irene Renjith", "Adrian Meono-Monsivais"]], ["Middle row", ["Niyanth Raghuram", "Euisung Jung"]], ["Back row", ["Leo Dumapat", "William Wood", "Avery Tyler"]]] },
+  ].map(g => ({ ...g, photo: `images/sections/${g.id}.jpg` })),
+
   // Second, candid band photo (official Midwest photo shoot)
-  bandPhotoCandid: { photo: "images/band-playground.jpg", caption: "All smiles at the Midwest photo shoot" },
+  bandPhotoCandid: { photo: "images/band-playground.jpg", caption: "“[Placeholder quote — add something meaningful about this group here.]”", captionPlaceholder: true },
 
   bandPhoto: {
     photo: "images/full-band.jpg",
-    caption: "The 2026–2027 Walsh Middle School Honor Band",
+    caption: "“[Placeholder quote — add something meaningful about the band here.]”",
+    captionPlaceholder: true,
   },
 
   // ---- Roster by instrument (from the Nov 17, 2026 Fall Concert program) --
@@ -389,6 +416,30 @@ window.PROGRAM_UTIL = {
   stripe(dir = "90deg") {
     const c = Object.values(window.PROGRAM.tieColors), n = c.length;
     return `linear-gradient(${dir}, ${c.map((x, i) => `${x} ${(i / n * 100).toFixed(2)}% ${((i + 1) / n * 100).toFixed(2)}%`).join(", ")})`;
+  },
+  /** Section photo group containing an instrument. */
+  sectionPhoto(instrument) {
+    return window.PROGRAM.sectionPhotos.find(g => g.instruments.includes(instrument));
+  },
+  /** The section photo group, but only for the FIRST instrument in it (so each photo shows once). */
+  sectionPhotoStart(instrument) {
+    const g = this.sectionPhoto(instrument);
+    return g && g.instruments[0] === instrument ? g : null;
+  },
+  /** Names in a section photo, in display order (front row first, each row left to right). */
+  photoOrder(g) { return g.rows.flatMap(r => r[1]); },
+  /** Instrument a student plays (from the roster). */
+  instrumentOf(name) {
+    const s = window.PROGRAM.sections.find(s => s.players.includes(name));
+    return s ? s.instrument : "";
+  },
+  /** Plain-text caption: "Front row: A, B · Back row: C" (or just the names for a single row). */
+  rowsText(g, fmt = n => n) {
+    return g.rows.map(([row, names]) => (row ? row + ": " : "") + names.map(fmt).join(", ")).join(" · ");
+  },
+  /** Names in a section photo group, for captions. */
+  sectionPlayers(g) {
+    return window.PROGRAM.sections.filter(s => g.instruments.includes(s.instrument)).flatMap(s => s.players);
   },
   slug(s) { return s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, ""); },
   esc(s) { return String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c])); },

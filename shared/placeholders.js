@@ -116,5 +116,8 @@
     return ph ? (window.ASSET_ROOT || "../") + ph : "";
   }
 
-  window.PH = { portrait, initialsBadge, bandPhoto, band, candid, photoFor };
+  /** URL for a section photo group (from PROGRAM.sectionPhotos). */
+  function section(g) { return g ? (window.ASSET_ROOT || "../") + g.photo : ""; }
+
+  window.PH = { portrait, initialsBadge, bandPhoto, band, candid, section, photoFor };
 })();

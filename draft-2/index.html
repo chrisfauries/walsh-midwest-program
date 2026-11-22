@@ -28,7 +28,7 @@
 
   /* HERO */
   .hero { position: relative; min-height: 100svh; display: flex; flex-direction: column; justify-content: flex-end; overflow: hidden; }
-  .hero img.bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: saturate(.8); transform: scale(1.15); }
+  .hero img.bg { position: absolute; inset: 0 0 auto 0; width: 100%; height: 66%; object-fit: cover; object-position: 50% 50%; filter: saturate(.85); -webkit-mask-image: linear-gradient(#000 75%, transparent); mask-image: linear-gradient(#000 75%, transparent); }
   .hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(7,19,12,.3) 0%, rgba(7,19,12,.1) 30%, rgba(7,19,12,.85) 62%, var(--bg) 100%); }
   .hero .wrap { position: relative; z-index: 1; padding-bottom: calc(84px + env(safe-area-inset-bottom)); width: 100%; }
   .badge { display: inline-flex; align-items: center; gap: 8px; border: 1px solid var(--gold); color: var(--gold); border-radius: 999px; padding: 6px 12px 6px 6px; font-size: 12px; font-weight: 600; letter-spacing: .04em; background: rgba(7,19,12,.6); backdrop-filter: blur(6px); }
@@ -45,13 +45,14 @@
 
   /* PROGRAM */
   .pieces { margin-top: 26px; display: grid; gap: 10px; }
-  .pcard { position: relative; text-align: left; width: 100%; font: inherit; color: inherit; cursor: pointer; background: linear-gradient(135deg, var(--surface), var(--bg-2)); border: 1px solid var(--line); border-radius: 18px; padding: 18px 18px 18px 84px; min-height: 92px; overflow: hidden; transition: transform .15s, border-color .15s; }
+  .pcard { position: relative; text-align: left; width: 100%; font: inherit; color: inherit; cursor: pointer; background: linear-gradient(135deg, var(--surface), var(--bg-2)); border: 1px solid var(--line); border-radius: 18px; padding: 18px 58px 18px 100px; min-height: 92px; overflow: hidden; transition: transform .15s, border-color .15s; }
   .pcard:active { transform: scale(.985); }
   .pcard:hover { border-color: rgba(251,191,36,.5); }
   .pcard .n { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); font-family: var(--display); font-weight: 900; font-size: 64px; line-height: 1; color: transparent; -webkit-text-stroke: 1.5px var(--gold); opacity: .9; }
   .pcard h3 { font-family: var(--display); font-weight: 800; font-size: 26px; text-transform: uppercase; line-height: 1; margin: 0; letter-spacing: .01em; }
   .pcard p { margin: 6px 0 0; font-size: 13.5px; color: var(--muted); }
-  .pcard .go { position: absolute; right: 14px; top: 14px; font-size: 11px; color: var(--gold); font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+  .pcard .go { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); width: 30px; height: 30px; border-radius: 50%; border: 1.5px solid var(--gold); color: var(--gold); display: grid; place-items: center; }
+  .pcard .go svg { width: 14px; height: 14px; }
 
   /* SHEET */
   .scrim { position: fixed; inset: 0; background: rgba(0,0,0,.6); opacity: 0; pointer-events: none; transition: opacity .25s; z-index: 40; backdrop-filter: blur(2px); }
@@ -112,6 +113,13 @@
   .flip .face .nm small { color: color-mix(in srgb, var(--c) 45%, #fff); }
   .flip .back { background: var(--c); color: #fff; }
   .bandimg.candid { margin-top: 18px; }
+  .secban { position: relative; margin: 44px -16px 0; overflow: hidden; }
+  .secban img { width: 100%; aspect-ratio: 3/2; object-fit: cover; }
+  .secban::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(7,19,12,0) 45%, rgba(7,19,12,.92) 100%); }
+  .secban figcaption { position: absolute; left: 16px; right: 16px; bottom: 12px; z-index: 1; display: flex; align-items: flex-end; justify-content: space-between; gap: 10px; }
+  .secban b { font-family: var(--display); font-weight: 900; text-transform: uppercase; font-size: 40px; line-height: .9; border-left: 5px solid var(--c); padding-left: 10px; }
+  .secban small { color: var(--muted); font-size: 12px; white-space: nowrap; }
+  .secban + .sec { margin-top: 14px; }
 
   /* DIRECTORS */
   .dir { margin-top: 22px; border-radius: 22px; overflow: hidden; background: var(--surface); border: 1px solid var(--line); }
@@ -165,7 +173,6 @@
   const PAL = { bg1: "#1b432d", bg2: "#0a1a10", fg: "#fbbf24", body: "#020805" };
   const nn = i => String(i + 1).padStart(2, "0");
   const ph = f => f ? ' <span class="ph">draft</span>' : "";
-  const total = P.sections.reduce((a, s) => a + s.players.length, 0);
 
   document.getElementById("app").innerHTML = `
   <header class="hero">
@@ -196,9 +203,9 @@
       <h2>The Music</h2>
       <div class="pieces">
         ${P.pieces.map((p, i) => `
-        <button class="pcard" data-piece="${i}">
-          <span class="n">${nn(i)}</span><span class="go">Notes ↗</span>
-          <h3>${e(p.title)}</h3><p>${e(p.composer)}${p.duration ? " · " + e(p.duration) : ""}</p>
+        <button class="pcard" data-piece="${i}" aria-label="${e(p.title)} by ${e(p.composer)}: open program notes">
+          <span class="n">${nn(i)}</span><span class="go" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 3.5v9M3.5 8h9"/></svg></span>
+          <h3>${e(p.title)}</h3><p>${e(p.composer)}</p>
         </button>`).join("")}
       </div>
     </section>
@@ -208,23 +215,23 @@
       <h2>The Band</h2>
       <figure class="bandimg"><img alt="${e(P.bandPhoto.caption)}" src="${PH.band()}"><figcaption>${e(P.bandPhoto.caption)}</figcaption></figure>
       <figure class="bandimg candid"><img alt="${e(P.bandPhotoCandid.caption)}" loading="lazy" src="${PH.candid()}"><figcaption>${e(P.bandPhotoCandid.caption)}</figcaption></figure>
-      <div class="stats"><div><b>${total}</b><small>Musicians</small></div><div><b>${P.sections.length}</b><small>Sections</small></div><div><b>2nd</b><small>Midwest<br>invite</small></div></div>
     </section>
 
     <section id="performers">
       <div class="eyebrow">Personnel</div>
       <h2>The Players</h2>
       <p class="tip">Swipe each section · tap a card to flip it</p>
-      ${P.sections.map(s => `
+      ${P.sections.map(s => { const g = U.sectionPhotoStart(s.instrument); return `
+        ${g ? `<figure class="secban" style="--c:${U.color(s.instrument)}"><img alt="${e(g.title)} section photo" loading="lazy" src="${PH.section(g)}"><figcaption><b>${e(g.title)}</b></figcaption></figure>` : ""}
         <div class="sec" style="--c:${U.color(s.instrument)}">
-          <div class="sec-h"><h3>${e(s.instrument)}</h3><small>${s.players.length}</small></div>
+          <div class="sec-h"><h3>${e(s.instrument)}</h3></div>
           <div class="rail">${s.players.map(n => { const st = U.student(n, s.instrument); return `
             <button class="flip" aria-label="${e(n)}, ${e(s.instrument)}"><div class="in">
-              <div class="face"><img alt="" loading="lazy" src="${PH.photoFor(st, PAL)}"><div class="nm">${e(n)}<small>${e(s.instrument)}</small></div></div>
+              <div class="face"><img alt="" loading="lazy" src="${PH.photoFor(st, PAL)}"><div class="nm">${e(n)}</div></div>
               <div class="face back"><q>${e(st.quote)}</q><b>${e(n.split(" ")[0])}</b></div>
             </div></button>`; }).join("")}
           </div>
-        </div>`).join("")}
+        </div>`; }).join("")}
     </section>
 
     <section id="directors">
@@ -254,7 +261,6 @@
     <div class="eyebrow" style="justify-content:center">Thank You</div>
     <p>${e(P.thanks)}</p>
     <div class="motto">${e(c.motto)}</div>
-    <a class="cta" href="${e(c.donateUrl)}">Support the Walsh Band →</a>
     <small>${e(c.school)} · ${e(c.district)} · <a href="${e(c.siteUrl)}">walshband.com</a></small>
   </div></footer>`;
 

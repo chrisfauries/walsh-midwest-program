@@ -77,6 +77,8 @@
   .hero-card .sash { position: absolute; left: 0; right: 0; bottom: 0; height: 4px; }
   .seg button .dot, .label .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; vertical-align: 1px; }
   .row .av.tie { box-shadow: 0 0 0 2px var(--card), 0 0 0 4px var(--c); }
+  .sec-card { margin-top: 22px; border-bottom: 4px solid var(--c); }
+  .sec-card .cap b { color: var(--text); font-weight: 700; margin-right: 4px; }
   .big-photo.tie { box-shadow: 0 0 0 3px var(--bg), 0 0 0 6px var(--c); margin-top: 6px; }
   .push .bar { padding-left: 46px !important; }
   .biolink { display: block; text-align: center; margin-top: 12px; background: var(--card); color: var(--text); font-weight: 600; text-decoration: none; padding: 13px; border-radius: 14px; }
@@ -182,10 +184,10 @@
   let q = "", sec = "All";
   $("p-band").innerHTML = `
     <h1 class="large">The Band</h1>
-    <div class="card photo-card"><img alt="${e(P.bandPhoto.caption)}" src="${PH.band()}"><div class="cap">${e(P.bandPhoto.caption)} · ${students.length} musicians</div></div>
+    <div class="card photo-card"><img alt="${e(P.bandPhoto.caption)}" src="${PH.band()}"><div class="cap">${e(P.bandPhoto.caption)}</div></div>
     <div class="card photo-card"><img alt="${e(P.bandPhotoCandid.caption)}" loading="lazy" src="${PH.candid()}"><div class="cap">${e(P.bandPhotoCandid.caption)}</div></div>
     <div class="label">Performers</div>
-    <label class="search"><span aria-hidden="true">🔍</span><input id="q" type="search" placeholder="Search ${students.length} performers" autocomplete="off"></label>
+    <label class="search"><span aria-hidden="true">🔍</span><input id="q" type="search" placeholder="Search performers" autocomplete="off"></label>
     <div class="seg" id="seg">${["All", ...P.sections.map(s => s.instrument)].map(x => `<button data-sec="${e(x)}" class="${x === "All" ? "on" : ""}">${x === "All" ? "" : `<span class="dot" style="background:${U.color(x)}"></span>`}${e(x)}</button>`).join("")}</div>
     <div id="roster"></div>`;
   function renderRoster() {
@@ -193,9 +195,10 @@
     const groups = P.sections.filter(s => sec === "All" || s.instrument === sec)
       .map(s => ({ ...s, players: s.players.filter(n => !term || n.toLowerCase().includes(term)) }))
       .filter(s => s.players.length);
-    $("roster").innerHTML = groups.length ? groups.map(s => `
-      <div class="label"><span class="dot" style="background:${U.color(s.instrument)}"></span>${e(s.instrument)} · ${s.players.length}</div>
-      <div class="list" style="--c:${U.color(s.instrument)}">${s.players.map(n => { const st = U.student(n, s.instrument); return `<button class="row" data-student="${e(n)}" data-inst="${e(s.instrument)}"><img class="av tie" alt="" loading="lazy" src="${PH.photoFor(st, PAL)}"><span class="tx"><b>${e(n)}</b><small>${e(s.instrument)}</small></span><span class="chev">›</span></button>`; }).join("")}</div>`).join("")
+    $("roster").innerHTML = groups.length ? groups.map(s => { const g = !term && (U.sectionPhotoStart(s.instrument) || (sec !== "All" && U.sectionPhoto(s.instrument))); return `
+      ${g ? `<div class="card photo-card sec-card" style="--c:${U.color(s.instrument)}"><img alt="${e(g.title)} section photo" loading="lazy" src="${PH.section(g)}"><div class="cap"><b>${e(g.title)}</b> ${e(U.rowsText(g, n => n.split(" ")[0]))}</div></div>` : ""}
+      <div class="label"><span class="dot" style="background:${U.color(s.instrument)}"></span>${e(s.instrument)}</div>
+      <div class="list" style="--c:${U.color(s.instrument)}">${s.players.map(n => { const st = U.student(n, s.instrument); return `<button class="row" data-student="${e(n)}" data-inst="${e(s.instrument)}"><img class="av tie" alt="" loading="lazy" src="${PH.photoFor(st, PAL)}"><span class="tx"><b>${e(n)}</b></span><span class="chev">›</span></button>`; }).join("")}</div>`; }).join("")
       : `<div class="empty">No performers match “${e(q)}”.</div>`;
   }
   renderRoster();
@@ -228,7 +231,6 @@
     <div class="label">Thank you</div>
     <div class="prose"><p>${e(P.thanks)}</p></div>
     <p class="motto">“${e(c.motto)}”</p>
-    <a class="cta" href="${e(c.donateUrl)}">Support the Walsh Band</a>
     <p style="text-align:center;color:var(--muted);font-size:13px;margin-top:16px"><a href="${e(c.siteUrl)}" style="color:inherit">walshband.com</a></p>`;
 
   /* Tabs */

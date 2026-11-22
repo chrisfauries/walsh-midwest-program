@@ -98,6 +98,20 @@
   .candid::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(13,31,22,.0) 45%, rgba(13,31,22,.92) 88%); }
   .candid .in { position: relative; z-index: 1; }
   .candid h2 { font-family: var(--serif); font-weight: 400; font-size: 52px; line-height: .9; margin: 8px 0 0; }
+  .secview { justify-content: center; }
+  .secview .blur { position: absolute; inset: -40px; width: calc(100% + 80px); height: calc(100% + 80px); object-fit: cover; filter: blur(28px) brightness(.32) saturate(1.2); z-index: -1; }
+  .secview .shot { width: calc(100% + 48px); max-width: none; height: auto; margin: 10px -24px 0; box-shadow: 0 20px 50px rgba(0,0,0,.5); }
+  .secview h2 { font-family: var(--serif); font-weight: 400; font-size: 48px; line-height: .9; margin: 18px 0 14px; display: flex; align-items: center; gap: 12px; }
+  .secview h2::after { content: ""; flex: none; width: 36px; height: 4px; border-radius: 2px; background: var(--c); }
+  .strip { display: flex; align-items: flex-start; gap: 12px; overflow-x: auto; margin: 0 -24px; padding: 2px 24px 6px; scroll-snap-type: x proximity; scroll-padding-inline: 24px; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+  .strip::-webkit-scrollbar { display: none; }
+  .strip button { flex: none; width: 82px; background: none; border: 0; padding: 0; color: inherit; font: inherit; cursor: pointer; text-align: center; scroll-snap-align: start; }
+  .strip img { width: 82px; height: 82px; border-radius: 50%; object-fit: cover; border: 2.5px solid var(--c); }
+  .strip span { display: block; font-size: 12px; line-height: 1.15; margin-top: 6px; font-weight: 600; }
+  .strip small { display: block; font-size: 10px; opacity: .6; margin-top: 2px; }
+  .strip .rl { flex: none; scroll-snap-align: start; align-self: stretch; writing-mode: vertical-rl; transform: rotate(180deg); font-size: 10px; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; opacity: .55; text-align: center; padding: 0 2px; height: 82px; border-left: 1px solid rgba(255,255,255,.3); }
+  .strip .rl ~ .rl { margin-left: 8px; }
+  .striphint { font-size: 11.5px; opacity: .55; margin-top: 8px; }
   .faces span { display: block; font-size: 11.5px; line-height: 1.15; margin-top: 5px; font-weight: 600; }
 
   /* Director slide */
@@ -126,8 +140,29 @@
   .prog { position: fixed; right: 8px; top: 50%; transform: translateY(-50%); z-index: 20; display: flex; flex-direction: column; gap: 5px; filter: drop-shadow(0 0 2px rgba(0,0,0,.5)); }
   .prog i { width: 4px; height: 4px; border-radius: 2px; background: #fff; opacity: .45; transition: height .25s, opacity .25s; }
   .prog i.on { height: 16px; opacity: 1; }
-  .top-chip { position: fixed; left: 50%; top: calc(10px + env(safe-area-inset-top)); transform: translateX(-50%); z-index: 20; background: rgba(0,0,0,.35); backdrop-filter: blur(10px); border-radius: 999px; padding: 6px 12px; font-size: 11.5px; font-weight: 700; letter-spacing: .06em; opacity: 0; transition: opacity .3s; pointer-events: none; white-space: nowrap; }
-  .top-chip.on { opacity: 1; }
+  /* hamburger + slide-out contents panel */
+  .menu-btn { position: fixed; top: calc(8px + env(safe-area-inset-top)); left: 8px; z-index: 60; width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; background: rgba(10,20,14,.62); color: #fff; border: 1px solid rgba(255,255,255,.3); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); cursor: pointer; padding: 0; }
+  .menu-btn svg { width: 16px; height: 16px; }
+  .scrim { position: fixed; inset: 0; z-index: 58; background: rgba(0,0,0,.5); opacity: 0; pointer-events: none; transition: opacity .3s; }
+  .menu { position: fixed; top: 0; bottom: 0; left: 0; z-index: 59; width: min(82vw, 320px); background: #0b1a12; border-right: 1px solid rgba(251,191,36,.18); transform: translateX(-102%); transition: transform .32s cubic-bezier(.2,.8,.2,1); overflow-y: auto; -webkit-overflow-scrolling: touch; overscroll-behavior: contain; }
+  body.menu-open .menu { transform: none; box-shadow: 20px 0 60px rgba(0,0,0,.5); }
+  body.menu-open .scrim { opacity: 1; pointer-events: auto; }
+  .menu-in { padding: calc(60px + env(safe-area-inset-top)) 18px calc(30px + env(safe-area-inset-bottom)); }
+  .menu .brand { font-family: var(--serif); font-size: 30px; line-height: 1; margin: 0 0 4px; }
+  .menu .brand i { color: var(--gold); }
+  .menu .sub { font-size: 11px; letter-spacing: .14em; text-transform: uppercase; opacity: .55; margin-bottom: 18px; }
+  .menu ul { list-style: none; margin: 0; padding: 0; }
+  .menu button { display: flex; align-items: center; gap: 10px; width: 100%; text-align: left; background: none; border: 0; color: #fff; font: inherit; cursor: pointer; border-radius: 8px; }
+  .menu .top { font-size: 15px; font-weight: 800; padding: 10px 8px; margin-top: 4px; }
+  .menu .child { font-size: 14px; padding: 7px 8px 7px 30px; opacity: .78; }
+  .menu button.cur { background: rgba(251,191,36,.14); opacity: 1; color: var(--gold); }
+  .menu button:active { background: rgba(255,255,255,.08); }
+  .menu .no { width: 20px; font-size: 11px; font-weight: 700; color: var(--gold); flex: none; margin-left: -2px; }
+  .menu .dot { width: 8px; height: 8px; border-radius: 50%; flex: none; margin: 0 6px 0 4px; }
+  /* review back button moves to the top-right in this draft (hamburger takes the left) */
+  body .review-back { left: auto; right: 8px; }
+  body.menu-open .review-back, body.lock .review-back { display: none; }
+  .cover .topline { padding-right: 36px; }
 
   /* overlay */
   .ov { position: fixed; inset: 0; z-index: 50; background: var(--cream); color: #13261b; transform: translateY(100%); transition: transform .4s cubic-bezier(.2,.8,.2,1); overflow-y: auto; -webkit-overflow-scrolling: touch; }
@@ -149,7 +184,9 @@
 <body>
 <div id="deck"></div>
 <div class="prog" id="prog" aria-hidden="true"></div>
-<div class="top-chip" id="chip">Walsh Honor Band · Midwest 2026</div>
+<button class="menu-btn" id="menuBtn" aria-label="Open contents" aria-expanded="false" aria-controls="menu"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2.5 4h11M2.5 8h11M2.5 12h11"/></svg></button>
+<div class="scrim" id="scrim"></div>
+<nav class="menu" id="menu" aria-label="Contents"><div class="menu-in" id="menuIn"></div></nav>
 <div class="ov" id="ov" role="dialog" aria-modal="true"><button class="x" id="x" aria-label="Close">×</button><div id="ovc"></div></div>
 
 <script src="../shared/program-data.js"></script>
@@ -162,14 +199,6 @@
   const COLORS = [ // one mood per piece
     ["#c2410c", "#fb923c"], ["#1e1b4b", "#6d28d9"], ["#0f766e", "#5eead4"], ["#365314", "#a3e635"], ["#7c2d12", "#fbbf24"],
     ["#0c4a6e", "#38bdf8"], ["#0b1027", "#3b5bdb"], ["#9d174d", "#f472b6"], ["#163825", "#fbbf24"], ["#b45309", "#fde047"],
-  ];
-  const FAMILIES = [
-    ["Flutes & Double Reeds", ["Flute", "Oboe", "Bassoon"]],
-    ["Clarinets", ["Clarinet", "Bass Clarinet"]],
-    ["Saxophones", ["Alto Saxophone", "Tenor Saxophone", "Baritone Saxophone"]],
-    ["Trumpets & Horns", ["Trumpet", "Horn"]],
-    ["Low Brass", ["Trombone", "Bass Trombone", "Euphonium", "Tuba"]],
-    ["Percussion", ["Percussion"]],
   ];
   const nn = i => String(i + 1).padStart(2, "0");
   const total = P.sections.reduce((a, s) => a + s.players.length, 0);
@@ -216,13 +245,17 @@
     <div class="in"><div class="k">Photo day</div><h2>${e(P.bandPhotoCandid.caption)}</h2>
     <div class="sash" style="background:${U.stripe()}" aria-hidden="true"></div></div></section>`);
 
-  FAMILIES.forEach(([title, insts]) => {
-    const secs = P.sections.filter(s => insts.includes(s.instrument));
-    const count = secs.reduce((a, s) => a + s.players.length, 0);
-    slides.push(`<section class="slide roster"><div class="in">
-      <div class="k">Meet the Band</div><h2>${e(title)}</h2><div class="sub">${count} performers · tap a face</div>
-      ${secs.map(s => `<div class="fam" style="--c:${U.color(s.instrument)}"><h3>${e(s.instrument)}</h3><div class="faces">${s.players.map(n => { const st = U.student(n, s.instrument); return `<button data-student="${e(n)}" data-inst="${e(s.instrument)}"><img class="tie" alt="" loading="lazy" src="${PH.photoFor(st, PAL, { fontSize: 40, initialsY: 100 })}"><span>${e(n)}</span></button>`; }).join("")}</div></div>`).join("")}
-    </div></section>`);
+  // Personnel: one page per section photo — photo on top, then one swipeable row of faces in photo order
+  P.sectionPhotos.forEach(g => {
+    slides.push(`<section class="slide secview" style="--c:${U.color(g.instruments[0])}">
+      <img class="blur" alt="" loading="lazy" src="${PH.section(g)}">
+      <div class="in">
+        <div class="k">Meet the Band</div>
+        <img class="shot" alt="${e(g.title)} section photo" loading="lazy" src="${PH.section(g)}">
+        <h2>${e(g.title)}</h2>
+        <div class="strip">${g.rows.map(([row, names]) => `${row ? `<span class="rl">${e(row)}</span>` : ""}${names.map(n => { const inst = U.instrumentOf(n), st = U.student(n, inst); return `<button data-student="${e(n)}" data-inst="${e(inst)}"><img alt="" loading="lazy" src="${PH.photoFor(st, PAL, { fontSize: 40, initialsY: 100 })}"><span>${e(n)}</span></button>`; }).join("")}`).join("")}</div>
+        <div class="striphint">Tap a face to meet them${U.photoOrder(g).length > 3 ? " · swipe for more →" : ""}</div>
+      </div></section>`);
   });
 
   P.directors.forEach((d, i) => {
@@ -241,7 +274,6 @@
   slides.push(`<section class="slide finale"><div class="in">
     <div class="k">Thank You</div><p>${e(P.thanks)}</p>
     <p class="motto">The way we do <i>anything</i> is the way we do <i>everything.</i></p>
-    <a class="cta" href="${e(c.donateUrl)}">Support the Walsh Band</a>
     <small>${e(c.school)} · ${e(c.district)} · <a href="${e(c.siteUrl)}">walshband.com</a></small>
   </div></section>`);
 
@@ -253,26 +285,80 @@
   const center = () => { pan.scrollLeft = (pan.scrollWidth - pan.clientWidth) / 2; };
   panImg.complete ? center() : panImg.addEventListener("load", center);
 
+  /* contents: label every slide so we can show where you are and jump anywhere */
+  const GROUP = { cover: "Cover", welcome: "Welcome", overview: "Program", piece: "Program", band: "The Band", candid: "The Band", secview: "Personnel", director: "Directors", staff: "Lesson Staff", finale: "Thank You" };
+  const meta = all.map(sl => {
+    const type = Object.keys(GROUP).find(k => sl.classList.contains(k)) || "";
+    const h2 = sl.querySelector("h2");
+    return { type, group: GROUP[type] || "", label: ["piece", "secview", "director"].includes(type) && h2 ? h2.textContent : "", color: sl.style.getPropertyValue("--c") };
+  });
+  let cur = 0;
+  const go = i => { all[i].scrollIntoView({ behavior: "instant", block: "start" }); sync(); };
+  const idx = t => meta.map((m, i) => m.type === t ? i : -1).filter(i => i >= 0);
+  const first = t => idx(t)[0];
+  const top = (i, label) => `<li><button class="top" data-goto="${i}">${label}</button></li>`;
+  const child = (i, inner) => `<li><button class="child" data-goto="${i}">${inner}</button></li>`;
+  const menu = document.getElementById("menu"), menuBtn = document.getElementById("menuBtn");
+  document.getElementById("menuIn").innerHTML = `
+    <div class="brand">Walsh <i>Honor</i> Band</div><div class="sub">Midwest Clinic · Dec 2026</div>
+    <ul>
+      ${top(first("cover"), "Cover")}
+      ${top(first("welcome"), "Welcome")}
+      ${top(first("overview"), "Program")}
+      ${idx("piece").map((i, k) => child(i, `<span class="no">${nn(k)}</span>${e(meta[i].label)}`)).join("")}
+      ${top(first("band"), "The Band")}
+      ${top(first("secview"), "Personnel")}
+      ${idx("secview").map(i => child(i, `<span class="dot" style="background:${meta[i].color}"></span>${e(meta[i].label)}`)).join("")}
+      ${top(first("director"), "Faculty")}
+      ${idx("director").map(i => child(i, e(meta[i].label))).join("")}
+      ${child(first("staff"), "Private Lesson Staff")}
+      ${top(first("finale"), "Thank You")}
+    </ul>`;
+  const menuItems = [...menu.querySelectorAll("[data-goto]")];
+  function markMenu() {
+    // highlight the most specific entry at or before the current slide
+    let best = null;
+    menuItems.forEach(b => { if (+b.dataset.goto <= cur && (!best || +b.dataset.goto >= +best.dataset.goto)) best = b; });
+    menuItems.forEach(b => b.classList.toggle("cur", b === best));
+  }
+  function setMenu(on) {
+    sync(); markMenu();
+    document.body.classList.toggle("menu-open", on);
+    menuBtn.setAttribute("aria-expanded", on);
+    menuBtn.setAttribute("aria-label", on ? "Close contents" : "Open contents");
+    menuBtn.querySelector("path").setAttribute("d", on ? "M3.5 3.5l9 9M12.5 3.5l-9 9" : "M2.5 4h11M2.5 8h11M2.5 12h11");
+    if (on) { const c = menu.querySelector(".cur"); if (c) menu.scrollTop = c.offsetTop - innerHeight / 3; }
+  }
+  menuBtn.addEventListener("click", () => setMenu(!document.body.classList.contains("menu-open")));
+  document.getElementById("scrim").addEventListener("click", () => setMenu(false));
+
   /* progress + chip */
-  const prog = document.getElementById("prog"), chip = document.getElementById("chip");
+  const prog = document.getElementById("prog");
   prog.innerHTML = all.map(() => "<i></i>").join("");
   const dots = [...prog.children];
-  const io = new IntersectionObserver(es => es.forEach(en => {
-    if (!en.isIntersecting) return;
-    const i = all.indexOf(en.target);
+  // which slide is on screen: the last one whose top has passed the middle of the viewport
+  function sync() {
+    const mid = innerHeight / 2;
+    let i = 0;
+    all.forEach((sl, j) => { if (sl.getBoundingClientRect().top <= mid) i = j; });
+    if (i === cur && sync.ran) return;
+    cur = i; sync.ran = true;
     dots.forEach((d, j) => d.classList.toggle("on", j === i));
-    chip.classList.toggle("on", i > 0);
-  }), { threshold: .55 });
-  all.forEach(s => io.observe(s));
+  }
+  let ticking = false;
+  addEventListener("scroll", () => { if (!ticking) { ticking = true; requestAnimationFrame(() => { ticking = false; sync(); }); } }, { passive: true });
+  sync();
 
   /* overlay */
   const ov = document.getElementById("ov"), ovc = document.getElementById("ovc");
   const open = (html, color) => { ov.style.setProperty("--c1", color || "#0d1f16"); ovc.innerHTML = html; ov.scrollTop = 0; ov.classList.add("on"); document.body.classList.add("lock"); };
   const close = () => { ov.classList.remove("on"); document.body.classList.remove("lock"); };
   document.getElementById("x").onclick = close;
-  document.addEventListener("keydown", ev => { if (ev.key === "Escape") close(); });
+  document.addEventListener("keydown", ev => { if (ev.key === "Escape") { close(); setMenu(false); } });
 
   document.addEventListener("click", ev => {
+    const g = ev.target.closest("[data-goto]");
+    if (g) { setMenu(false); go(+g.dataset.goto); return; }
     const p = ev.target.closest("[data-piece]");
     if (p) {
       const i = +p.dataset.piece, pc = P.pieces[i];

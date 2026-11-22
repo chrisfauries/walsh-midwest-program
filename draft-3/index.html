@@ -147,6 +147,10 @@
   .chips button.on .dot { box-shadow: 0 0 0 1.5px #fff; }
   .grid-h { border-bottom: 2px solid var(--c); padding-bottom: 6px; }
   .pgrid img { border-bottom: 3px solid var(--c); }
+  .secfig { margin: 34px -20px 0; }
+  .secfig img { width: 100%; height: auto; display: block; }
+  .secfig figcaption { padding: 10px 20px 0; font-size: 12.5px; line-height: 1.45; color: var(--muted); }
+  .secfig figcaption b { font-family: var(--serif); font-size: 15px; font-weight: 600; color: var(--ink); margin-right: 4px; }
   .prof .role.tie { color: var(--c); display: flex; align-items: center; gap: 8px; }
   .prof .role.tie::before { content: ""; width: 18px; height: 3px; background: var(--c); }
   .pgrid b { display: block; font-size: 13px; line-height: 1.2; margin-top: 6px; font-weight: 600; }
@@ -229,7 +233,6 @@
       <div class="kick">Acknowledgments</div>
       <p style="font-size:17px">${e(P.thanks)}</p>
       <p class="motto">The way we do <em>anything</em> is the way we do <em>everything.</em></p>
-      <a class="btn" href="${e(c.donateUrl)}">Support the Walsh Band →</a>
     </div></section>
     <footer class="colophon">${e(c.ensemble)} · ${e(c.district)} · <a href="${e(c.siteUrl)}">walshband.com</a></footer>`;
 
@@ -284,9 +287,10 @@
       <div class="kick">${e(c.ensemble)}</div>
       <h2 class="sec">The Performers</h2>
       <div class="chips">${["All", ...P.sections.map(s => s.instrument)].map(x => `<button data-filter="${e(x)}" class="${x === filter ? "on" : ""}">${x === "All" ? "" : `<span class="dot" style="background:${U.color(x)}"></span>`}${e(x)}</button>`).join("")}</div>
-      ${secs.map(s => `
-        <div style="--c:${U.color(s.instrument)}"><div class="grid-h">${e(s.instrument)}<small>${s.players.length} ${s.players.length === 1 ? "player" : "players"}</small></div>
-        <div class="pgrid">${s.players.map(n => `<button data-student="${e(n)}" data-inst="${e(s.instrument)}"><img alt="" loading="lazy" src="${PH.photoFor({ name: n, photo: (P.students[n] || {}).photo }, PAL)}"><b>${e(n)}</b></button>`).join("")}</div></div>`).join("")}
+      ${secs.map(s => { const g = U.sectionPhotoStart(s.instrument) || (filter !== "All" && U.sectionPhoto(s.instrument)); return `
+        ${g ? `<figure class="secfig"><img alt="${e(g.title)} section photo" loading="lazy" src="${PH.section(g)}"><figcaption><b>${e(g.title)}.</b> ${e(U.rowsText(g))}</figcaption></figure>` : ""}
+        <div style="--c:${U.color(s.instrument)}"><div class="grid-h">${e(s.instrument)}</div>
+        <div class="pgrid">${s.players.map(n => `<button data-student="${e(n)}" data-inst="${e(s.instrument)}"><img alt="" loading="lazy" src="${PH.photoFor({ name: n, photo: (P.students[n] || {}).photo }, PAL)}"><b>${e(n)}</b></button>`).join("")}</div></div>`; }).join("")}
     </section>`;
   };
 
